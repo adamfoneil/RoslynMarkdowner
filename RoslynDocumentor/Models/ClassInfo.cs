@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.Collections.Generic;
 
-namespace RoslynDocumentor.Models {
-
-	public class ClassInfo {
-
+namespace RoslynDocumentor.Models
+{
+	public class ClassInfo
+	{
 		public string Name { get; set; }
 		public bool IsStatic { get; set; }
 
@@ -18,7 +18,5 @@ namespace RoslynDocumentor.Models {
 		public ICollection<PropertyInfo> Properties { get; set; }
 
 		public ClassDeclarationSyntax Node { get; set; }
-
 	}
-
 }

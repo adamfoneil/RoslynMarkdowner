@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.Collections.Generic;
 
-namespace RoslynDocumentor.Models {
-
-	public class MethodInfo : IMemberInfo {
-
+namespace RoslynDocumentor.Models
+{
+	public class MethodInfo : IMemberInfo
+	{
 		public string Name { get; set; }
 		public string Description { get; set; }
 		public Location Location { get; set; }
@@ -16,8 +16,8 @@ namespace RoslynDocumentor.Models {
 
 		public ICollection<Parameter> Parameters { get; set; }
 
-		public class Parameter {
-
+		public class Parameter
+		{
 			public string Name { get; set; }
 			public string DefaultValue { get; set; }
 			public bool IsGeneric { get; set; }
@@ -27,11 +27,8 @@ namespace RoslynDocumentor.Models {
 			public Location TypeLocation { get; set; }
 
 			public ParameterSyntax Node { get; set; }
-
 		}
 
 		public MethodDeclarationSyntax Node { get; set; }
-
 	}
-
 }
