@@ -1,4 +1,5 @@
 ﻿using JsonSettings;
+using MarkdownViewer.ViewModels;
 using RoslynDocumentor.Models;
 using System;
 using System.Collections.Generic;
@@ -20,8 +21,12 @@ namespace MarkdownViewer.Controllers
 		public ActionResult Index(string @namespace = null)
         {
 			var metadata = GetSolutionMetadata();
-			var display = (!string.IsNullOrEmpty(@namespace)) ? metadata.Where(ci => ci.Namespace.Equals(@namespace)) : metadata;
-            return View(display);
+
+			var vm = new MarkdownIndexView();
+			vm.Classes = (!string.IsNullOrEmpty(@namespace)) ? metadata.Where(ci => ci.Namespace.Equals(@namespace)) : metadata;
+			vm.LocalPath = "C:\\Users\\Adam\\Source\\Repos\\Postulate.Lite\\";
+			vm.OnlinePath = "https://github.com/adamosoftware/Postulate.Lite/blob/master/";
+			return View(vm);
         }
 
 		private IEnumerable<ClassInfo> GetSolutionMetadata()

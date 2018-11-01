@@ -1,21 +1,20 @@
-﻿@model IEnumerable<ClassInfo>
+﻿@model MarkdownIndexView
 
-@foreach (var namespaceGrp in Model.GroupBy(item => item.Namespace))
+@foreach (var namespaceGrp in Model.Classes.GroupBy(item => item.Namespace))
 {
-    <text># @namespaceGrp.Key</text>
-    <text></text>
+<text># @namespaceGrp.Key</text>
+<text></text>
 
 foreach (var classInfo in namespaceGrp.OrderBy(item => item.Name))
 {
-    <text>## @classInfo.Name</text>      
-    <text>@(classInfo.Location.SourceFile):@(classInfo.Location.LineNumber)</text>
+<text>## @classInfo.Name</text>      
+<text>@(classInfo.Location.SourceFile):@(classInfo.Location.LineNumber)</text>
 
 foreach (var method in classInfo.Methods.OrderBy(m => m.Name))
 {
-    <text>- [@method.Name](@(method.Location.SourceFile)#L@(method.Location.LineNumber))</text>
+<text>- [@method.Name](@Model.GetOnlineUrl(method.Location))</text>
+<text>  @Model.GetMethodSignature(method)</text>
 }
-
-    <text></text>
+<text></text>
 }
-
 }
