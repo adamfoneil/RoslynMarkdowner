@@ -31,7 +31,7 @@ namespace MarkdownViewer.ViewModels
 
 		private string ArgText(MethodInfo.Parameter p)
 		{
-			return (p.TypeLocation != null) ? $"[{p.OriginalTypeName}]({GetOnlineUrl(p.TypeLocation)}) {p.Name}" : $"{p.OriginalTypeName} {p.Name}";
+			return (p.TypeLocation != null && !p.IsGeneric) ? $"[{p.OriginalTypeName}]({GetOnlineUrl(p.TypeLocation)}) {p.Name}" : $"{p.OriginalTypeName} {p.Name}";
 		}
 	}
 }
