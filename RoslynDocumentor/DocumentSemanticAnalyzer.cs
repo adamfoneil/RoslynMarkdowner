@@ -66,6 +66,7 @@ namespace RoslynDocumentor
 			info.TypeName = symbol.Type.Name;
 			info.TypeLocation = ToModelLocation(symbol.Type.Locations);
 			info.IsGeneric = symbol.Type.Kind == SymbolKind.TypeParameter;
+			info.IsParams = symbol.IsParams;
 
 			if (symbol.HasExplicitDefaultValue)
 				info.DefaultValue = symbol?.ExplicitDefaultValue?.ToString() ?? "<unknown>";
