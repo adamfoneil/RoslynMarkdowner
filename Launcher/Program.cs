@@ -14,7 +14,7 @@ namespace Launcher
 {
 	internal class Program
 	{
-		private const string SolutionPath = @"C:\Users\Adam\Source\Repos\Postulate.Lite\Postulate.Lite.sln";
+		private const string SolutionPath = @"C:\Users\Adam\Source\Repos\SchemaSync\SchemaSync.sln";
 
 		private static async Task Main(string[] args)
 		{

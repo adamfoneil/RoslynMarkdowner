@@ -23,9 +23,8 @@ namespace MarkdownViewer.Controllers
 			var metadata = GetSolutionMetadata();
 
 			var vm = new MarkdownIndexView();
-			vm.Classes = (!string.IsNullOrEmpty(@namespace)) ? metadata.Where(ci => ci.Namespace.Equals(@namespace)) : metadata;
-			vm.LocalPath = "C:\\Users\\Adam\\Source\\Repos\\Postulate.Lite\\";
-			vm.OnlinePath = "https://github.com/adamosoftware/Postulate.Lite/blob/master/";
+			vm.Classes = (!string.IsNullOrEmpty(@namespace)) ? metadata.Where(ci => ci.Namespace.Equals(@namespace)) : metadata;			
+			vm.OnlinePath = "https://github.com/adamosoftware/SchemaSync/blob/master/";
 			return View(vm);
         }
 

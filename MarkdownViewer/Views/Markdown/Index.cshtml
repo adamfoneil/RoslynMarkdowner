@@ -7,14 +7,27 @@
 
 foreach (var classInfo in namespaceGrp.OrderBy(item => item.Name))
 {
-<text>## @classInfo.Name</text>      
-<text>@(classInfo.Location.SourceFile):@(classInfo.Location.LineNumber)</text>
+<text>## [@classInfo.Name](@Model.GetOnlineUrl(classInfo.Location))</text>      
 
+var props = classInfo.Properties.OrderBy(p => p.Name);
+if (props.Any())
+{
+<text>### Properties</text>
+foreach (var prop in classInfo.Properties.OrderBy(p => p.Name))
+{
+<text>- @prop.OriginalTypeName [@prop.Name](@Model.GetOnlineUrl(prop.Location))</text>
+}
+}
+
+var methods = classInfo.Methods.OrderBy(m => m.Name);
+if (methods.Any())
+{
+<text>### Methods</text>
 foreach (var method in classInfo.Methods.OrderBy(m => m.Name))
 {
 <text>- @method.OriginalTypeName [@method.Name](@Model.GetOnlineUrl(method.Location))</text>
 <text>  @Model.GetMethodSignature(method)</text>
 }
-<text></text>
 }
+} 
 }

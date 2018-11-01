@@ -21,7 +21,7 @@ namespace MarkdownViewer.ViewModels
 
 		public string GetOnlineUrl(Location location)
 		{
-			return location.SourceFile.Replace(LocalPath, OnlinePath).Replace("\\", "/") + "#L" + location.LineNumber;
+			return OnlinePath + location.SourceFile.Replace("\\", "/") + "#L" + location.LineNumber; 			
 		}
 
 		public string GetMethodSignature(MethodInfo method)
