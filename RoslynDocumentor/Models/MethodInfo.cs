@@ -27,6 +27,11 @@ namespace RoslynDocumentor.Models
 			/// </summary>
 			public bool IsExtension { get; set; }
 
+			/// <summary>
+			/// If true, means that argument accepts variable number of values
+			/// </summary>
+			public bool IsParams { get; set; }
+
 			public string OriginalTypeName { get; set; }
 			public string TypeName { get; set; }
 			public Location TypeLocation { get; set; }
