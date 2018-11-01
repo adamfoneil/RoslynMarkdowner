@@ -48,7 +48,7 @@ namespace Launcher
 				var engine = new SolutionAnalyzer();
 				var result = await engine.Analyze(solution);
 
-				JsonFile.Save(@"c:\Users\Adam\Desktop\SolutionMetadata.json", result);
+				JsonFile.Save(@"C:\Users\Adam\Source\Repos\RoslynSyntaxTreeAnalyzer\MarkdownViewer\App_Data\SolutionMetadata.json", result);
 			}
 
 			Console.WriteLine("done");

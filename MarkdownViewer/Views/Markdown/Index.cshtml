@@ -1,0 +1,21 @@
+﻿@model IEnumerable<ClassInfo>
+
+@foreach (var namespaceGrp in Model.GroupBy(item => item.Namespace))
+{
+    <text># @namespaceGrp.Key</text>
+    <text></text>
+
+foreach (var classInfo in namespaceGrp.OrderBy(item => item.Name))
+{
+    <text>## @classInfo.Name</text>      
+    <text>@(classInfo.Location.SourceFile):@(classInfo.Location.LineNumber)</text>
+
+foreach (var method in classInfo.Methods.OrderBy(m => m.Name))
+{
+    <text>- [@method.Name](@(method.Location.SourceFile)#L@(method.Location.LineNumber))</text>
+}
+
+    <text></text>
+}
+
+}
