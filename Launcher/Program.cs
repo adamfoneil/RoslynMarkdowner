@@ -72,6 +72,11 @@ namespace Launcher
 				{
 					FixSourceFile(methodInfo.Location);
 					FixSourceFile(methodInfo.TypeLocation);
+
+					foreach (var p in methodInfo.Parameters.Where(p => p.TypeLocation != null))
+					{
+						FixSourceFile(p.TypeLocation);
+					}
 				}
 
 				foreach(var propertyInfo in classInfo.Properties) 
