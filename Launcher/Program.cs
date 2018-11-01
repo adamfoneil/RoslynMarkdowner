@@ -1,3 +1,4 @@
+using JsonSettings;
 using Microsoft.Build.Locator;
 using Microsoft.CodeAnalysis.MSBuild;
 using RoslynDocumentor;
@@ -11,7 +12,7 @@ namespace Launcher
 	internal class Program
 	{
 		//TODO:
-		private const string SolutionPath = @"D:\Work\Upwork\2_RoslynAnalyzer\Test\CodeToAnalyze.sln";
+		private const string SolutionPath = @"C:\Users\Adam\Source\Repos\Postulate.Lite\Postulate.Lite.sln";
 
 		//private const string SolutionPath = @"D:\Work\Upwork\1_QueryTree\QueryTree.sln";
 
@@ -45,7 +46,9 @@ namespace Launcher
 
 				//TODO:
 				var engine = new SolutionAnalyzer();
-				var result = engine.Analyze(solution).Result;
+				var result = await engine.Analyze(solution);
+
+				JsonFile.Save(@"c:\Users\Adam\Desktop\SolutionMetadata.json", result);
 			}
 
 			Console.WriteLine("done");

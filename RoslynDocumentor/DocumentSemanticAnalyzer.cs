@@ -68,7 +68,7 @@ namespace RoslynDocumentor
 			info.IsGeneric = symbol.Type.Kind == SymbolKind.TypeParameter;
 
 			if (symbol.HasExplicitDefaultValue)
-				info.DefaultValue = symbol.ExplicitDefaultValue.ToString();
+				info.DefaultValue = symbol?.ExplicitDefaultValue?.ToString() ?? "<unknown>";
 		}
 
 		private static Models.Location ToModelLocation(ImmutableArray<Location> locations, bool isInSourceOnly = true)
