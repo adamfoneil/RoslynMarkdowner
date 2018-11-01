@@ -3,18 +3,18 @@ using Microsoft.Build.Locator;
 using Microsoft.CodeAnalysis.MSBuild;
 using RoslynDocumentor;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using RoslynDocumentor.Models;
+using RoslynDocumentor.Utils;
 
 namespace Launcher
 {
 	internal class Program
 	{
-		//TODO:
 		private const string SolutionPath = @"C:\Users\Adam\Source\Repos\Postulate.Lite\Postulate.Lite.sln";
-
-		//private const string SolutionPath = @"D:\Work\Upwork\1_QueryTree\QueryTree.sln";
 
 		private static async Task Main(string[] args)
 		{
@@ -44,15 +44,45 @@ namespace Launcher
 				var solution = await workspace.OpenSolutionAsync(SolutionPath, new ConsoleProgressReporter());
 				Console.WriteLine($"Finished loading solution '{SolutionPath}'");
 
-				//TODO:
 				var engine = new SolutionAnalyzer();
-				var result = await engine.Analyze(solution);
+				var result = (await engine.Analyze(solution)).ToList();
+
+				FixSourceFile( SolutionPath, result);
 
 				JsonFile.Save(@"C:\Users\Adam\Source\Repos\RoslynSyntaxTreeAnalyzer\MarkdownViewer\App_Data\SolutionMetadata.json", result);
 			}
 
 			Console.WriteLine("done");
 			Console.ReadLine();
+		}
+
+		private static void FixSourceFile(string solutionPath, IEnumerable<ClassInfo> classInfos) 
+		{
+			var basePath = Path.GetDirectoryName(solutionPath);
+
+			foreach(var classInfo in classInfos) 
+			{
+				FixSourceFile(classInfo.Location);
+				foreach(var methodInfo in classInfo.Methods) 
+				{
+					FixSourceFile(methodInfo.Location);
+					FixSourceFile(methodInfo.TypeLocation);
+				}
+
+				foreach(var propertyInfo in classInfo.Properties) 
+				{
+					FixSourceFile(propertyInfo.Location);
+					FixSourceFile(propertyInfo.TypeLocation);
+				}
+			}
+
+			void FixSourceFile(Location location) 
+			{
+				if(location == null || string.IsNullOrWhiteSpace(location.SourceFile))
+					return;
+				location.SourceFile = PathUtils.GetRelativePath(basePath, location.SourceFile);
+			}
+
 		}
 
 		private static VisualStudioInstance SelectVisualStudioInstance(VisualStudioInstance[] visualStudioInstances)
