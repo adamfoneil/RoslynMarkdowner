@@ -29,6 +29,11 @@ namespace MarkdownViewer.ViewModels
 			return "(" + string.Join(", ", method.Parameters.Select(p => ArgText(p))) + ")";
 		}
 
+		public string GetGenericArguments(MethodInfo method)
+		{
+			return (method.HasGenericArguments()) ? $"<{method.GetGenericArguments()}>" : string.Empty;
+		}
+
 		private string ArgText(MethodInfo.Parameter p)
 		{
 			string extension = (p.IsExtension) ? "this " : string.Empty;

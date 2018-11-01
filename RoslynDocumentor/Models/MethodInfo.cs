@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RoslynDocumentor.Models
 {
@@ -15,6 +16,19 @@ namespace RoslynDocumentor.Models
 		public Location TypeLocation { get; set; }
 
 		public ICollection<Parameter> Parameters { get; set; }
+
+		public bool HasGenericArguments()
+		{
+			return Parameters?.Any(p => p.IsGeneric) ?? false;
+		}
+
+		/// <summary>
+		/// Returns concatenated list of generic type arguments that should be displayed with a method name
+		/// </summary>		
+		public string GetGenericArguments()
+		{
+			return string.Join(", ", Parameters.Where(p => p.IsGeneric).Select(p => p.OriginalTypeName));
+		}
 
 		public class Parameter
 		{

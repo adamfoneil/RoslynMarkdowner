@@ -14,7 +14,8 @@ namespace Launcher
 {
 	internal class Program
 	{
-		private const string SolutionPath = @"C:\Users\Adam\Source\Repos\SchemaSync\SchemaSync.sln";
+		//private const string SolutionPath = @"C:\Users\Adam\Source\Repos\SchemaSync\SchemaSync.sln";
+		private const string SolutionPath = @"C:\Users\Adam\Source\Repos\Postulate.Lite\Postulate.Lite.sln";
 
 		private static async Task Main(string[] args)
 		{
@@ -60,6 +61,10 @@ namespace Launcher
 		{
 			var basePath = Path.GetDirectoryName(solutionPath);
 
+			// turns out we need to remove the last folder name for GitHub link compatibility
+			//var folders = basePath.Split('\\');
+			//basePath = string.Join("\\", folders.Take(folders.Length - 1));
+
 			foreach(var classInfo in classInfos) 
 			{
 				FixSourceFile(classInfo.Location);
@@ -80,7 +85,7 @@ namespace Launcher
 			{
 				if(location == null || string.IsNullOrWhiteSpace(location.SourceFile))
 					return;
-				location.SourceFile = PathUtils.GetRelativePath(basePath, location.SourceFile);
+				location.SourceFile = PathUtils.GetRelativePath(basePath, location.SourceFile, true);
 			}
 
 		}
