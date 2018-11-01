@@ -22,6 +22,11 @@ namespace RoslynDocumentor.Models
 			public string DefaultValue { get; set; }
 			public bool IsGeneric { get; set; }
 
+			/// <summary>
+			/// If true, means that the argument is an extension of TypeName/OriginalType
+			/// </summary>
+			public bool IsExtension { get; set; }
+
 			public string OriginalTypeName { get; set; }
 			public string TypeName { get; set; }
 			public Location TypeLocation { get; set; }
