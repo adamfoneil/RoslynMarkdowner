@@ -55,6 +55,9 @@ namespace RoslynDocumentor
 
 			foreach (var parameterInfo in info.Parameters)
 				AnalyzeParameter(model, parameterInfo);
+
+			if(symbol.IsExtensionMethod) 
+				info.Parameters.First().IsExtension = true;
 		}
 
 		private static void AnalyzeParameter(SemanticModel model, Parameter info)
