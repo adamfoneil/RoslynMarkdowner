@@ -5,6 +5,7 @@ using RoslynDocumentor.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using static RoslynDocumentor.Models.MethodInfo;
 
 namespace RoslynDocumentor
@@ -109,12 +110,22 @@ namespace RoslynDocumentor
 				.OfType<DocumentationCommentTriviaSyntax>()
 				.FirstOrDefault();
 
-			//TODO: fix
-			bool? isSummary = xmlTrivia?.ChildNodes()
+			List<XmlElementSyntax> xmlComments = xmlTrivia?.ChildNodes()
 				.OfType<XmlElementSyntax>()
-				.Any(i => i.StartTag.Name.ToString().Equals("summary"));
+				.ToList();
 
-			return isSummary == true ? xmlTrivia.ToString() : null;
+			if(xmlComments == null || !xmlComments.Any())
+				return null;
+
+			XmlElementSyntax elementSyntax = xmlComments.SkipWhile(x => !x.StartTag.Name.ToString().Equals("summary")).FirstOrDefault();
+			if(elementSyntax == null)
+				return null;
+
+			var description = elementSyntax.Content.ToFullString();
+			description = Regex.Replace( description, @"\t*///", string.Empty ).TrimStart( '\r', '\n', ' ' ).TrimEnd( '\r', '\n', ' ' );
+
+			return description;
+
 		}
 
 		private static string GetName(SyntaxToken syntaxToken) => syntaxToken.Text;

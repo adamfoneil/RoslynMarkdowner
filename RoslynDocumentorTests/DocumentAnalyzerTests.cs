@@ -34,7 +34,7 @@ namespace RoslynDocumentorTests
 			Assert.Single(result);
 			var classInfo = result[0];
 			Assert.Equal("Nesting", classInfo.Name);
-			Assert.Equal(" <summary>\r\n\t/// My Solution\r\n\t/// </summary>\r\n", classInfo.Description);
+			Assert.Equal( "My Solution", classInfo.Description);
 
 			// methods
 			Assert.Equal(4, classInfo.Methods.Count);
@@ -44,7 +44,7 @@ namespace RoslynDocumentorTests
 			var method4 = classInfo.Methods.Skip(3).First();
 
 			Assert.Equal("solution1", method1.Name);
-			Assert.NotNull(method1.Description);
+			Assert.Equal( "Special case of Brackets problem, but for this case no need to create a stack. Just need to check \"stack\" size", method1.Description);
 
 			Assert.Equal("solution2", method2.Name);
 			Assert.Null(method2.Description);
