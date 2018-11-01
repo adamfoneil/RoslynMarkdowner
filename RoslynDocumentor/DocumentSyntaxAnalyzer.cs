@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using RoslynDocumentor.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static RoslynDocumentor.Models.MethodInfo;
@@ -28,6 +29,7 @@ namespace RoslynDocumentor
 			var result = new ClassInfo();
 
 			result.Name = GetName(node.Identifier);
+			result.Namespace = GetNamespace(node);
 			result.Description = GetSummary(node);
 
 			result.Methods = node.DescendantNodes().OfType<MethodDeclarationSyntax>()
@@ -41,6 +43,28 @@ namespace RoslynDocumentor
 				.ToList();
 
 			result.Node = node;
+
+			return result;
+		}
+
+		private static string GetNamespace(ClassDeclarationSyntax node)
+		{
+			// see https://stackoverflow.com/questions/20458457/getting-class-fullname-including-namespace-from-roslyn-classdeclarationsyntax
+			// used https://stackoverflow.com/a/23249021/2023653
+
+			SyntaxNode parent = node.Parent;
+			string result = null;
+
+			while (true)
+			{
+				if (parent == null) break;
+				if (parent.GetType() == typeof(NamespaceDeclarationSyntax))
+				{
+					result = (parent as NamespaceDeclarationSyntax).Name.GetText().ToString().Trim();
+				}
+
+				parent = parent.Parent;
+			}
 
 			return result;
 		}

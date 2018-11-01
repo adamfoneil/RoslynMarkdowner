@@ -5,6 +5,7 @@ namespace RoslynDocumentor.Models
 {
 	public class ClassInfo
 	{
+		public string Namespace { get; set; }
 		public string Name { get; set; }
 		public bool IsStatic { get; set; }
 
