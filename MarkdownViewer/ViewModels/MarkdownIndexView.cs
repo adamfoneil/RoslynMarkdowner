@@ -15,7 +15,7 @@ namespace MarkdownViewer.ViewModels
 		public string LocalPath { get; set; }
 
 		/// <summary>
-		/// GitHub base path
+		/// GitHub base path (be sure to end with slash)
 		/// </summary>
 		public string OnlinePath { get; set; }
 
