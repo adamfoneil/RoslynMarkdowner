@@ -277,3 +277,4 @@ __pycache__/
 # tools/**
 # !tools/packages.config
 /MarkdownViewer/App_Data/SolutionMetadata.json
+/MarkdownViewer.App/wwwroot/data/SolutionMetadata.json
