@@ -5,13 +5,11 @@ VisualStudioVersion = 16.0.29920.165
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Launcher", "Launcher\Launcher.csproj", "{AC69C702-3717-45F6-881C-928C07F47200}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoslynDocumentor", "RoslynDocumentor\RoslynDocumentor.csproj", "{FCDCA300-AED3-4D33-8494-9CC43095EF6C}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoslynDocumentorTests", "RoslynDocumentorTests\RoslynDocumentorTests.csproj", "{25A37210-2A9C-4FD6-BF0C-827692CF15D0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkdownViewer", "MarkdownViewer\MarkdownViewer.csproj", "{57ACF989-2951-4B4B-AB70-2BFB2A2148F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoslynDoc.Library", "RoslynDoc.Library\RoslynDoc.Library.csproj", "{54C5A47F-CA98-4C6C-B167-C4C91150BCB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoslynDoc.Library", "RoslynDoc.Library\RoslynDoc.Library.csproj", "{54C5A47F-CA98-4C6C-B167-C4C91150BCB4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,6 @@ Global
 		{AC69C702-3717-45F6-881C-928C07F47200}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC69C702-3717-45F6-881C-928C07F47200}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC69C702-3717-45F6-881C-928C07F47200}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FCDCA300-AED3-4D33-8494-9CC43095EF6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FCDCA300-AED3-4D33-8494-9CC43095EF6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FCDCA300-AED3-4D33-8494-9CC43095EF6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FCDCA300-AED3-4D33-8494-9CC43095EF6C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{25A37210-2A9C-4FD6-BF0C-827692CF15D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{25A37210-2A9C-4FD6-BF0C-827692CF15D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25A37210-2A9C-4FD6-BF0C-827692CF15D0}.Release|Any CPU.ActiveCfg = Release|Any CPU

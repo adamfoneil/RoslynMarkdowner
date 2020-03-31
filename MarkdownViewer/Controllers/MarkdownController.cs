@@ -1,15 +1,13 @@
 ﻿using JsonSettings;
 using MarkdownViewer.ViewModels;
-using RoslynDocumentor.Models;
-using System;
+using RoslynDoc.Library.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace MarkdownViewer.Controllers
 {
-    public class MarkdownController : Controller
+	public class MarkdownController : Controller
     {
 		protected override void OnActionExecuted(ActionExecutedContext filterContext)
 		{
