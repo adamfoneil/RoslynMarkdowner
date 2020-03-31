@@ -7,31 +7,39 @@
 <h1>Build Markdown</h1>
 
 <form method="post" enctype="multipart/form-data">    
+
+    <div class="form-group">
+        <label>VS Instance:</label>
+        <select name="VSInstance" class="form-control ml-4" required="required" asp-items="@Model.VisualStudioInstanceSelect">
+            <option>(select)</option>
+        </select>
+    </div>
+
     @if (Model.AllowLocal)
     {
         <div class="form-group">
             <label>
-                <input type="radio" name="SourceType" value="Local" data-field="SolutionFile"/>
+                <input type="radio" name="SourceType" value="@SourceType.LocalFile"/>
                 Local Solution (.sln) File:
             </label>
-            <input type="text" id="SolutionFile" name="SolutionFile" class="form-control ml-4 source-type"/>                
+            <input type="text" id="@IndexModel.SourceTypeName(SourceType.LocalFile)" name="@IndexModel.SourceTypeName(SourceType.LocalFile)" class="form-control ml-4 source-type"/>                
         </div>
     }
 
     <div class="form-group">
         <label>
-            <input type="radio" name="SourceType" value="ZipFile" data-field="SolutionZip"/>
+            <input type="radio" name="SourceType" value="@SourceType.LocalZip"/>
             Solution Zip File:
         </label>
-        <input type="file" id="SolutionZip" name="SolutionZip" class="form-control ml-4 source-type"/>
+        <input type="file" id="@IndexModel.SourceTypeName(SourceType.LocalZip)" name="@IndexModel.SourceTypeName(SourceType.LocalZip)" class="form-control ml-4 source-type"/>
     </div>
 
     <div class="form-group">
         <label>
-            <input type="radio" name="SourceType" value="GitHubUrl" data-field="RepoDownloadUrl"/>
+            <input type="radio" name="SourceType" value="@SourceType.DownloadZip"/>
             GitHub Repo Download Url:
         </label>
-        <input type="text" id="RepoDownloadUrl" name="RepoDownloadUrl" class="form-control ml-4 source-type"/>
+        <input type="text" id="@IndexModel.SourceTypeName(SourceType.DownloadZip)" name="@IndexModel.SourceTypeName(SourceType.DownloadZip)" class="form-control ml-4 source-type"/>
         <span class="text-muted ml-4">For example <strong>https://github.com/adamosoftware/Dapper.CX/archive/master.zip</strong></span>
     </div>
 
@@ -41,7 +49,7 @@
         <div class="col-6">
             <div class="form-group">
                 <label>GitHub Repo Url:</label>
-                <input type="text" name="GitHubRepoUrl" required="required" class="form-control"/>        
+                <input type="text" name="GitHubRepoUrl" required="required" class="form-control ml-4"/>        
             </div>
         </div>
 
@@ -63,7 +71,7 @@
         $(document).ready(function () {
             $("input:radio[name='SourceType']").click(function () {
                 $('.source-type').removeAttr('required');
-                var field = '#' + $(this).data('field');
+                var field = '#' + $(this).prop('value');
                 $(field).attr('required', 'required');
             });
         });

@@ -51,7 +51,14 @@ namespace Launcher
 
 				FixSourceFile(SolutionPath, result);
 
-				JsonFile.Save(@"C:\Users\Adam\Source\Repos\RoslynSyntaxTreeAnalyzer\MarkdownViewer.App\wwwroot\data\SolutionMetadata.json", result);
+				var solutionInfo = new SolutionInfo()
+				{
+					RepoUrl = "not set",
+					BranchName = "master",
+					Classes = result
+				};
+
+				JsonFile.Save(@"C:\Users\Adam\Source\Repos\RoslynSyntaxTreeAnalyzer\MarkdownViewer.App\wwwroot\data\SolutionMetadata.json", solutionInfo);
 			}
 
 			Console.WriteLine("done");

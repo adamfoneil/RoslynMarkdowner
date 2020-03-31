@@ -74,14 +74,16 @@ namespace MarkdownViewer.App.Pages
         {
 			var metadata = GetSolutionMetadata();
 			
-			Classes = (!string.IsNullOrEmpty(@namespace)) ? metadata.Where(ci => ci.Namespace.Equals(@namespace)) : metadata;			
-			OnlinePath = "https://github.com/adamosoftware/Dapper.CX/blob/master/";
+			Classes = (!string.IsNullOrEmpty(@namespace)) ? metadata.Classes.Where(ci => ci.Namespace.Equals(@namespace)) : metadata.Classes;
+			//OnlinePath = "https://github.com/adamosoftware/Dapper.CX/blob/master/";
+			metadata.RepoUrl = "https://github.com/adamosoftware/Dapper.CX";
+			OnlinePath = metadata.SourceFileBase();
 		}
 
-		private IEnumerable<ClassInfo> GetSolutionMetadata()
+		private SolutionInfo GetSolutionMetadata()
         {
             string fileName = Path.Combine(_hosting.WebRootPath, "data", "SolutionMetadata.json");
-            return JsonFile.Load<IEnumerable<ClassInfo>>(fileName);
+            return JsonFile.Load<SolutionInfo>(fileName);
         }
     }
 }
