@@ -74,9 +74,8 @@ namespace MarkdownViewer.App.Pages
         {
 			var metadata = GetSolutionMetadata();
 			
-			Classes = (!string.IsNullOrEmpty(@namespace)) ? metadata.Where(ci => ci.Namespace.Equals(@namespace)) : metadata;
-			//vm.OnlinePath = "https://github.com/adamosoftware/Postulate/blob/master/Postulate.Base/";
-			OnlinePath = "https://github.com/adamosoftware/Dapper.CX/blob/master/Dapper.CX.Base/";
+			Classes = (!string.IsNullOrEmpty(@namespace)) ? metadata.Where(ci => ci.Namespace.Equals(@namespace)) : metadata;			
+			OnlinePath = "https://github.com/adamosoftware/Dapper.CX/blob/master/";
 		}
 
 		private IEnumerable<ClassInfo> GetSolutionMetadata()
