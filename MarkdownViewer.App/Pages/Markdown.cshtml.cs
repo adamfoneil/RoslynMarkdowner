@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using RoslynDoc.Library.Models;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MarkdownViewer.App.Pages
@@ -19,22 +21,68 @@ namespace MarkdownViewer.App.Pages
 
         public IEnumerable<ClassInfo> Classes { get; set; }
 
-        public override Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
+		/// <summary>
+		/// Base folder in local file system (reported by ClassInfo.Location.SourceFile)
+		/// </summary>
+		public string LocalPath { get; set; }
+
+		/// <summary>
+		/// GitHub base path
+		/// </summary>
+		public string OnlinePath { get; set; }
+
+		public string GetOnlineUrl(Location location)
+		{
+			return OnlinePath + location.SourceFile.Replace("\\", "/") + "#L" + location.LineNumber;
+		}
+
+		public string GetMethodSignature(MethodInfo method)
+		{
+			return "(" + string.Join(", ", method.Parameters.Select(p => ArgText(p))) + ")";
+		}
+
+		public string GetGenericArguments(MethodInfo method)
+		{
+			return (method.HasGenericArguments()) ? $"<{method.GetGenericArguments()}>" : string.Empty;
+		}
+
+		private string ArgText(MethodInfo.Parameter p)
+		{
+			string extension = (p.IsExtension) ? "this " : string.Empty;
+			string paramArray = (p.IsParams) ? "params " : string.Empty;
+			string result = (p.TypeLocation != null && !p.IsGeneric) ?
+				$"{extension}{paramArray}[{p.OriginalTypeName}]({GetOnlineUrl(p.TypeLocation)}) {p.Name}" :
+				$"{extension}{paramArray}{p.OriginalTypeName} {p.Name}";
+
+			/* indicate optionality, doesn't work -- markdown is incorrect and the <unknown> value isn't right for expressing optionality
+
+			if ((p.DefaultValue?.Equals("<unknown>") ?? false) && !p.IsParams)
+			{
+				result = "[[" + result + "]]";
+			}*/
+
+			return result;
+		}
+
+		public override Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
         {
             context.HttpContext.Response.ContentType = "text/plain";
             return base.OnPageHandlerExecutionAsync(context, next);            
         }
 
-        public async Task OnGetAsync()
+        public void OnGet(string @namespace = null)
         {
+			var metadata = GetSolutionMetadata();
+			
+			Classes = (!string.IsNullOrEmpty(@namespace)) ? metadata.Where(ci => ci.Namespace.Equals(@namespace)) : metadata;
+			//vm.OnlinePath = "https://github.com/adamosoftware/Postulate/blob/master/Postulate.Base/";
+			OnlinePath = "https://github.com/adamosoftware/Dapper.CX/blob/master/Dapper.CX.Base/";
+		}
 
-        }
-
-        private IEnumerable<ClassInfo> GetSolutionMetadata()
+		private IEnumerable<ClassInfo> GetSolutionMetadata()
         {
-            string fileName = Path.Combine(_hosting.WebRootPath, "App_Data", "SolutionMetadata.json");
+            string fileName = Path.Combine(_hosting.WebRootPath, "data", "SolutionMetadata.json");
             return JsonFile.Load<IEnumerable<ClassInfo>>(fileName);
         }
-
     }
 }

@@ -1,8 +1,42 @@
 ﻿@page
 @model MarkdownViewer.App.Pages.MarkdownModel
+
 @{
-    ViewData["Title"] = "Markdown";
+    Layout = null;
 }
 
-<h1>Markdown</h1>
+@foreach (var namespaceGrp in Model.Classes.GroupBy(item => item.Namespace))
+{
+<text># @namespaceGrp.Key</text>
+<text></text>
 
+foreach (var classInfo in namespaceGrp.OrderBy(item => item.Name))
+{
+<text>## [@classInfo.Name](@Model.GetOnlineUrl(classInfo.Location))</text>      
+<text></text>
+
+var props = classInfo.Properties.OrderBy(p => p.Name);
+if (props.Any())
+{
+<text>### Properties</text>
+<text></text>
+foreach (var prop in classInfo.Properties.OrderBy(p => p.Name))
+{
+<text>- @prop.OriginalTypeName [@prop.Name](@Model.GetOnlineUrl(prop.Location))</text>
+<text></text>
+}
+}
+
+var methods = classInfo.Methods.OrderBy(m => m.Name);
+if (methods.Any())
+{
+<text>### Methods</text>
+<text></text>
+foreach (var method in classInfo.Methods.OrderBy(m => m.Name))
+{
+<text>- @method.OriginalTypeName [@method.Name](@Model.GetOnlineUrl(method.Location))@(Model.GetGenericArguments(method))</text>
+<text>  @Model.GetMethodSignature(method)</text>
+}
+}
+} 
+}

@@ -10,11 +10,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <ProjectReference Include="..\RoslynDoc.Library\RoslynDoc.Library.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RoslynDoc.Library\RoslynDoc.Library.csproj" />
+    <Folder Include="wwwroot\data\" />
   </ItemGroup>
 
 

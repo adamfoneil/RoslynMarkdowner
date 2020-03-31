@@ -51,7 +51,7 @@ namespace Launcher
 
 				FixSourceFile( SolutionPath, result);
 
-				JsonFile.Save(@"C:\Users\Adam\Source\Repos\RoslynSyntaxTreeAnalyzer\MarkdownViewer.App\App_Data\SolutionMetadata.json", result);
+				JsonFile.Save(@"C:\Users\Adam\Source\Repos\RoslynSyntaxTreeAnalyzer\MarkdownViewer.App\wwwroot\data\SolutionMetadata.json", result);
 			}
 
 			Console.WriteLine("done");
