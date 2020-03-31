@@ -4,7 +4,68 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h1>Build Markdown</h1>
+
+<form method="post" enctype="multipart/form-data">    
+    @if (Model.AllowLocal)
+    {
+        <div class="form-group">
+            <label>
+                <input type="radio" name="SourceType" value="Local" data-field="SolutionFile"/>
+                Local Solution (.sln) File:
+            </label>
+            <input type="text" id="SolutionFile" name="SolutionFile" class="form-control ml-4 source-type"/>                
+        </div>
+    }
+
+    <div class="form-group">
+        <label>
+            <input type="radio" name="SourceType" value="ZipFile" data-field="SolutionZip"/>
+            Solution Zip File:
+        </label>
+        <input type="file" id="SolutionZip" name="SolutionZip" class="form-control ml-4 source-type"/>
+    </div>
+
+    <div class="form-group">
+        <label>
+            <input type="radio" name="SourceType" value="GitHubUrl" data-field="RepoDownloadUrl"/>
+            GitHub Repo Download Url:
+        </label>
+        <input type="text" id="RepoDownloadUrl" name="RepoDownloadUrl" class="form-control ml-4 source-type"/>
+        <span class="text-muted ml-4">For example <strong>https://github.com/adamosoftware/Dapper.CX/archive/master.zip</strong></span>
+    </div>
+
+    <hr/>
+
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label>GitHub Repo Url:</label>
+                <input type="text" name="GitHubRepoUrl" required="required" class="form-control"/>        
+            </div>
+        </div>
+
+        <div class="col-6">
+            <div class="form-group">
+                <label>Branch Name:</label>
+                <input type="text" name="BranchName" required="required" value="master" class="form-control"/>
+            </div>
+        </div>
+    </div>   
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Analyze Solution</button>
+    </div>
+</form>        
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("input:radio[name='SourceType']").click(function () {
+                $('.source-type').removeAttr('required');
+                var field = '#' + $(this).data('field');
+                $(field).attr('required', 'required');
+            });
+        });
+    </script>
+}

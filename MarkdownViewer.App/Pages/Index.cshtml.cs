@@ -1,25 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using MarkdownViewer.App.Extensions;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
 
 namespace MarkdownViewer.App.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
-
-        public IndexModel(ILogger<IndexModel> logger)
-        {
-            _logger = logger;
+        public IndexModel()
+        {            
         }
+
+        public bool AllowLocal { get; set; }
 
         public void OnGet()
         {
-
+            AllowLocal = HttpContext.IsLocal();
         }
     }
 }

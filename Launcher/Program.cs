@@ -49,7 +49,7 @@ namespace Launcher
 				var engine = new SolutionAnalyzer();
 				var result = (await engine.Analyze(solution)).ToList();
 
-				FixSourceFile( SolutionPath, result);
+				FixSourceFile(SolutionPath, result);
 
 				JsonFile.Save(@"C:\Users\Adam\Source\Repos\RoslynSyntaxTreeAnalyzer\MarkdownViewer.App\wwwroot\data\SolutionMetadata.json", result);
 			}
