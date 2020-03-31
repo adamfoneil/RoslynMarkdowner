@@ -1,14 +1,14 @@
 using JsonSettings;
 using Microsoft.Build.Locator;
 using Microsoft.CodeAnalysis.MSBuild;
-using RoslynDocumentor;
+using RoslynDoc.Library;
+using RoslynDoc.Library.Models;
+using RoslynDoc.Library.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using RoslynDocumentor.Models;
-using RoslynDocumentor.Utils;
 
 namespace Launcher
 {
