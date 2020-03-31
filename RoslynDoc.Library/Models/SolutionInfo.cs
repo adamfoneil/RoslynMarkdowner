@@ -9,12 +9,12 @@ namespace RoslynDoc.Library.Models
 
         public string SourceFileUrl(string path)
         {
-            return $"{SourceFileBase()}/{path}";
+            return $"{SourceFileBase()}{path}";
         }
 
         public string SourceFileBase()
         {
-            return $"{RepoUrl}/blob/{BranchName}";
+            return $"{RepoUrl}/blob/{BranchName}/";
         }
 
         public List<ClassInfo> Classes { get; set; }

@@ -31,9 +31,9 @@ namespace MarkdownViewer.App.Pages
 		/// </summary>
 		public string OnlinePath { get; set; }
 
-		public string GetOnlineUrl(Location location)
+		public string GetOnlineUrl(SourceLocation location)
 		{
-			return OnlinePath + location.SourceFile.Replace("\\", "/") + "#L" + location.LineNumber;
+			return OnlinePath + location.Filename.Replace("\\", "/") + "#L" + location.LineNumber;
 		}
 
 		public string GetMethodSignature(MethodInfo method)

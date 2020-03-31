@@ -6,14 +6,14 @@ namespace RoslynDoc.Library.Models
 	{
 		public string Name { get; set; }
 		public string Description { get; set; }
-		public Location Location { get; set; }
+		public SourceLocation Location { get; set; }
 
 		public bool IsStatic { get; set; }
 		public bool CanWrite { get; set; }
 
 		public string OriginalTypeName { get; set; }
 		public string TypeName { get; set; }
-		public Location TypeLocation { get; set; }
+		public SourceLocation TypeLocation { get; set; }
 
 		public PropertyDeclarationSyntax Node { get; set; }
 	}

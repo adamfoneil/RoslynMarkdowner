@@ -14,7 +14,7 @@ namespace RoslynDoc.Library.Models
 		/// </summary>
 		public string Description { get; set; }
 
-		public Location Location { get; set; }
+		public SourceLocation Location { get; set; }
 		public ICollection<MethodInfo> Methods { get; set; }
 		public ICollection<PropertyInfo> Properties { get; set; }
 

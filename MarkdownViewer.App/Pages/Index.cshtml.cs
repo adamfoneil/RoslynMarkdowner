@@ -78,7 +78,7 @@ namespace MarkdownViewer.App.Pages
 
                 var solution = await ws.OpenSolutionAsync(solutionPath);
                 var engine = new SolutionAnalyzer();
-                var result = (await engine.Analyze(solution)).ToList();
+                var result = (await engine.Analyze(solution, solutionPath)).ToList();
 
             }
         }

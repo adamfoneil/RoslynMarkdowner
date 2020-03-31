@@ -3,9 +3,7 @@ using Microsoft.Build.Locator;
 using Microsoft.CodeAnalysis.MSBuild;
 using RoslynDoc.Library;
 using RoslynDoc.Library.Models;
-using RoslynDoc.Library.Utils;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -47,9 +45,7 @@ namespace Launcher
 				Console.WriteLine($"Finished loading solution '{SolutionPath}'");
 
 				var engine = new SolutionAnalyzer();
-				var result = (await engine.Analyze(solution)).ToList();
-
-				FixSourceFile(SolutionPath, result);
+				var result = (await engine.Analyze(solution, SolutionPath)).ToList();
 
 				var solutionInfo = new SolutionInfo()
 				{
@@ -63,44 +59,6 @@ namespace Launcher
 
 			Console.WriteLine("done");
 			Console.ReadLine();
-		}
-
-		private static void FixSourceFile(string solutionPath, IEnumerable<ClassInfo> classInfos) 
-		{
-			var basePath = Path.GetDirectoryName(solutionPath);
-
-			// turns out we need to remove the last folder name for GitHub link compatibility
-			//var folders = basePath.Split('\\');
-			//basePath = string.Join("\\", folders.Take(folders.Length - 1));
-
-			foreach(var classInfo in classInfos) 
-			{
-				FixSourceFile(classInfo.Location);
-				foreach(var methodInfo in classInfo.Methods) 
-				{
-					FixSourceFile(methodInfo.Location);
-					FixSourceFile(methodInfo.TypeLocation);
-
-					foreach (var p in methodInfo.Parameters.Where(p => p.TypeLocation != null))
-					{
-						FixSourceFile(p.TypeLocation);
-					}
-				}
-
-				foreach(var propertyInfo in classInfo.Properties) 
-				{
-					FixSourceFile(propertyInfo.Location);
-					FixSourceFile(propertyInfo.TypeLocation);
-				}
-			}
-
-			void FixSourceFile(Location location) 
-			{
-				if(location == null || string.IsNullOrWhiteSpace(location.SourceFile))
-					return;
-				location.SourceFile = PathUtils.GetRelativePath(basePath, location.SourceFile, true);
-			}
-
 		}
 
 		private static VisualStudioInstance SelectVisualStudioInstance(VisualStudioInstance[] visualStudioInstances)

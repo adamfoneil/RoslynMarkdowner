@@ -75,7 +75,7 @@ namespace RoslynDoc.Library
 				info.DefaultValue = symbol?.ExplicitDefaultValue?.ToString() ?? "<unknown>";
 		}
 
-		private static Models.Location ToModelLocation(ImmutableArray<Location> locations, bool isInSourceOnly = true)
+		private static Models.SourceLocation ToModelLocation(ImmutableArray<Location> locations, bool isInSourceOnly = true)
 		{
 			var location = locations.FirstOrDefault();
 
@@ -87,10 +87,10 @@ namespace RoslynDoc.Library
 
 			FileLinePositionSpan lineSpan = location.GetLineSpan();
 
-			return new Models.Location
+			return new Models.SourceLocation
 			{
 				LineNumber = lineSpan.StartLinePosition.Line + 1,
-				SourceFile = lineSpan.Path
+				Filename = lineSpan.Path
 			};
 		}
 	}

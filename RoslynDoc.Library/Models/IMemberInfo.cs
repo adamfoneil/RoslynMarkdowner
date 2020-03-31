@@ -12,10 +12,10 @@
 		/// <summary>
 		/// If the TypeName is defined in this solution, this is its location (otherwise null)
 		/// </summary>
-		Location TypeLocation { get; set; }
+		SourceLocation TypeLocation { get; set; }
 
 		bool IsStatic { get; set; }
 		string Description { get; set; }
-		Location Location { get; set; }
+		SourceLocation Location { get; set; }
 	}
 }
