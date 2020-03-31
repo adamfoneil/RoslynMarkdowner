@@ -15,7 +15,8 @@ namespace Launcher
 	internal class Program
 	{
 		//private const string SolutionPath = @"C:\Users\Adam\Source\Repos\SchemaSync\SchemaSync.sln";
-		private const string SolutionPath = @"C:\Users\Adam\Source\Repos\Postulate\Postulate.sln";
+		//private const string SolutionPath = @"C:\Users\Adam\Source\Repos\Postulate\Postulate.sln";
+		private const string SolutionPath = @"C:\Users\Adam\Source\Repos\Dapper.CX\Dapper.CX.sln";
 
 		private static async Task Main(string[] args)
 		{
