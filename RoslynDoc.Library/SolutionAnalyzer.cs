@@ -8,8 +8,8 @@ namespace RoslynDoc.Library
 {
 	public sealed class SolutionAnalyzer
 	{
-		private readonly DocumentSyntaxAnalyzer m_syntaxAnalyzer = new DocumentSyntaxAnalyzer();
-		private readonly DocumentSemanticAnalyzer m_semanticAnalyzer = new DocumentSemanticAnalyzer();
+		private readonly DocumentSyntaxAnalyzer _syntaxAnalyzer = new DocumentSyntaxAnalyzer();
+		private readonly DocumentSemanticAnalyzer _semanticAnalyzer = new DocumentSemanticAnalyzer();
 
 		public async Task<IEnumerable<ClassInfo>> Analyze(Solution solution)
 		{
@@ -19,11 +19,11 @@ namespace RoslynDoc.Library
 			{
 				// Syntax Info
 				SyntaxTree tree = await doc.GetSyntaxTreeAsync();
-				List<ClassInfo> classInfos = m_syntaxAnalyzer.Analyze(tree);
+				List<ClassInfo> classInfos = _syntaxAnalyzer.Analyze(tree);
 
 				// Semantic Info
 				SemanticModel model = await doc.GetSemanticModelAsync();
-				m_semanticAnalyzer.Analyze(model, classInfos);
+				_semanticAnalyzer.Analyze(model, classInfos);
 
 				result.AddRange(classInfos);
 			}
