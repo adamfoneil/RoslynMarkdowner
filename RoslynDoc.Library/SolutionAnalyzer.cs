@@ -68,7 +68,8 @@ namespace RoslynDoc.Library
 			{
 				if (location == null || string.IsNullOrWhiteSpace(location.Filename))
 					return;
-				location.Filename = PathUtils.GetRelativePath(basePath, location.Filename, true);
+				
+				location.Filename = location.Filename.Substring(basePath.Length + 1);
 			}
 		}
 	}
