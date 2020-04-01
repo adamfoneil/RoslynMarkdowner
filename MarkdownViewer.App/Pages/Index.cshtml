@@ -66,6 +66,18 @@
     </div>
 </form>        
 
+@if (Model.Errors?.Any() ?? false)
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var err in Model.Errors)
+            {
+                <li>@err</li>
+            }
+        </ul>
+    </div>
+}
+
 @section Scripts {
     <script type="text/javascript">
         $(document).ready(function () {

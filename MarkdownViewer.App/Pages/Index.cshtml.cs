@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Build.Locator;
 using Microsoft.CodeAnalysis.MSBuild;
 using RoslynDoc.Library;
+using RoslynDoc.Library.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +43,12 @@ namespace MarkdownViewer.App.Pages
         [BindProperty]
         public string DownloadZip { get; set; }
 
+        [BindProperty]
+        public string GitHubRepoUrl { get; set; }
+
+        [BindProperty]
+        public string BranchName { get; set; }
+
         public SelectList VisualStudioInstanceSelect { get; set; }
 
         public List<string> Errors { get; set; }
@@ -78,8 +85,13 @@ namespace MarkdownViewer.App.Pages
 
                 var solution = await ws.OpenSolutionAsync(solutionPath);
                 var engine = new SolutionAnalyzer();
-                var result = (await engine.Analyze(solution, solutionPath)).ToList();
-
+                var classes = (await engine.Analyze(solution, solutionPath)).ToList();
+                var output = new SolutionInfo()
+                {
+                    Classes = classes,
+                    RepoUrl = GitHubRepoUrl,
+                    BranchName = BranchName
+                };
             }
         }
 
