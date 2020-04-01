@@ -278,3 +278,4 @@ __pycache__/
 # !tools/packages.config
 /MarkdownViewer/App_Data/SolutionMetadata.json
 /MarkdownViewer.App/wwwroot/data/SolutionMetadata.json
+/MarkdownViewer.App/Config/okta.json

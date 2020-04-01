@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace RoslynDoc.Library.Models
 {
     public class SolutionInfo
     {
+        public DateTime Timestamp { get; set; }
         public string RepoUrl { get; set; }
         public string BranchName { get; set; }
 
