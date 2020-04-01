@@ -65,6 +65,7 @@ namespace MarkdownViewer.App
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapDefaultControllerRoute();
             });
         }
     }
