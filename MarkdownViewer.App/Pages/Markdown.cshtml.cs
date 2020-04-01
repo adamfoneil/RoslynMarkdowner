@@ -1,4 +1,6 @@
 ﻿using JsonSettings;
+using MarkdownViewer.App.Extensions;
+using MarkdownViewer.App.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -13,10 +15,12 @@ namespace MarkdownViewer.App.Pages
     public class MarkdownModel : PageModel
     {
         private readonly IWebHostEnvironment _hosting;
+		private readonly BlobStorage _blobStorage;
 
-        public MarkdownModel(IWebHostEnvironment hosting)
+        public MarkdownModel(IWebHostEnvironment hosting, BlobStorage blobStorage)
         {
             _hosting = hosting;
+			_blobStorage = blobStorage;
         }
 
         public IEnumerable<ClassInfo> Classes { get; set; }
@@ -70,13 +74,21 @@ namespace MarkdownViewer.App.Pages
             return base.OnPageHandlerExecutionAsync(context, next);            
         }
 
-        public void OnGet(string @namespace = null)
+        public async Task OnGetAsync(string solution = null, string @namespace = null)
         {
-			var metadata = GetSolutionMetadata();
+			var metadata = (!string.IsNullOrEmpty(solution)) ?
+				await _blobStorage.GetAsync<SolutionInfo>(User.Email(), solution) : 
+				GetSolutionMetadata();
 			
 			Classes = (!string.IsNullOrEmpty(@namespace)) ? metadata.Classes.Where(ci => ci.Namespace.Equals(@namespace)) : metadata.Classes;
 			//OnlinePath = "https://github.com/adamosoftware/Dapper.CX/blob/master/";
-			metadata.RepoUrl = "https://github.com/adamosoftware/Dapper.CX";
+
+			if (string.IsNullOrEmpty(metadata.RepoUrl))
+			{
+				// for compatibility with earlier, hard-coded scenario
+				metadata.RepoUrl = "https://github.com/adamosoftware/Dapper.CX";
+			}
+			
 			OnlinePath = metadata.SourceFileBase();
 		}
 

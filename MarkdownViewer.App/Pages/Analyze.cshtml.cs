@@ -108,6 +108,8 @@ namespace MarkdownViewer.App.Pages
             }
         }
 
+        public string DisplayBlobName(CloudBlockBlob blob) => blob.Name.Substring(User.Email().Length + 1);
+
         private string DownloadSolution(string downloadZip)
         {
             throw new NotImplementedException();
