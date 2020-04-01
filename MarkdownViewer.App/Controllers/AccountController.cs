@@ -5,6 +5,9 @@ using Okta.AspNetCore;
 
 namespace MarkdownViewer.App.Controllers
 {
+    /// <summary>
+    /// lots of help from https://github.com/okta/samples-aspnetcore/tree/master/samples-aspnetcore-3x
+    /// </summary>
     public class AccountController : Controller
     {
         private const string homePage = "/Index";

@@ -78,6 +78,17 @@
     </div>
 }
 
+<h2>My Solutions</h2>
+
+<ul>
+    @foreach (var blob in Model.MySolutions)
+    {
+        <li>
+            <a asp-page="Markdown" asp-route-solution="@blob.Name" class="btn btn-secondary">@blob.Name</a>
+        </li>
+    }
+</ul>
+
 @section Scripts {
     <script type="text/javascript">
         $(document).ready(function () {

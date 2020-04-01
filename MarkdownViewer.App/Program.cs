@@ -16,6 +16,7 @@ namespace MarkdownViewer.App
                 .ConfigureAppConfiguration(config =>
                 {
                     config.AddJsonFile("Config/okta.json");
+                    config.AddJsonFile("Config/storage.json");
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {

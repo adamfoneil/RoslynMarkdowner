@@ -279,3 +279,4 @@ __pycache__/
 /MarkdownViewer/App_Data/SolutionMetadata.json
 /MarkdownViewer.App/wwwroot/data/SolutionMetadata.json
 /MarkdownViewer.App/Config/okta.json
+/MarkdownViewer.App/Config/storage.json

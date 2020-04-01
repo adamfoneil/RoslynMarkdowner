@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using MarkdownViewer.App.Extensions;
+using MarkdownViewer.App.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Azure.Storage.Blob;
 using Microsoft.Build.Locator;
 using Microsoft.CodeAnalysis.MSBuild;
 using RoslynDoc.Library;
@@ -24,6 +27,13 @@ namespace MarkdownViewer.App.Pages
     [Authorize]
     public class AnalyzeModel : PageModel
     {
+        private readonly BlobStorage _blobStorage;
+
+        public AnalyzeModel(BlobStorage blobStorage)
+        {
+            _blobStorage = blobStorage;
+        }
+
         public bool AllowLocal { get; set; }
 
         [BindProperty]
@@ -51,9 +61,11 @@ namespace MarkdownViewer.App.Pages
 
         public List<string> Errors { get; set; }
 
-        public void OnGet()
+        public IEnumerable<CloudBlockBlob> MySolutions { get; set; }
+
+        public async Task OnGetAsync()
         {
-            Initialize();
+            await InitializeAsync();
         }
 
         private SelectList GetVisualStudioInstances()
@@ -65,7 +77,7 @@ namespace MarkdownViewer.App.Pages
 
         public async Task OnPostAsync()
         {
-            Initialize();
+            await InitializeAsync();
 
             string solutionPath =
                 (SourceType == SourceType.LocalFile) ? LocalFile :
@@ -91,6 +103,8 @@ namespace MarkdownViewer.App.Pages
                     BranchName = BranchName,
                     Timestamp = DateTime.UtcNow
                 };
+
+                await _blobStorage.SaveAsync(User.Email(), output, Path.GetFileNameWithoutExtension(solutionPath) + ".json");
             }
         }
 
@@ -114,10 +128,11 @@ namespace MarkdownViewer.App.Pages
             return Enum.GetName(typeof(SourceType), sourceType);
         }
 
-        private void Initialize()
+        private async Task InitializeAsync()
         {
             AllowLocal = HttpContext.IsLocal();
             VisualStudioInstanceSelect = GetVisualStudioInstances();
+            MySolutions = await _blobStorage.ListContentAsync(User.Email());
         }
     }
 }

@@ -1,16 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using MarkdownViewer.App.Extensions;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Okta.AspNetCore;
+using System.Collections.Generic;
 
 namespace MarkdownViewer.App
 {
@@ -41,6 +38,8 @@ namespace MarkdownViewer.App
                 ClientSecret = Configuration["Okta:ClientSecret"],
                 Scope = new List<string>() {  "openid", "profile", "email" }
             });
+
+            services.AddBlobStorage(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
