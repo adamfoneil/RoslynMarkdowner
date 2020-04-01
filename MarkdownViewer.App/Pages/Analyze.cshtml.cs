@@ -76,9 +76,7 @@ namespace MarkdownViewer.App.Pages
         }
 
         public async Task OnPostAsync()
-        {
-            await InitializeAsync();
-
+        {            
             string solutionPath =
                 (SourceType == SourceType.LocalFile) ? LocalFile :
                 (SourceType == SourceType.LocalZip) ? ExtractSolution(LocalZip) :
@@ -86,7 +84,8 @@ namespace MarkdownViewer.App.Pages
                 throw new Exception($"Unknown source type {SourceType}");
 
             var instances = MSBuildLocator.QueryVisualStudioInstances().ToArray();
-            var instance = instances[VSInstance];
+            var instance = instances[VSInstance];            
+
             MSBuildLocator.RegisterInstance(instance);
             using (var ws = MSBuildWorkspace.Create())
             {
@@ -106,6 +105,9 @@ namespace MarkdownViewer.App.Pages
 
                 await _blobStorage.SaveAsync(User.Email(), output, Path.GetFileNameWithoutExtension(solutionPath) + ".json");
             }
+            MSBuildLocator.Unregister();
+
+            await InitializeAsync();
         }
 
         public string DisplayBlobName(CloudBlockBlob blob) => blob.Name.Substring(User.Email().Length + 1);
