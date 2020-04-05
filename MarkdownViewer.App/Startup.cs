@@ -1,4 +1,5 @@
 using MarkdownViewer.App.Extensions;
+using MarkdownViewer.App.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
@@ -40,6 +41,7 @@ namespace MarkdownViewer.App
             });
 
             services.AddBlobStorage(Configuration);
+            services.AddScoped<CSharpMarkdownHelper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

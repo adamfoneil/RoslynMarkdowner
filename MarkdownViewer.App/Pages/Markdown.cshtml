@@ -12,7 +12,7 @@
 
 foreach (var classInfo in namespaceGrp.OrderBy(item => item.Name))
 {
-<text>## [@classInfo.Name](@Model.GetOnlineUrl(classInfo.Location))</text>      
+<text>## [@classInfo.Name](@Model.CSMarkdown.GetOnlineUrl(classInfo.Location))</text>      
 <text></text>
 
 var props = classInfo.Properties.OrderBy(p => p.Name);
@@ -22,7 +22,7 @@ if (props.Any())
 <text></text>
 foreach (var prop in classInfo.Properties.OrderBy(p => p.Name))
 {
-<text>- @Model.TypeUrlOrName(prop) [@prop.Name](@Model.GetOnlineUrl(prop.Location))</text>
+<text>- @Model.CSMarkdown.TypeUrlOrName(prop) [@prop.Name](@Model.CSMarkdown.GetOnlineUrl(prop.Location))</text>
 <text></text>
 }
 }
@@ -34,8 +34,8 @@ if (methods.Any())
 <text></text>
 foreach (var method in classInfo.Methods.OrderBy(m => m.Name))
 {
-<text>- @method.OriginalTypeName [@method.Name](@Model.GetOnlineUrl(method.Location))@(Model.GetGenericArguments(method))</text>
-<text>  @Model.GetMethodSignature(method)</text>
+<text>- @method.OriginalTypeName [@method.Name](@Model.CSMarkdown.GetOnlineUrl(method.Location))@(Model.CSMarkdown.GetGenericArguments(method))</text>
+<text>  @Model.CSMarkdown.GetMethodSignature(method)</text>
 <text></text>
 }
 }
