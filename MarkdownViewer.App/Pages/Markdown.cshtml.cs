@@ -65,15 +65,8 @@ namespace MarkdownViewer.App.Pages
 			string optionalEnd = (p.IsOptional) ? " ]" : string.Empty;
 
 			string result = (p.TypeLocation != null && !p.IsGeneric) ?
-				$"{optionalStart}{extension}{paramArray}[{p.OriginalTypeName}]({GetOnlineUrl(p.TypeLocation)}){optionalEnd} {p.Name}" :
-				$"{optionalStart}{extension}{paramArray}{p.OriginalTypeName}{optionalEnd} {p.Name}";
-
-			/* indicate optionality, doesn't work -- markdown is incorrect and the <unknown> value isn't right for expressing optionality
-
-			if ((p.DefaultValue?.Equals("<unknown>") ?? false) && !p.IsParams)
-			{
-				result = "[[" + result + "]]";
-			}*/
+				$"{optionalStart}{extension}{paramArray}[{p.OriginalTypeName}]({GetOnlineUrl(p.TypeLocation)}) {p.Name}{optionalEnd}" :
+				$"{optionalStart}{extension}{paramArray}{p.OriginalTypeName} {p.Name}{optionalEnd}";
 
 			return result;
 		}
