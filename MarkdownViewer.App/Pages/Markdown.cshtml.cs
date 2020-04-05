@@ -40,6 +40,13 @@ namespace MarkdownViewer.App.Pages
 			return OnlinePath + location.Filename.Replace("\\", "/") + "#L" + location.LineNumber;
 		}
 
+		public string TypeUrlOrName(IMemberInfo member)
+		{
+			return (member.TypeLocation != null) ?
+				$"[{member.TypeName}]({GetOnlineUrl(member.TypeLocation)})" :
+				member.TypeName;
+		}
+
 		public string GetMethodSignature(MethodInfo method)
 		{
 			return "(" + string.Join(", ", method.Parameters.Select(p => ArgText(p))) + ")";

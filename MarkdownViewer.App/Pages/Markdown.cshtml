@@ -22,7 +22,7 @@ if (props.Any())
 <text></text>
 foreach (var prop in classInfo.Properties.OrderBy(p => p.Name))
 {
-<text>- @prop.OriginalTypeName [@prop.Name](@Model.GetOnlineUrl(prop.Location))</text>
+<text>- @Model.TypeUrlOrName(prop) [@prop.Name](@Model.GetOnlineUrl(prop.Location))</text>
 <text></text>
 }
 }
