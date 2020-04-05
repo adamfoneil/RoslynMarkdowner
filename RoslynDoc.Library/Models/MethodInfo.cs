@@ -46,6 +46,8 @@ namespace RoslynDoc.Library.Models
 			/// </summary>
 			public bool IsParams { get; set; }
 
+			public bool IsOptional { get; set; }
+
 			public string OriginalTypeName { get; set; }
 			public string TypeName { get; set; }
 			public SourceLocation TypeLocation { get; set; }

@@ -61,9 +61,12 @@ namespace MarkdownViewer.App.Pages
 		{
 			string extension = (p.IsExtension) ? "this " : string.Empty;
 			string paramArray = (p.IsParams) ? "params " : string.Empty;
+			string optionalStart = (p.IsOptional) ? "[ " : string.Empty;
+			string optionalEnd = (p.IsOptional) ? " ]" : string.Empty;
+
 			string result = (p.TypeLocation != null && !p.IsGeneric) ?
-				$"{extension}{paramArray}[{p.OriginalTypeName}]({GetOnlineUrl(p.TypeLocation)}) {p.Name}" :
-				$"{extension}{paramArray}{p.OriginalTypeName} {p.Name}";
+				$"{optionalStart}{extension}{paramArray}[{p.OriginalTypeName}]({GetOnlineUrl(p.TypeLocation)}){optionalEnd} {p.Name}" :
+				$"{optionalStart}{extension}{paramArray}{p.OriginalTypeName}{optionalEnd} {p.Name}";
 
 			/* indicate optionality, doesn't work -- markdown is incorrect and the <unknown> value isn't right for expressing optionality
 

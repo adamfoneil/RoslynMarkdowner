@@ -70,6 +70,7 @@ namespace RoslynDoc.Library
 			info.TypeLocation = ToModelLocation(symbol.Type.Locations);
 			info.IsGeneric = symbol.Type.Kind == SymbolKind.TypeParameter;
 			info.IsParams = symbol.IsParams;
+			info.IsOptional = symbol.IsOptional;
 
 			if (symbol.HasExplicitDefaultValue)
 				info.DefaultValue = symbol?.ExplicitDefaultValue?.ToString() ?? "<unknown>";
