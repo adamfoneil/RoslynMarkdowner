@@ -108,9 +108,7 @@ namespace MarkdownViewer.App.Pages
             MSBuildLocator.Unregister();
 
             await InitializeAsync();
-        }
-
-        public string DisplayBlobName(CloudBlockBlob blob) => blob.Name.Substring(User.Email().Length + 1);
+        }        
 
         private string DownloadSolution(string downloadZip)
         {

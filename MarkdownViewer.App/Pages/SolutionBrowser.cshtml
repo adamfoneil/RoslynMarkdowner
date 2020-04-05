@@ -1,0 +1,39 @@
+﻿@page
+@model MarkdownViewer.App.Pages.SolutionBrowserModel
+@{
+    ViewData["Title"] = "Classes";
+}
+
+<div class="row">
+    <div class="col-3">
+        <form method="get">
+            <select name="SolutionName" class="form-control" onchange="this.form.submit()" required="required" asp-items="Model.SolutionSelect">
+                <option value="">(select)</option>
+            </select>
+        </form>
+
+        @if (Model.SolutionInfo != null)
+        {
+            foreach (var nsGrp in Model.SolutionInfo.Classes.GroupBy(ci => ci.Namespace))
+            {
+                <h2>@nsGrp.Key</h2>
+                <ul>
+                @foreach (var classInfo in nsGrp)
+                {
+                    <li>
+                        <a href="#" class="btn btn-sm btn-outline-info">@classInfo.Name</a>
+                    </li>
+                }
+                </ul>
+            }
+        }
+        else
+        {
+            <p>please choose a solution</p>
+        }
+    </div>
+
+    <div class="col-9">
+
+    </div>
+</div>
