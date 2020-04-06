@@ -8,7 +8,7 @@ namespace MarkdownViewer.App.Extensions
         /// <summary>
         /// factors out common tokens in all the class namespaces to give you the shortest names for diplay purposes
         /// </summary>        
-        public static Dictionary<string, string> SimplifyNames(this IEnumerable<string> fullNames)
+        public static Dictionary<string, string> SimplifyNames(this IEnumerable<string> fullNames, string fillIn = null)
         {
             var uniqueValues = fullNames.GroupBy(item => item).Select(grp => new { name = grp.Key, tokens = grp.Key.Split('.') });
 
@@ -16,7 +16,7 @@ namespace MarkdownViewer.App.Extensions
 
             bool haveSameTokenAtIndex(int checkIndex)
             {
-                if (uniqueValues.All(ns => ns.tokens.Length > checkIndex - 1))
+                if (uniqueValues.All(ns => ns.tokens.Length > checkIndex))
                 {
                     return uniqueValues.GroupBy(ns => ns.tokens[checkIndex]).Count() == 1;
                 }
@@ -26,7 +26,12 @@ namespace MarkdownViewer.App.Extensions
 
             while (haveSameTokenAtIndex(index)) { index++; }
         
-            return uniqueValues.ToDictionary(item => item.name, item => string.Join(".", item.tokens.Skip(index)));
+            return uniqueValues.ToDictionary(item => item.name, item =>
+            {
+                var result = string.Join(".", item.tokens.Skip(index));
+                if (string.IsNullOrEmpty(result)) result = fillIn;
+                return result;
+            });
         }
     }
 }

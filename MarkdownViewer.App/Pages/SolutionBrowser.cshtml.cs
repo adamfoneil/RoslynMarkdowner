@@ -8,6 +8,7 @@ using RoslynDoc.Library.Models;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
+using System;
 
 namespace MarkdownViewer.App.Pages
 {
@@ -23,15 +24,21 @@ namespace MarkdownViewer.App.Pages
         }
 
         public SelectList SolutionSelect { get; set; }
+        public SelectList AssemblySelect { get; set; }
 
         [BindProperty(SupportsGet = true)]
         public string SolutionName { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string AssemblyName { get; set; }
 
         [BindProperty(SupportsGet = true)]
         public string ClassNamespace { get; set; }
 
         [BindProperty(SupportsGet = true)]
         public string ClassName { get; set; }
+
+        public Func<ClassInfo, bool> ClassFilter { get; set; }
 
         public CSharpMarkdownHelper CSMarkdown { get; }
         public SolutionInfo SolutionInfo { get; private set; }
@@ -46,12 +53,18 @@ namespace MarkdownViewer.App.Pages
                 return new SelectListItem(name, name);
             });
 
-            SolutionSelect = new SelectList(solutions, "Value", "Text");
+            SolutionSelect = new SelectList(solutions, "Value", "Text", SolutionName);
 
             if (!string.IsNullOrEmpty(SolutionName))
             {
                 SolutionInfo = await _blobStorage.GetAsync<SolutionInfo>(User.Email(), SolutionName);
-                ShortNamespaces = SolutionInfo.Classes.Select(c => c.Namespace).SimplifyNames();
+
+                var assemblyItems = SolutionInfo.Classes.Select(c => c.AssemblyName).GroupBy(s => s).Select(grp => new SelectListItem(grp.Key, grp.Key));
+                AssemblySelect = new SelectList(assemblyItems, "Value", "Text", AssemblyName);
+
+                ClassFilter = (c) => true;
+                if (!string.IsNullOrEmpty(AssemblyName)) ClassFilter = (c) => c.AssemblyName.Equals(AssemblyName);                    
+                ShortNamespaces = SolutionInfo.Classes.Where(c => ClassFilter.Invoke(c)).Select(c => c.Namespace).SimplifyNames("(base)");
 
                 if (!string.IsNullOrEmpty(ClassName) && !string.IsNullOrEmpty(ClassNamespace))
                 {

@@ -41,5 +41,38 @@ namespace AppTests
 
             Assert.IsTrue(keyPairs.SequenceEqual(expected));
         }
+
+        [TestMethod]
+        public void MoreSimplifyNames()
+        {
+            var names = new string[]
+            {
+                "Dapper.CX.SqlServer.Abstract",
+                "Dapper.CX.SqlServer.Extensions.Int",
+                "Dapper.CX.SqlServer.Extensions.Int",
+                "Dapper.CX.SqlServer.Extensions.Int",
+                "Dapper.CX.SqlServer.Extensions.Long",
+                "Dapper.CX.SqlServer.Extensions.Long",
+                "Dapper.CX.SqlServer.Extensions.Long",
+                "Dapper.CX.SqlServer.Services",
+                "Dapper.CX.SqlServer.Services",
+                "Dapper.CX.SqlServer",
+                "Dapper.CX.SqlServer",
+                "Dapper.CX.SqlServer"
+            };
+
+            var result = names.SimplifyNames("(base)").Select(kp => kp);
+
+            var expected = new Dictionary<string, string>()
+            {
+                { "Dapper.CX.SqlServer.Abstract", "Abstract" },
+                { "Dapper.CX.SqlServer.Extensions.Int", "Extensions.Int" },
+                { "Dapper.CX.SqlServer.Extensions.Long", "Extensions.Long" },
+                { "Dapper.CX.SqlServer.Services", "Services" },
+                { "Dapper.CX.SqlServer", "(base)" }
+            }.Select(kp => kp);
+
+            Assert.IsTrue(result.SequenceEqual(expected));
+        }
     }
 }
