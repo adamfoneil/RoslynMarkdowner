@@ -22,7 +22,7 @@
             {
                 <h2>@Model.ShortNamespaces[nsGrp.Key]</h2>
                 <ul>
-                @foreach (var classInfo in nsGrp)
+                @foreach (var classInfo in nsGrp.GroupBy(ci => ci.Name).Select(grp => grp.First()))
                 {
                     <li class="mb-2">
                         <a class="btn btn-sm btn-outline-info" asp-route-className="@classInfo.Name" asp-route-classNamespace="@nsGrp.Key" asp-route-solutionName="@Model.SolutionName">@classInfo.Name</a>
