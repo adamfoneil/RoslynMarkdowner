@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using RoslynDoc.Library.Models;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace MarkdownViewer.App.Pages
 {
@@ -27,11 +28,15 @@ namespace MarkdownViewer.App.Pages
         public string SolutionName { get; set; }
 
         [BindProperty(SupportsGet = true)]
+        public string ClassNamespace { get; set; }
+
+        [BindProperty(SupportsGet = true)]
         public string ClassName { get; set; }
 
         public CSharpMarkdownHelper CSMarkdown { get; }
         public SolutionInfo SolutionInfo { get; private set; }
         public ClassInfo ClassInfo { get; private set; }
+        public Dictionary<string, string> ShortNamespaces { get; set; }
 
         public async Task OnGetAsync()
         {
@@ -46,10 +51,11 @@ namespace MarkdownViewer.App.Pages
             if (!string.IsNullOrEmpty(SolutionName))
             {
                 SolutionInfo = await _blobStorage.GetAsync<SolutionInfo>(User.Email(), SolutionName);
+                ShortNamespaces = SolutionInfo.Classes.Select(c => c.Namespace).SimplifyNames();
 
-                if (!string.IsNullOrEmpty(ClassName))
+                if (!string.IsNullOrEmpty(ClassName) && !string.IsNullOrEmpty(ClassNamespace))
                 {
-                    ClassInfo = SolutionInfo.ClassDictionary[ClassName];
+                    ClassInfo = SolutionInfo.ClassDictionary[ClassNamespace + "." + ClassName];
                 }
             }
         }

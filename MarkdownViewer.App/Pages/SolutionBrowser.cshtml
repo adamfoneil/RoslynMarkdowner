@@ -16,12 +16,12 @@
         {
             foreach (var nsGrp in Model.SolutionInfo.Classes.GroupBy(ci => ci.Namespace))
             {
-                <h2>@nsGrp.Key</h2>
+                <h2>@Model.ShortNamespaces[nsGrp.Key]</h2>
                 <ul>
                 @foreach (var classInfo in nsGrp)
                 {
-                    <li>
-                        <a href="#" class="btn btn-sm btn-outline-info">@classInfo.Name</a>
+                    <li class="mb-2">
+                        <a class="btn btn-sm btn-outline-info" asp-route-className="@classInfo.Name" asp-route-classNamespace="@nsGrp.Key" asp-route-solutionName="@Model.SolutionName">@classInfo.Name</a>
                     </li>
                 }
                 </ul>
@@ -33,7 +33,7 @@
         }
     </div>
 
-    <div class="col-9">
+    <div class="col-9 border-left">
 
     </div>
 </div>
