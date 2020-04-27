@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RoslynDoc.Library.Models
 {
@@ -20,5 +22,8 @@ namespace RoslynDoc.Library.Models
         }
 
         public List<ClassInfo> Classes { get; set; }
+
+        [JsonIgnore]
+        public Dictionary<string, ClassInfo> ClassDictionary => Classes.ToDictionary(item => $"{item.Namespace}.{item.Name}");
     }
 }

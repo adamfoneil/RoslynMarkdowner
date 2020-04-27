@@ -8,6 +8,7 @@ namespace RoslynDoc.Library.Models
 		public string Namespace { get; set; }
 		public string Name { get; set; }
 		public bool IsStatic { get; set; }
+		public string AssemblyName { get; set; }
 
 		/// <summary>
 		///     XML summary comments

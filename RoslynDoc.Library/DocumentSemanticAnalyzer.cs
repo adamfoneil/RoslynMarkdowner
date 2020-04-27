@@ -21,6 +21,7 @@ namespace RoslynDoc.Library
 			ISymbol symbol = model.GetDeclaredSymbol(info.Node);
 			info.IsStatic = symbol.IsStatic;
 			info.Location = ToModelLocation(symbol.Locations, false);
+			info.AssemblyName = symbol.ContainingAssembly.Name;
 
 			foreach (var methodInfo in info.Methods)
 				AnalyzeMethod(model, methodInfo);

@@ -83,7 +83,7 @@
 <ul>
     @foreach (var blob in Model.MySolutions)
     {
-        var name = Model.DisplayBlobName(blob);
+        var name = blob.DisplayName(User.Email());
         <li>
             <a asp-page="Markdown" asp-route-solution="@name" class="btn btn-secondary">@name</a>
         </li>
