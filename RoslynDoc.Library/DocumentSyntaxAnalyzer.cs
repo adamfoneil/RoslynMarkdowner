@@ -2,7 +2,9 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using RoslynDoc.Library.Models;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using static RoslynDoc.Library.Models.MethodInfo;
@@ -75,6 +77,7 @@ namespace RoslynDoc.Library
 
 			result.Name = GetName(node.Identifier);
 			result.Description = GetSummary(node);
+			result.Category = GetCategory(node);
 			result.OriginalTypeName = node.Type.ToString();
 			result.Node = node;
 
@@ -87,11 +90,26 @@ namespace RoslynDoc.Library
 
 			result.Name = GetName(node.Identifier);
 			result.Description = GetSummary(node);
+			result.Category = GetCategory(node);
 			result.OriginalTypeName = node.ReturnType.ToString();
 			result.Parameters = node.ParameterList.Parameters.Select(AnalyzeParameter).ToList();
 			result.Node = node;
 
 			return result;
+		}
+
+		// help from https://stackoverflow.com/a/27675593/2023653
+		private static string GetCategory(MemberDeclarationSyntax node)
+		{			
+			var attributes = node.AttributeLists.SelectMany(als => als.Attributes).ToArray();
+
+			if (attributes.Any())
+			{
+				// find any [Category] attribute and return the argument from it,
+				// for example [Category("helpers")] should return "helpers"
+			}
+
+			return null;
 		}
 
 		private static Parameter AnalyzeParameter(ParameterSyntax node)

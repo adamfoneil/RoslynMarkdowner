@@ -16,6 +16,7 @@
 
 		bool IsStatic { get; set; }
 		string Description { get; set; }
-		SourceLocation Location { get; set; }
+		string Category { get; set; }
+		SourceLocation Location { get; set; }		
 	}
 }
