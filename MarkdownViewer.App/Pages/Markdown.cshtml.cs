@@ -66,6 +66,9 @@ namespace MarkdownViewer.App.Pages
 			CSMarkdown.OnlinePath = metadata.SourceFileBase();
 		}
 
+        /// <summary>
+        /// this is for compatibility with original implementation, I think, and is no longer needed
+        /// </summary>        
 		private SolutionInfo GetSolutionMetadata()
         {
             string fileName = Path.Combine(_hosting.WebRootPath, "data", "SolutionMetadata.json");

@@ -42,6 +42,7 @@
     </div>
 
     <div class="col-9 border-left">
+        <button class="btn btn-secondary clipboard-copy mb-2" data-clipboard-target="#markdownOutput">Copy</button>
 <pre id="markdownOutput">
 
 </pre>
@@ -49,7 +50,10 @@
 </div>
 
 @section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
     <script type="text/javascript">
+        new ClipboardJS('.clipboard-copy');
+
         document.querySelectorAll('.loadMarkdown').forEach(function (ele) {
             ele.addEventListener('click', function (ev) {
                 //console.log($(ev.target).data('class-name'));
