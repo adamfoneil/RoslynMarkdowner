@@ -25,7 +25,11 @@
                 @foreach (var classInfo in nsGrp.GroupBy(ci => ci.Name).Select(grp => grp.First()))
                 {
                     <li class="mb-2">
-                        <a class="btn btn-sm btn-outline-info" asp-route-className="@classInfo.Name" asp-route-assemblyName="@classInfo.AssemblyName" asp-route-classNamespace="@nsGrp.Key" asp-route-solutionName="@Model.SolutionName">@classInfo.Name</a>
+                        <button class="btn btn-outline-info loadMarkdown"
+                            data-class-name="@classInfo.Name"
+                            data-assembly-name="@classInfo.AssemblyName"
+                            data-namespace="@classInfo.Namespace"
+                            data-solution-name="@Model.SolutionName">@classInfo.Name</button>
                     </li>
                 }
                 </ul>
@@ -38,6 +42,34 @@
     </div>
 
     <div class="col-9 border-left">
+<pre id="markdownOutput">
 
+</pre>
     </div>
 </div>
+
+@section Scripts {
+    <script type="text/javascript">
+        document.querySelectorAll('.loadMarkdown').forEach(function (ele) {
+            ele.addEventListener('click', function (ev) {
+                //console.log($(ev.target).data('class-name'));
+
+                let button = $(ev.target);
+                let params = new URLSearchParams();
+                params.append('Solution', button.data('solution-name'));
+                params.append('Namespace', button.data('namespace'));
+                params.append('Assembly', button.data('assembly-name'));
+                params.append('ClassName', button.data('class-name'));
+
+                fetch('/Markdown?' + params.toString(), {
+                    method: 'get'                    
+                }).then(function (response) {
+                    return response.text();
+                }).then(function (content) {
+                    var output = document.getElementById('markdownOutput');
+                    output.textContent = content;
+                });
+            });
+        })
+    </script>
+}
