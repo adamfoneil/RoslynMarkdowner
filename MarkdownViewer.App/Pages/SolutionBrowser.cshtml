@@ -25,7 +25,7 @@
                 @foreach (var classInfo in nsGrp.GroupBy(ci => ci.Name).Select(grp => grp.First()))
                 {
                     <li class="mb-2">
-                        <a class="btn btn-sm btn-outline-info" asp-route-className="@classInfo.Name" asp-route-classNamespace="@nsGrp.Key" asp-route-solutionName="@Model.SolutionName">@classInfo.Name</a>
+                        <a class="btn btn-sm btn-outline-info" asp-route-className="@classInfo.Name" asp-route-assemblyName="@classInfo.AssemblyName" asp-route-classNamespace="@nsGrp.Key" asp-route-solutionName="@Model.SolutionName">@classInfo.Name</a>
                     </li>
                 }
                 </ul>
