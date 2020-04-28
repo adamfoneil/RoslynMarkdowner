@@ -24,6 +24,8 @@ namespace RoslynDoc.Library.Models
         public List<ClassInfo> Classes { get; set; }
 
         [JsonIgnore]
-        public Dictionary<string, ClassInfo> ClassDictionary => Classes.ToDictionary(item => $"{item.Namespace}.{item.Name}");
+        public Dictionary<string, ClassInfo> ClassDictionary => Classes
+            .GroupBy(c => $"{c.Namespace}.{c.Name}")
+            .ToDictionary(grp => grp.Key, grp => ClassInfo.FromPartials(grp));
     }
 }
