@@ -1,4 +1,5 @@
 ﻿using JsonSettings;
+using MarkdownViewer.App.Classes;
 using MarkdownViewer.App.Extensions;
 using MarkdownViewer.App.Services;
 using Microsoft.AspNetCore.Hosting;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Azure.Storage.Blob.Protocol;
 using RoslynDoc.Library.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -53,8 +55,13 @@ namespace MarkdownViewer.App.Pages
 			var metadata = (!string.IsNullOrEmpty(Solution)) ?
 				await _blobStorage.GetAsync<SolutionInfo>(User.Email(), Solution) : 
 				GetSolutionMetadata();
-			
-			Classes = (!string.IsNullOrEmpty(Namespace)) ? metadata.Classes.Where(ci => ci.Namespace.Equals(Namespace)) : metadata.Classes;
+
+            var criteria = new Criteria<ClassInfo>();
+            criteria.AddIf(!string.IsNullOrEmpty(Namespace), (ci) => ci.Namespace.Equals(Namespace));
+            criteria.AddIf(!string.IsNullOrEmpty(AssemblyName), (ci) => ci.AssemblyName.Equals(AssemblyName));
+            criteria.AddIf(!string.IsNullOrEmpty(ClassName), (ci) => ci.Name.Equals(ClassName));
+
+            Classes = metadata.Classes.Where(ci => criteria.Invoke(ci));
 
 			CSMarkdown.OnlinePath = metadata.SourceFileBase();
 		}
