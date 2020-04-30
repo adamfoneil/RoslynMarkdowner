@@ -13,5 +13,14 @@ namespace RoslynMarkdowner.WinForms.Models
         public HashSet<string> LocalSolutions { get; set; }
 
         public override string Filename => BuildPath(Environment.SpecialFolder.LocalApplicationData, "RoslynMarkdowner", "Settings.json");
+
+        protected override void Initialize()
+        {
+            if (RepositoryUrls == null) RepositoryUrls = new HashSet<string>();
+            if (LocalSolutions == null) LocalSolutions = new HashSet<string>();
+
+            RepositoryUrls.RemoveWhere(s => string.IsNullOrEmpty(s));
+            LocalSolutions.RemoveWhere(s => string.IsNullOrEmpty(s));
+        }
     }
 }

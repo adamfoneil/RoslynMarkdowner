@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.cbRepository = new System.Windows.Forms.ComboBox();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.rbRemoteRepo = new System.Windows.Forms.RadioButton();
+            this.rbLocalRepo = new System.Windows.Forms.RadioButton();
             this.cbLocalSolution = new System.Windows.Forms.ComboBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -48,49 +48,53 @@
             this.cbRepository.FormattingEnabled = true;
             this.cbRepository.Location = new System.Drawing.Point(129, 12);
             this.cbRepository.Name = "cbRepository";
-            this.cbRepository.Size = new System.Drawing.Size(361, 21);
+            this.cbRepository.Size = new System.Drawing.Size(408, 21);
             this.cbRepository.TabIndex = 0;
+            this.cbRepository.Validated += new System.EventHandler(this.cbRepository_Validated);
             // 
-            // radioButton1
+            // rbRemoteRepo
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(12, 12);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(111, 17);
-            this.radioButton1.TabIndex = 1;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Repository Url:";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.rbRemoteRepo.AutoSize = true;
+            this.rbRemoteRepo.Location = new System.Drawing.Point(12, 12);
+            this.rbRemoteRepo.Name = "rbRemoteRepo";
+            this.rbRemoteRepo.Size = new System.Drawing.Size(111, 17);
+            this.rbRemoteRepo.TabIndex = 1;
+            this.rbRemoteRepo.TabStop = true;
+            this.rbRemoteRepo.Text = "Repository Url:";
+            this.rbRemoteRepo.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // rbLocalRepo
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(12, 40);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(109, 17);
-            this.radioButton2.TabIndex = 2;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Local Solution:";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.rbLocalRepo.AutoSize = true;
+            this.rbLocalRepo.Location = new System.Drawing.Point(12, 40);
+            this.rbLocalRepo.Name = "rbLocalRepo";
+            this.rbLocalRepo.Size = new System.Drawing.Size(109, 17);
+            this.rbLocalRepo.TabIndex = 2;
+            this.rbLocalRepo.TabStop = true;
+            this.rbLocalRepo.Text = "Local Solution:";
+            this.rbLocalRepo.UseVisualStyleBackColor = true;
             // 
             // cbLocalSolution
             // 
+            this.cbLocalSolution.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cbLocalSolution.FormattingEnabled = true;
             this.cbLocalSolution.Location = new System.Drawing.Point(129, 39);
             this.cbLocalSolution.Name = "cbLocalSolution";
-            this.cbLocalSolution.Size = new System.Drawing.Size(361, 21);
+            this.cbLocalSolution.Size = new System.Drawing.Size(408, 21);
             this.cbLocalSolution.TabIndex = 3;
+            this.cbLocalSolution.Validated += new System.EventHandler(this.cbLocalSolution_Validated);
             // 
             // panel1
             // 
             this.panel1.Controls.Add(this.cbRepository);
             this.panel1.Controls.Add(this.cbLocalSolution);
-            this.panel1.Controls.Add(this.radioButton1);
-            this.panel1.Controls.Add(this.radioButton2);
+            this.panel1.Controls.Add(this.rbRemoteRepo);
+            this.panel1.Controls.Add(this.rbLocalRepo);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(502, 72);
+            this.panel1.Size = new System.Drawing.Size(549, 72);
             this.panel1.TabIndex = 4;
             // 
             // splitContainer1
@@ -102,8 +106,8 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.tvObjects);
-            this.splitContainer1.Size = new System.Drawing.Size(502, 335);
-            this.splitContainer1.SplitterDistance = 167;
+            this.splitContainer1.Size = new System.Drawing.Size(549, 306);
+            this.splitContainer1.SplitterDistance = 183;
             this.splitContainer1.TabIndex = 5;
             // 
             // tvObjects
@@ -111,20 +115,22 @@
             this.tvObjects.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvObjects.Location = new System.Drawing.Point(0, 0);
             this.tvObjects.Name = "tvObjects";
-            this.tvObjects.Size = new System.Drawing.Size(167, 335);
+            this.tvObjects.Size = new System.Drawing.Size(183, 306);
             this.tvObjects.TabIndex = 0;
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(502, 407);
+            this.ClientSize = new System.Drawing.Size(549, 378);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Roslyn Markdowner";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
+            this.Load += new System.EventHandler(this.frmMain_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -137,8 +143,8 @@
         #endregion
 
         private System.Windows.Forms.ComboBox cbRepository;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton rbRemoteRepo;
+        private System.Windows.Forms.RadioButton rbLocalRepo;
         private System.Windows.Forms.ComboBox cbLocalSolution;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.SplitContainer splitContainer1;
