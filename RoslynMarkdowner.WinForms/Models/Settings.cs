@@ -7,20 +7,23 @@ namespace RoslynMarkdowner.WinForms.Models
 {
     public class Settings : SettingsBase
     {
-        public FormPosition Position { get; set; }
+        public FormPosition Position { get; set; }        
 
-        public HashSet<string> RepositoryUrls { get; set; }
-        public HashSet<string> LocalSolutions { get; set; }
+        public List<RepoInfo> Repositories { get; set; }
 
-        public override string Filename => BuildPath(Environment.SpecialFolder.LocalApplicationData, "RoslynMarkdowner", "Settings.json");
+        public class RepoInfo
+        {
+            public string PublicUrl { get; set; }
+            public string LocalSolution { get; set; }
+        }
 
         protected override void Initialize()
         {
-            if (RepositoryUrls == null) RepositoryUrls = new HashSet<string>();
-            if (LocalSolutions == null) LocalSolutions = new HashSet<string>();
-
-            RepositoryUrls.RemoveWhere(s => string.IsNullOrEmpty(s));
-            LocalSolutions.RemoveWhere(s => string.IsNullOrEmpty(s));
+            if (Repositories == null) Repositories = new List<RepoInfo>();
         }
+
+        public override string Filename => BuildPath(Environment.SpecialFolder.LocalApplicationData, Path, "Settings.json");
+
+        public const string Path = "RoslynMarkdowner";
     }
 }
