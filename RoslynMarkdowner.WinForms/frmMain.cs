@@ -55,7 +55,18 @@ namespace RoslynMarkdowner.WinForms
         {
             var list = new BindingList<Settings.RepoInfo>();
             foreach (var item in repositories) list.Add(item);
+            
             var bs = new BindingSource();
+            bs.ListChanged += delegate (object sender, ListChangedEventArgs e)
+            {
+                if (e.ListChangedType == ListChangedType.ItemChanged || e.ListChangedType == ListChangedType.ItemAdded || e.ListChangedType == ListChangedType.ItemDeleted)
+                {
+                    var source = sender as BindingSource;
+                    var data = source.DataSource as BindingList<Settings.RepoInfo>;
+                    cbRepo.Fill(data);
+                }
+            };
+
             bs.DataSource = list;
             dgvRepos.DataSource = bs;
         }
@@ -296,6 +307,19 @@ namespace RoslynMarkdowner.WinForms
             {
                 MessageBox.Show(exc.Message);
             }
+        }
+
+        private void btnCopy_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Clipboard.SetText(tbMarkdown.Text);
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
+            
         }
     }
 }
