@@ -1,9 +1,11 @@
-﻿using JsonSettings;
+﻿using Humanizer;
+using JsonSettings;
 using JsonSettings.Library;
 using Microsoft.Build.Locator;
 using Microsoft.CodeAnalysis.MSBuild;
 using RoslynDoc.Library;
 using RoslynDoc.Library.Models;
+using RoslynDoc.Library.Extensions;
 using RoslynMarkdowner.WinForms.Models;
 using System;
 using System.Collections.Generic;
@@ -16,13 +18,16 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using WinForms.Library;
 using WinForms.Library.Extensions.ComboBoxes;
+using WinForms.Library.Extensions.ToolStrip;
 using WinForms.Library.Models;
+using RoslynMarkdowner.WinForms.Controls;
 
 namespace RoslynMarkdowner.WinForms
 {
     public partial class frmMain : Form
     {
         private Settings _settings;
+        private SolutionInfo _currentSolution;
 
         public frmMain()
         {
@@ -82,6 +87,33 @@ namespace RoslynMarkdowner.WinForms
             try
             {
                 pbMain.Visible = true;
+
+                var repo = cbRepo.GetItem<Settings.RepoInfo>();
+                var instance = cbMSBuildInstance.SelectedItem as ListItem<VisualStudioInstance>;
+
+                MSBuildLocator.RegisterInstance(instance.Value);
+
+                using (var ws = MSBuildWorkspace.Create())
+                {
+                    Errors.Clear();
+                    ws.WorkspaceFailed += (o, e2) => Errors.Add(e2.Diagnostic.Message);
+
+                    var solution = await ws.OpenSolutionAsync(repo.LocalSolution);
+                    var engine = new SolutionAnalyzer();
+                    var classes = (await engine.Analyze(solution, repo.LocalSolution)).ToList();
+                    var output = new SolutionInfo()
+                    {
+                        Classes = classes,
+                        RepoUrl = repo.PublicUrl,
+                        BranchName = repo.BranchName,
+                        Timestamp = DateTime.UtcNow
+                    };
+
+                    string cacheFile = _settings.GetSolutionInfoFilename(repo.LocalSolution);
+                    await JsonFile.SaveAsync(cacheFile, output);
+                    UpdateCacheAge(cacheFile);
+                    LoadSolutionInfo(cacheFile);
+                }
             }
             catch (Exception exc)
             {
@@ -137,6 +169,97 @@ namespace RoslynMarkdowner.WinForms
         private void llManageRepos_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             splitContainer3.Panel1Collapsed = !splitContainer3.Panel1Collapsed;
+        }
+
+        private async void cbRepo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var repo = cbRepo.GetItem<Settings.RepoInfo>();
+                lblCachedInfo.Visible = repo != null;
+
+                if (repo != null)
+                {
+                    string solutionCache = _settings.GetSolutionInfoFilename(repo.LocalSolution);
+                    UpdateCacheAge(solutionCache);
+
+                    if (File.Exists(solutionCache)) await LoadSolutionInfo(solutionCache);
+                }
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
+        }
+
+        private void UpdateCacheAge(string solutionCache)
+        {
+            lblCachedInfo.Text = File.Exists(solutionCache) ?
+                                GetFileAgeText(solutionCache) :
+                                "Not analyzed yet";
+        }
+
+        private string GetFileAgeText(string fileName)
+        {
+            var fi = new FileInfo(fileName);
+            return DateTime.UtcNow.Subtract(fi.LastWriteTimeUtc).Humanize() + " ago";
+        }
+
+        private async Task LoadSolutionInfo(string fileName)
+        {            
+            _currentSolution = await JsonFile.LoadAsync<SolutionInfo>(fileName);
+            var assemblies = _currentSolution.Classes.Select(c => c.AssemblyName).GroupBy(s => s).Select(grp => grp.Key).ToList();
+            assemblies.Insert(0, "All Assemblies");
+
+            cbAssembly.SelectedIndexChanged -= AssemblySelected;
+            cbAssembly.Fill(assemblies);
+            cbAssembly.SelectedIndexChanged += AssemblySelected;
+
+            LoadNamespaces(_currentSolution.Classes);
+        }
+
+        private void LoadNamespaces(IEnumerable<ClassInfo> classes)
+        {
+            tvObjects.Nodes.Clear();
+
+            var simplifiedNames = classes.Select(ci => ci.Namespace).SimplifyNames("(root)");
+            Dictionary<string, int> fileCounts = classes.GroupBy(ci => $"{ci.Namespace}.{ci.Name}").ToDictionary(grp => grp.Key, grp => grp.Count());
+
+            foreach (var nsGrp in classes.GroupBy(ci => ci.Namespace))
+            {
+                var nsNode = new NamespaceNode(simplifiedNames[nsGrp.Key]);
+                tvObjects.Nodes.Add(nsNode);
+
+                foreach (var classInfo in nsGrp)
+                {
+                    string fileName = $"{classInfo.Namespace}.{classInfo.Name}";
+                    string partialFile = (fileCounts[fileName] > 1) ? GetPartialFilename(classInfo) : default;
+                    var classNode = new ClassNode(classInfo, partialFile);
+                    nsNode.Nodes.Add(classNode);
+                }
+            }
+        }
+
+        private string GetPartialFilename(ClassInfo classInfo)
+        {
+            var properties = classInfo.Properties.OfType<IMemberInfo>();
+            var methods = classInfo.Methods.OfType<IMemberInfo>();
+            var allMembers = properties.Concat(methods);
+
+            if (!allMembers.Any()) return default;
+
+            string fileName = allMembers.First().Location.Filename;
+
+            return Path.GetFileName(fileName);
+        }
+
+        private void AssemblySelected(object sender, EventArgs e)
+        {
+            var classes = (cbAssembly.SelectedIndex == 0) ?
+                _currentSolution.Classes :
+                _currentSolution.Classes.Where(ci => ci.AssemblyName.Equals(cbAssembly.SelectedItem as string));
+
+            LoadNamespaces(classes);
         }
     }
 }

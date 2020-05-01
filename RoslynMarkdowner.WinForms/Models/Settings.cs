@@ -1,4 +1,5 @@
 ﻿using JsonSettings.Library;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using WinForms.Library.Models;
@@ -15,10 +16,11 @@ namespace RoslynMarkdowner.WinForms.Models
         {
             public string PublicUrl { get; set; }
             public string LocalSolution { get; set; }
+            public string BranchName { get; set; }
 
             public override string ToString()
             {
-                return PublicUrl;
+                return $"{PublicUrl} - {BranchName}";
             }
         }
 
@@ -27,7 +29,15 @@ namespace RoslynMarkdowner.WinForms.Models
             if (Repositories == null) Repositories = new List<RepoInfo>();
         }
 
-        public override string Filename => BuildPath(Environment.SpecialFolder.LocalApplicationData, Path, "Settings.json");
+        public override string Filename => 
+            BuildPath(Environment.SpecialFolder.LocalApplicationData, Path, "Settings.json");
+
+        [JsonIgnore]
+        public string Folder => 
+            System.IO.Path.GetDirectoryName(Filename);
+
+        public string GetSolutionInfoFilename(string solutionFile) => 
+            System.IO.Path.Combine(Folder, System.IO.Path.GetFileNameWithoutExtension(solutionFile) + ".json");
 
         public const string Path = "RoslynMarkdowner";
     }

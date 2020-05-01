@@ -39,14 +39,17 @@
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.btnCopy = new System.Windows.Forms.ToolStripButton();
             this.dgvRepos = new System.Windows.Forms.DataGridView();
-            this.colRepoUrl = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colLocalSolution = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cbRepo = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.llManageRepos = new System.Windows.Forms.LinkLabel();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pbMain = new System.Windows.Forms.ProgressBar();
+            this.colRepoUrl = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBranchName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colLocalSolution = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label3 = new System.Windows.Forms.Label();
+            this.lblCachedInfo = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -75,7 +78,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.toolStrip2);
-            this.splitContainer1.Size = new System.Drawing.Size(612, 135);
+            this.splitContainer1.Size = new System.Drawing.Size(612, 169);
             this.splitContainer1.SplitterDistance = 204;
             this.splitContainer1.TabIndex = 5;
             // 
@@ -84,12 +87,12 @@
             this.tvObjects.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvObjects.Location = new System.Drawing.Point(0, 25);
             this.tvObjects.Name = "tvObjects";
-            this.tvObjects.Size = new System.Drawing.Size(204, 110);
+            this.tvObjects.Size = new System.Drawing.Size(204, 144);
             this.tvObjects.TabIndex = 0;
             // 
             // btnAnalyzeSolution
             // 
-            this.btnAnalyzeSolution.Location = new System.Drawing.Point(132, 66);
+            this.btnAnalyzeSolution.Location = new System.Drawing.Point(132, 92);
             this.btnAnalyzeSolution.Name = "btnAnalyzeSolution";
             this.btnAnalyzeSolution.Size = new System.Drawing.Size(133, 23);
             this.btnAnalyzeSolution.TabIndex = 4;
@@ -159,26 +162,13 @@
             this.dgvRepos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvRepos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colRepoUrl,
+            this.colBranchName,
             this.colLocalSolution});
             this.dgvRepos.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvRepos.Location = new System.Drawing.Point(0, 0);
             this.dgvRepos.Name = "dgvRepos";
-            this.dgvRepos.Size = new System.Drawing.Size(612, 139);
+            this.dgvRepos.Size = new System.Drawing.Size(612, 80);
             this.dgvRepos.TabIndex = 9;
-            // 
-            // colRepoUrl
-            // 
-            this.colRepoUrl.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colRepoUrl.DataPropertyName = "PublicUrl";
-            this.colRepoUrl.HeaderText = "Repo Url";
-            this.colRepoUrl.Name = "colRepoUrl";
-            // 
-            // colLocalSolution
-            // 
-            this.colLocalSolution.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colLocalSolution.DataPropertyName = "LocalSolution";
-            this.colLocalSolution.HeaderText = "Local Solution";
-            this.colLocalSolution.Name = "colLocalSolution";
             // 
             // cbRepo
             // 
@@ -190,11 +180,12 @@
             this.cbRepo.Name = "cbRepo";
             this.cbRepo.Size = new System.Drawing.Size(411, 21);
             this.cbRepo.TabIndex = 9;
+            this.cbRepo.SelectedIndexChanged += new System.EventHandler(this.cbRepo_SelectedIndexChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 42);
+            this.label2.Location = new System.Drawing.Point(53, 42);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(73, 13);
             this.label2.TabIndex = 10;
@@ -215,7 +206,7 @@
             // splitContainer3
             // 
             this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer3.Location = new System.Drawing.Point(0, 100);
+            this.splitContainer3.Location = new System.Drawing.Point(0, 125);
             this.splitContainer3.Name = "splitContainer3";
             this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -226,12 +217,14 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.splitContainer1);
-            this.splitContainer3.Size = new System.Drawing.Size(612, 278);
-            this.splitContainer3.SplitterDistance = 139;
+            this.splitContainer3.Size = new System.Drawing.Size(612, 253);
+            this.splitContainer3.SplitterDistance = 80;
             this.splitContainer3.TabIndex = 11;
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.lblCachedInfo);
+            this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.pbMain);
             this.panel1.Controls.Add(this.llManageRepos);
             this.panel1.Controls.Add(this.cbMSBuildInstance);
@@ -242,17 +235,57 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(612, 100);
+            this.panel1.Size = new System.Drawing.Size(612, 125);
             this.panel1.TabIndex = 12;
             // 
             // pbMain
             // 
-            this.pbMain.Location = new System.Drawing.Point(307, 70);
+            this.pbMain.Location = new System.Drawing.Point(275, 99);
             this.pbMain.Name = "pbMain";
             this.pbMain.Size = new System.Drawing.Size(100, 10);
             this.pbMain.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.pbMain.TabIndex = 12;
             this.pbMain.Visible = false;
+            // 
+            // colRepoUrl
+            // 
+            this.colRepoUrl.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colRepoUrl.DataPropertyName = "PublicUrl";
+            this.colRepoUrl.HeaderText = "Repo Url";
+            this.colRepoUrl.Name = "colRepoUrl";
+            // 
+            // colBranchName
+            // 
+            this.colBranchName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colBranchName.DataPropertyName = "BranchName";
+            this.colBranchName.HeaderText = "Branch";
+            this.colBranchName.Name = "colBranchName";
+            this.colBranchName.Width = 72;
+            // 
+            // colLocalSolution
+            // 
+            this.colLocalSolution.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colLocalSolution.DataPropertyName = "LocalSolution";
+            this.colLocalSolution.HeaderText = "Local Solution";
+            this.colLocalSolution.Name = "colLocalSolution";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(35, 69);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(91, 13);
+            this.label3.TabIndex = 13;
+            this.label3.Text = "Last Analyzed:";
+            // 
+            // lblCachedInfo
+            // 
+            this.lblCachedInfo.AutoSize = true;
+            this.lblCachedInfo.Location = new System.Drawing.Point(131, 69);
+            this.lblCachedInfo.Name = "lblCachedInfo";
+            this.lblCachedInfo.Size = new System.Drawing.Size(41, 13);
+            this.lblCachedInfo.TabIndex = 14;
+            this.lblCachedInfo.Text = "label4";
             // 
             // frmMain
             // 
@@ -299,14 +332,17 @@
         private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.ToolStripButton btnCopy;
         private System.Windows.Forms.DataGridView dgvRepos;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colRepoUrl;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colLocalSolution;
         private System.Windows.Forms.LinkLabel llManageRepos;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cbRepo;
         private System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ProgressBar pbMain;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colRepoUrl;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colBranchName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colLocalSolution;
+        private System.Windows.Forms.Label lblCachedInfo;
+        private System.Windows.Forms.Label label3;
     }
 }
 

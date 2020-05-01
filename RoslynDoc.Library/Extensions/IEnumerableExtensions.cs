@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace MarkdownViewer.App.Extensions
+namespace RoslynDoc.Library.Extensions
 {
     public static class IEnumerableExtensions
     {

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RoslynDoc.Library.Models;
+using RoslynDoc.Library.Extensions;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
