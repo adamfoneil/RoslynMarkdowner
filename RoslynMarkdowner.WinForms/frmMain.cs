@@ -288,20 +288,9 @@ namespace RoslynMarkdowner.WinForms
                     }
 
                     tbMarkdown.Text = sb.ToString();
+                    var html = Markdown.ToHtml(tbMarkdown.Text);
+                    webBrowser1.DocumentText = html;
                 }
-            }
-            catch (Exception exc)
-            {
-                MessageBox.Show(exc.Message);
-            }
-        }
-
-        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                var html = Markdown.ToHtml(tbMarkdown.Text);
-                webBrowser1.DocumentText = html;
             }
             catch (Exception exc)
             {
