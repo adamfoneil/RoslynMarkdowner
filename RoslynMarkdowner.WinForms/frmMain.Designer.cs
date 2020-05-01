@@ -94,6 +94,7 @@
             // tvObjects
             // 
             this.tvObjects.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tvObjects.HideSelection = false;
             this.tvObjects.Location = new System.Drawing.Point(0, 25);
             this.tvObjects.Name = "tvObjects";
             this.tvObjects.Size = new System.Drawing.Size(204, 144);
@@ -211,6 +212,7 @@
             this.cbMSBuildInstance.Name = "cbMSBuildInstance";
             this.cbMSBuildInstance.Size = new System.Drawing.Size(468, 21);
             this.cbMSBuildInstance.TabIndex = 7;
+            this.cbMSBuildInstance.SelectedIndexChanged += new System.EventHandler(this.cbMSBuildInstance_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -329,9 +331,9 @@
             this.lblCachedInfo.AutoSize = true;
             this.lblCachedInfo.Location = new System.Drawing.Point(131, 69);
             this.lblCachedInfo.Name = "lblCachedInfo";
-            this.lblCachedInfo.Size = new System.Drawing.Size(41, 13);
+            this.lblCachedInfo.Size = new System.Drawing.Size(112, 13);
             this.lblCachedInfo.TabIndex = 14;
-            this.lblCachedInfo.Text = "label4";
+            this.lblCachedInfo.Text = "(no repo selected)";
             // 
             // label3
             // 

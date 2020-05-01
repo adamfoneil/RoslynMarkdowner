@@ -10,6 +10,8 @@ namespace RoslynMarkdowner.WinForms.Models
     {
         public FormPosition Position { get; set; }        
 
+        public int VSInstance { get; set; }
+
         public List<RepoInfo> Repositories { get; set; }
 
         public class RepoInfo
