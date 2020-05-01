@@ -11,12 +11,12 @@ namespace MarkdownViewer.App.Services
     public class BlobStorage
     {
         private readonly StorageCredentials _credentials;
-        private readonly string _containerName;        
+        private readonly string _containerName;
 
         public BlobStorage(StorageCredentials credentials, string containerName)
         {
             _credentials = credentials;
-            _containerName = containerName;            
+            _containerName = containerName;
         }
 
         public async Task SaveAsync<T>(string userName, T @object, string name)

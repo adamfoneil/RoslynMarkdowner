@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using MarkdownViewer.App.Extensions;
+﻿using MarkdownViewer.App.Extensions;
 using MarkdownViewer.App.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +9,11 @@ using Microsoft.Build.Locator;
 using Microsoft.CodeAnalysis.MSBuild;
 using RoslynDoc.Library;
 using RoslynDoc.Library.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MarkdownViewer.App.Pages
 {
@@ -76,7 +76,7 @@ namespace MarkdownViewer.App.Pages
         }
 
         public async Task OnPostAsync()
-        {            
+        {
             string solutionPath =
                 (SourceType == SourceType.LocalFile) ? LocalFile :
                 (SourceType == SourceType.LocalZip) ? ExtractSolution(LocalZip) :
@@ -84,7 +84,7 @@ namespace MarkdownViewer.App.Pages
                 throw new Exception($"Unknown source type {SourceType}");
 
             var instances = MSBuildLocator.QueryVisualStudioInstances().ToArray();
-            var instance = instances[VSInstance];            
+            var instance = instances[VSInstance];
 
             MSBuildLocator.RegisterInstance(instance);
             using (var ws = MSBuildWorkspace.Create())
@@ -108,7 +108,7 @@ namespace MarkdownViewer.App.Pages
             MSBuildLocator.Unregister();
 
             await InitializeAsync();
-        }        
+        }
 
         private string DownloadSolution(string downloadZip)
         {

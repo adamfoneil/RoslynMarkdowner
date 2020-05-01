@@ -37,7 +37,7 @@ namespace MarkdownViewer.App
                 OktaDomain = Configuration["Okta:Domain"],
                 ClientId = Configuration["Okta:ClientId"],
                 ClientSecret = Configuration["Okta:ClientSecret"],
-                Scope = new List<string>() {  "openid", "profile", "email" }
+                Scope = new List<string>() { "openid", "profile", "email" }
             });
 
             services.AddBlobStorage(Configuration);

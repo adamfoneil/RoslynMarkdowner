@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using RoslynDoc.Library.Models;
 using RoslynDoc.Library.Extensions;
-using System.Threading.Tasks;
-using System.Linq;
-using System.Collections.Generic;
+using RoslynDoc.Library.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MarkdownViewer.App.Pages
 {
@@ -64,7 +64,7 @@ namespace MarkdownViewer.App.Pages
                 AssemblySelect = new SelectList(assemblyItems, "Value", "Text", AssemblyName);
 
                 ClassFilter = (c) => true;
-                if (!string.IsNullOrEmpty(AssemblyName)) ClassFilter = (c) => c.AssemblyName.Equals(AssemblyName);                    
+                if (!string.IsNullOrEmpty(AssemblyName)) ClassFilter = (c) => c.AssemblyName.Equals(AssemblyName);
                 ShortNamespaces = SolutionInfo.Classes.Where(c => ClassFilter.Invoke(c)).Select(c => c.Namespace).SimplifyNames("(base)");
 
                 if (!string.IsNullOrEmpty(ClassName) && !string.IsNullOrEmpty(ClassNamespace))
