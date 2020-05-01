@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\ClassNode.cs" />
+    <Compile Include="Controls\MemberNode.cs" />
     <Compile Include="Controls\NamespaceNode.cs" />
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>

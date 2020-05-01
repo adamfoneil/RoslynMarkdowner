@@ -112,7 +112,7 @@ namespace RoslynMarkdowner.WinForms
                     string cacheFile = _settings.GetSolutionInfoFilename(repo.LocalSolution);
                     await JsonFile.SaveAsync(cacheFile, output);
                     UpdateCacheAge(cacheFile);
-                    LoadSolutionInfo(cacheFile);
+                    await LoadSolutionInfo(cacheFile);
                 }
             }
             catch (Exception exc)
@@ -194,9 +194,7 @@ namespace RoslynMarkdowner.WinForms
 
         private void UpdateCacheAge(string solutionCache)
         {
-            lblCachedInfo.Text = File.Exists(solutionCache) ?
-                                GetFileAgeText(solutionCache) :
-                                "Not analyzed yet";
+            lblCachedInfo.Text = File.Exists(solutionCache) ? GetFileAgeText(solutionCache) : "Not analyzed yet";
         }
 
         private string GetFileAgeText(string fileName)
@@ -225,12 +223,12 @@ namespace RoslynMarkdowner.WinForms
             var simplifiedNames = classes.Select(ci => ci.Namespace).SimplifyNames("(root)");
             Dictionary<string, int> fileCounts = classes.GroupBy(ci => $"{ci.Namespace}.{ci.Name}").ToDictionary(grp => grp.Key, grp => grp.Count());
 
-            foreach (var nsGrp in classes.GroupBy(ci => ci.Namespace))
+            foreach (var nsGrp in classes.GroupBy(ci => ci.Namespace).OrderBy(grp => grp.Key))
             {
                 var nsNode = new NamespaceNode(simplifiedNames[nsGrp.Key]);
                 tvObjects.Nodes.Add(nsNode);
 
-                foreach (var classInfo in nsGrp)
+                foreach (var classInfo in nsGrp.OrderBy(item => item.Name))
                 {
                     string fileName = $"{classInfo.Namespace}.{classInfo.Name}";
                     string partialFile = (fileCounts[fileName] > 1) ? GetPartialFilename(classInfo) : default;
