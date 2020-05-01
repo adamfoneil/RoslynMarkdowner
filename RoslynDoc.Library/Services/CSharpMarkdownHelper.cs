@@ -44,6 +44,6 @@ namespace RoslynDoc.Library.Services
                 $"{optionalStart}{extension}{paramArray}{p.OriginalTypeName} {p.Name}{optionalEnd}";
 
             return result;
-        }
+        }        
     }
 }

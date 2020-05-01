@@ -31,25 +31,30 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tvObjects = new System.Windows.Forms.TreeView();
-            this.btnAnalyzeSolution = new System.Windows.Forms.Button();
-            this.cbMSBuildInstance = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.cbAssembly = new System.Windows.Forms.ToolStripComboBox();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.btnCopy = new System.Windows.Forms.ToolStripButton();
+            this.btnAnalyzeSolution = new System.Windows.Forms.Button();
+            this.cbMSBuildInstance = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.dgvRepos = new System.Windows.Forms.DataGridView();
+            this.colRepoUrl = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBranchName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colLocalSolution = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cbRepo = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.llManageRepos = new System.Windows.Forms.LinkLabel();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.pbMain = new System.Windows.Forms.ProgressBar();
-            this.colRepoUrl = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colBranchName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colLocalSolution = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label3 = new System.Windows.Forms.Label();
             this.lblCachedInfo = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.pbMain = new System.Windows.Forms.ProgressBar();
+            this.tbMarkdown = new System.Windows.Forms.TextBox();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -62,6 +67,9 @@
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -77,6 +85,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
             this.splitContainer1.Panel2.Controls.Add(this.toolStrip2);
             this.splitContainer1.Size = new System.Drawing.Size(612, 169);
             this.splitContainer1.SplitterDistance = 204;
@@ -89,36 +98,7 @@
             this.tvObjects.Name = "tvObjects";
             this.tvObjects.Size = new System.Drawing.Size(204, 144);
             this.tvObjects.TabIndex = 0;
-            // 
-            // btnAnalyzeSolution
-            // 
-            this.btnAnalyzeSolution.Location = new System.Drawing.Point(132, 92);
-            this.btnAnalyzeSolution.Name = "btnAnalyzeSolution";
-            this.btnAnalyzeSolution.Size = new System.Drawing.Size(133, 23);
-            this.btnAnalyzeSolution.TabIndex = 4;
-            this.btnAnalyzeSolution.Text = "Analyze Solution";
-            this.btnAnalyzeSolution.UseVisualStyleBackColor = true;
-            this.btnAnalyzeSolution.Click += new System.EventHandler(this.btnAnalyzeSolution_Click);
-            // 
-            // cbMSBuildInstance
-            // 
-            this.cbMSBuildInstance.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbMSBuildInstance.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbMSBuildInstance.FormattingEnabled = true;
-            this.cbMSBuildInstance.Location = new System.Drawing.Point(132, 12);
-            this.cbMSBuildInstance.Name = "cbMSBuildInstance";
-            this.cbMSBuildInstance.Size = new System.Drawing.Size(468, 21);
-            this.cbMSBuildInstance.TabIndex = 7;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 15);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(114, 13);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "MS Build Instance:";
+            this.tvObjects.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvObjects_AfterSelect);
             // 
             // toolStrip1
             // 
@@ -157,6 +137,36 @@
             this.btnCopy.Size = new System.Drawing.Size(55, 22);
             this.btnCopy.Text = "Copy";
             // 
+            // btnAnalyzeSolution
+            // 
+            this.btnAnalyzeSolution.Location = new System.Drawing.Point(132, 92);
+            this.btnAnalyzeSolution.Name = "btnAnalyzeSolution";
+            this.btnAnalyzeSolution.Size = new System.Drawing.Size(133, 23);
+            this.btnAnalyzeSolution.TabIndex = 4;
+            this.btnAnalyzeSolution.Text = "Analyze Solution";
+            this.btnAnalyzeSolution.UseVisualStyleBackColor = true;
+            this.btnAnalyzeSolution.Click += new System.EventHandler(this.btnAnalyzeSolution_Click);
+            // 
+            // cbMSBuildInstance
+            // 
+            this.cbMSBuildInstance.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbMSBuildInstance.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbMSBuildInstance.FormattingEnabled = true;
+            this.cbMSBuildInstance.Location = new System.Drawing.Point(132, 12);
+            this.cbMSBuildInstance.Name = "cbMSBuildInstance";
+            this.cbMSBuildInstance.Size = new System.Drawing.Size(468, 21);
+            this.cbMSBuildInstance.TabIndex = 7;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 15);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(114, 13);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "MS Build Instance:";
+            // 
             // dgvRepos
             // 
             this.dgvRepos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -169,6 +179,28 @@
             this.dgvRepos.Name = "dgvRepos";
             this.dgvRepos.Size = new System.Drawing.Size(612, 80);
             this.dgvRepos.TabIndex = 9;
+            // 
+            // colRepoUrl
+            // 
+            this.colRepoUrl.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colRepoUrl.DataPropertyName = "PublicUrl";
+            this.colRepoUrl.HeaderText = "Repo Url";
+            this.colRepoUrl.Name = "colRepoUrl";
+            // 
+            // colBranchName
+            // 
+            this.colBranchName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colBranchName.DataPropertyName = "BranchName";
+            this.colBranchName.HeaderText = "Branch";
+            this.colBranchName.Name = "colBranchName";
+            this.colBranchName.Width = 72;
+            // 
+            // colLocalSolution
+            // 
+            this.colLocalSolution.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colLocalSolution.DataPropertyName = "LocalSolution";
+            this.colLocalSolution.HeaderText = "Local Solution";
+            this.colLocalSolution.Name = "colLocalSolution";
             // 
             // cbRepo
             // 
@@ -238,36 +270,14 @@
             this.panel1.Size = new System.Drawing.Size(612, 125);
             this.panel1.TabIndex = 12;
             // 
-            // pbMain
+            // lblCachedInfo
             // 
-            this.pbMain.Location = new System.Drawing.Point(275, 99);
-            this.pbMain.Name = "pbMain";
-            this.pbMain.Size = new System.Drawing.Size(100, 10);
-            this.pbMain.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
-            this.pbMain.TabIndex = 12;
-            this.pbMain.Visible = false;
-            // 
-            // colRepoUrl
-            // 
-            this.colRepoUrl.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colRepoUrl.DataPropertyName = "PublicUrl";
-            this.colRepoUrl.HeaderText = "Repo Url";
-            this.colRepoUrl.Name = "colRepoUrl";
-            // 
-            // colBranchName
-            // 
-            this.colBranchName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colBranchName.DataPropertyName = "BranchName";
-            this.colBranchName.HeaderText = "Branch";
-            this.colBranchName.Name = "colBranchName";
-            this.colBranchName.Width = 72;
-            // 
-            // colLocalSolution
-            // 
-            this.colLocalSolution.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colLocalSolution.DataPropertyName = "LocalSolution";
-            this.colLocalSolution.HeaderText = "Local Solution";
-            this.colLocalSolution.Name = "colLocalSolution";
+            this.lblCachedInfo.AutoSize = true;
+            this.lblCachedInfo.Location = new System.Drawing.Point(131, 69);
+            this.lblCachedInfo.Name = "lblCachedInfo";
+            this.lblCachedInfo.Size = new System.Drawing.Size(41, 13);
+            this.lblCachedInfo.TabIndex = 14;
+            this.lblCachedInfo.Text = "label4";
             // 
             // label3
             // 
@@ -278,14 +288,68 @@
             this.label3.TabIndex = 13;
             this.label3.Text = "Last Analyzed:";
             // 
-            // lblCachedInfo
+            // pbMain
             // 
-            this.lblCachedInfo.AutoSize = true;
-            this.lblCachedInfo.Location = new System.Drawing.Point(131, 69);
-            this.lblCachedInfo.Name = "lblCachedInfo";
-            this.lblCachedInfo.Size = new System.Drawing.Size(41, 13);
-            this.lblCachedInfo.TabIndex = 14;
-            this.lblCachedInfo.Text = "label4";
+            this.pbMain.Location = new System.Drawing.Point(275, 99);
+            this.pbMain.Name = "pbMain";
+            this.pbMain.Size = new System.Drawing.Size(100, 10);
+            this.pbMain.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.pbMain.TabIndex = 12;
+            this.pbMain.Visible = false;
+            // 
+            // tbMarkdown
+            // 
+            this.tbMarkdown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbMarkdown.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbMarkdown.Location = new System.Drawing.Point(3, 3);
+            this.tbMarkdown.Multiline = true;
+            this.tbMarkdown.Name = "tbMarkdown";
+            this.tbMarkdown.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbMarkdown.Size = new System.Drawing.Size(390, 112);
+            this.tbMarkdown.TabIndex = 1;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 25);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(404, 144);
+            this.tabControl1.TabIndex = 2;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.tbMarkdown);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(396, 118);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Markdown";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.webBrowser1);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(396, 118);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Html";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // webBrowser1
+            // 
+            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowser1.Location = new System.Drawing.Point(3, 3);
+            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser1.Name = "webBrowser1";
+            this.webBrowser1.Size = new System.Drawing.Size(390, 112);
+            this.webBrowser1.TabIndex = 0;
             // 
             // frmMain
             // 
@@ -317,6 +381,10 @@
             this.splitContainer3.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -343,6 +411,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colLocalSolution;
         private System.Windows.Forms.Label lblCachedInfo;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox tbMarkdown;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.WebBrowser webBrowser1;
     }
 }
 

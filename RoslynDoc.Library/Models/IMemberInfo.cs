@@ -1,4 +1,6 @@
-﻿namespace RoslynDoc.Library.Models
+﻿using RoslynDoc.Library.Services;
+
+namespace RoslynDoc.Library.Models
 {
 	public interface IMemberInfo
 	{
@@ -17,6 +19,8 @@
 		bool IsStatic { get; set; }
 		string Description { get; set; }
 		string Category { get; set; }
-		SourceLocation Location { get; set; }		
+		SourceLocation Location { get; set; }
+
+		string GetMarkdown(CSharpMarkdownHelper helper);
 	}
 }

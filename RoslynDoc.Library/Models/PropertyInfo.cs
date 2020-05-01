@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using RoslynDoc.Library.Services;
 
 namespace RoslynDoc.Library.Models
 {
@@ -17,5 +18,10 @@ namespace RoslynDoc.Library.Models
 		public SourceLocation TypeLocation { get; set; }
 
 		public PropertyDeclarationSyntax Node { get; set; }
+
+		public string GetMarkdown(CSharpMarkdownHelper helper)
+		{
+			return $"- {helper.TypeUrlOrName(this)} [{this.Name}]({helper.GetOnlineUrl(this.Location)})";
+		}
 	}
 }

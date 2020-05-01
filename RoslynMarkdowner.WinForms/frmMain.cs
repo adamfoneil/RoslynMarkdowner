@@ -21,6 +21,9 @@ using WinForms.Library.Extensions.ComboBoxes;
 using WinForms.Library.Extensions.ToolStrip;
 using WinForms.Library.Models;
 using RoslynMarkdowner.WinForms.Controls;
+using RoslynDoc.Library.Services;
+using System.Text;
+using Markdig;
 
 namespace RoslynMarkdowner.WinForms
 {
@@ -258,6 +261,52 @@ namespace RoslynMarkdowner.WinForms
                 _currentSolution.Classes.Where(ci => ci.AssemblyName.Equals(cbAssembly.SelectedItem as string));
 
             LoadNamespaces(classes);
+        }
+
+        private void tvObjects_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            try
+            {
+                var node = e.Node as ClassNode ?? e.Node.Parent as ClassNode;
+                if (node != null)
+                {
+                    var md = new CSharpMarkdownHelper();
+                    md.OnlinePath = _currentSolution.SourceFileBase();
+
+                    StringBuilder sb = new StringBuilder();
+
+                    if (node.ClassInfo.Properties.Any())
+                    {
+                        sb.AppendLine("# Properties");
+                        foreach (var p in node.ClassInfo.Properties) sb.AppendLine(p.GetMarkdown(md));
+                    }
+                    
+                    if (node.ClassInfo.Methods.Any())
+                    {
+                        sb.AppendLine("# Methods");
+                        foreach (var m in node.ClassInfo.Methods) sb.AppendLine(m.GetMarkdown(md));
+                    }
+
+                    tbMarkdown.Text = sb.ToString();
+                }
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var html = Markdown.ToHtml(tbMarkdown.Text);
+                webBrowser1.DocumentText = html;
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using RoslynDoc.Library.Services;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -29,6 +30,11 @@ namespace RoslynDoc.Library.Models
 		public string GetGenericArguments()
 		{
 			return string.Join(", ", Parameters.Where(p => p.IsGeneric).Select(p => p.OriginalTypeName));
+		}
+
+		public string GetMarkdown(CSharpMarkdownHelper helper)
+		{
+			return $"- {OriginalTypeName} [{Name}]({helper.GetOnlineUrl(Location)}){helper.GetGenericArguments(this)}\r\n {helper.GetMethodSignature(this)}";
 		}
 
 		public class Parameter
