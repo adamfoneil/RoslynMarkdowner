@@ -15,6 +15,11 @@ namespace RoslynMarkdowner.WinForms.Models
         {
             public string PublicUrl { get; set; }
             public string LocalSolution { get; set; }
+
+            public override string ToString()
+            {
+                return PublicUrl;
+            }
         }
 
         protected override void Initialize()

@@ -66,7 +66,6 @@ namespace RoslynMarkdowner.WinForms
             _settings.Save();
         }
 
-
         private void llSelectLocalRepo_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             OpenFileDialog dlg = new OpenFileDialog();
@@ -137,7 +136,7 @@ namespace RoslynMarkdowner.WinForms
 
         private void llManageRepos_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            splitContainer2.Panel2Collapsed = !splitContainer2.Panel2Collapsed;
+            splitContainer3.Panel1Collapsed = !splitContainer3.Panel1Collapsed;
         }
     }
 }
