@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Okta.AspNetCore;
+using RoslynDoc.Library.Services;
 using System.Collections.Generic;
 
 namespace MarkdownViewer.App

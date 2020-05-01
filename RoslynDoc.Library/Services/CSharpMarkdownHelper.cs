@@ -1,7 +1,7 @@
 ﻿using RoslynDoc.Library.Models;
 using System.Linq;
 
-namespace MarkdownViewer.App.Services
+namespace RoslynDoc.Library.Services
 {
     public class CSharpMarkdownHelper
     {

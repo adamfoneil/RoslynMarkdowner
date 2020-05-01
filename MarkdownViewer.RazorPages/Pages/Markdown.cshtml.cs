@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using RoslynDoc.Library.Models;
+using RoslynDoc.Library.Services;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
