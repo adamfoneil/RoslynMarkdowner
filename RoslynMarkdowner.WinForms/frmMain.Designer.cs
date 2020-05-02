@@ -55,6 +55,7 @@
             this.lblCachedInfo = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.pbMain = new System.Windows.Forms.ProgressBar();
+            this.btnViewOnline = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -100,7 +101,7 @@
             this.tvObjects.Name = "tvObjects";
             this.tvObjects.Size = new System.Drawing.Size(204, 144);
             this.tvObjects.TabIndex = 0;
-            this.tvObjects.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tvObjects_AfterCheck);            
+            this.tvObjects.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tvObjects_AfterCheck);
             // 
             // toolStrip1
             // 
@@ -176,7 +177,8 @@
             // 
             this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnCopy});
+            this.btnCopy,
+            this.btnViewOnline});
             this.toolStrip2.Location = new System.Drawing.Point(0, 0);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Size = new System.Drawing.Size(404, 25);
@@ -234,6 +236,7 @@
             this.dgvRepos.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvRepos.Location = new System.Drawing.Point(0, 0);
             this.dgvRepos.Name = "dgvRepos";
+            this.dgvRepos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvRepos.Size = new System.Drawing.Size(612, 80);
             this.dgvRepos.TabIndex = 9;
             // 
@@ -354,6 +357,15 @@
             this.pbMain.TabIndex = 12;
             this.pbMain.Visible = false;
             // 
+            // btnViewOnline
+            // 
+            this.btnViewOnline.Image = ((System.Drawing.Image)(resources.GetObject("btnViewOnline.Image")));
+            this.btnViewOnline.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnViewOnline.Name = "btnViewOnline";
+            this.btnViewOnline.Size = new System.Drawing.Size(90, 22);
+            this.btnViewOnline.Text = "View Online";
+            this.btnViewOnline.Click += new System.EventHandler(this.btnViewOnline_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
@@ -419,6 +431,7 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.WebBrowser webBrowser1;
+        private System.Windows.Forms.ToolStripButton btnViewOnline;
     }
 }
 

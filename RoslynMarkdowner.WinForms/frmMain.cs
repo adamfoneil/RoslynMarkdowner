@@ -18,6 +18,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WinForms.Library;
 using WinForms.Library.Extensions.ComboBoxes;
 using WinForms.Library.Extensions.ToolStrip;
 using WinForms.Library.Models;
@@ -68,6 +69,11 @@ namespace RoslynMarkdowner.WinForms
                 }
             };
 
+            bs.CurrentItemChanged += delegate (object sender, EventArgs e)
+            {
+                cbRepo.SelectedItem = (dgvRepos.DataSource as BindingSource).Current as Settings.RepoInfo;
+            };
+
             bs.DataSource = list;
             dgvRepos.DataSource = bs;
         }
@@ -95,8 +101,8 @@ namespace RoslynMarkdowner.WinForms
                 var repo = cbRepo.GetItem<Settings.RepoInfo>();
                 var instance = cbMSBuildInstance.SelectedItem as ListItem<VisualStudioInstance>;
 
-                MSBuildLocator.RegisterInstance(instance.Value);
-
+                if (!MSBuildLocator.IsRegistered) MSBuildLocator.RegisterInstance(instance.Value);
+                
                 using (var ws = MSBuildWorkspace.Create())
                 {
                     Errors.Clear();
@@ -117,7 +123,7 @@ namespace RoslynMarkdowner.WinForms
                     await JsonFile.SaveAsync(cacheFile, output);
                     UpdateCacheAge(cacheFile);
                     await LoadSolutionInfo(cacheFile);
-                }
+                }                
             }
             catch (Exception exc)
             {
@@ -297,6 +303,18 @@ namespace RoslynMarkdowner.WinForms
             {
                 sb.AppendLine(heading);
                 foreach (var memberNode in propertyNodes) sb.AppendLine(memberNode.MemberInfo.GetMarkdown(md));
+            }
+        }
+
+        private void btnViewOnline_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                FileSystem.OpenDocument(_currentSolution.RepoUrl);
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
             }
         }
     }

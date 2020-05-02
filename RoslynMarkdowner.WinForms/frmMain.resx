@@ -136,6 +136,17 @@
         6XOpr7FmNQAAAABJRU5ErkJggg==
 </value>
   </data>
+  <data name="btnViewOnline.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAEvSURBVDhPjdNPK0RRGMfxi4SFnVJK3oA/2SllZeddyDth
+        PWVhSLZW8g6mCRsLpVgQK1YWtmr85/s9PNOZ5o7rV5+655lzzu0890xRknns4BYvv26wjTn0zAj28PWH
+        T7j5MDri4hOULSpzhI5N4s2nWMMFXnGHe7zhHKs4g3M9Uopnjp03LZABDP08pvhszdThXI+TeuKZYoOa
+        hYr4kpi/ZcFuO/jAuIWKTMC3u+bagp/JwYODf+YRrnl2YLMcPKHPQkXshQvbG8QRtGShIsuI+ekIeROv
+        MIlemYK3MuanJvoZbco6DtHCAaYRcU78FotdM4uUXbxjAftoYBSRMcTC4H1ox2t5jEusYBF5BpEvbqLr
+        /2DBfsQ3zuNNtOZd8dz5Le3KDOxHnn5sIO8LKYpv/rxtCuWUFMkAAAAASUVORK5CYII=
+</value>
+  </data>
   <metadata name="colRepoUrl.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
