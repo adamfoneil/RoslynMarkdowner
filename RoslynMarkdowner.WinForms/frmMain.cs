@@ -194,14 +194,14 @@ namespace RoslynMarkdowner.WinForms
                 foreach (var classInfo in nsGrp.OrderBy(item => item.Name))
                 {
                     string fileName = $"{classInfo.Namespace}.{classInfo.Name}";
-                    string partialFile = (fileCounts[fileName] > 1) ? GetPartialFilename(classInfo) : default;
-                    var classNode = new ClassNode(classInfo, partialFile);
+                    var partialLocation = (fileCounts[fileName] > 1) ? GetPartialLocation(classInfo) : default;
+                    var classNode = new ClassNode(classInfo, partialLocation);
                     nsNode.Nodes.Add(classNode);
                 }
             }
         }
 
-        private string GetPartialFilename(ClassInfo classInfo)
+        private SourceLocation GetPartialLocation(ClassInfo classInfo)
         {
             var properties = classInfo.Properties.OfType<IMemberInfo>();
             var methods = classInfo.Methods.OfType<IMemberInfo>();
@@ -209,9 +209,7 @@ namespace RoslynMarkdowner.WinForms
 
             if (!allMembers.Any()) return default;
 
-            string fileName = allMembers.First().Location.Filename;
-
-            return Path.GetFileName(fileName);
+            return allMembers.First().Location;
         }
 
         private void AssemblySelected(object sender, EventArgs e)
@@ -276,7 +274,8 @@ namespace RoslynMarkdowner.WinForms
                 if (classNode != null && classNode.Nodes.OfType<MemberNode>().Any(nd => nd.Checked))
                 {
                     sb.AppendLine();
-                    sb.AppendLine($"# {classNode.ClassInfo.Namespace}.{classNode.ClassInfo.Name}");
+                    sb.Append($"# {classNode.ClassInfo.Namespace}.{classNode.ClassInfo.Name}");
+                    sb.Append($" [{classNode.GetLinkText()}]({classNode.GetLinkHref(md)})\r\n");
 
                     var propertyNodes = classNode.Nodes.OfType<MemberNode>().Where(nd => nd.Checked && nd.Type == MemberType.Property);
                     if (propertyNodes.Any())

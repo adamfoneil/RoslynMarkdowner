@@ -10,9 +10,13 @@ namespace RoslynDoc.Library.Services
         /// </summary>
         public string OnlinePath { get; set; }
 
-        public string GetOnlineUrl(SourceLocation location)
+        public string GetOnlineUrl(SourceLocation location, bool withLineNumber = true)
         {
-            return OnlinePath + location.Filename.Replace("\\", "/") + "#L" + location.LineNumber;
+            string result = OnlinePath + location.Filename.Replace("\\", "/");
+                
+            if (withLineNumber) result += "#L" + location.LineNumber;
+
+            return result;
         }
 
         public string TypeUrlOrName(IMemberInfo member)
