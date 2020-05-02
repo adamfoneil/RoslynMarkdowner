@@ -6,6 +6,10 @@ The Roslyn heavy lift was done by [Andriy Rebrin](https://www.upwork.com/o/profi
 
 You can see sample output of this in my Postulate Wiki pages for [SQL Server](https://github.com/adamosoftware/Postulate.Lite/wiki/SQL-Server-CRUD-Methods) and [MySQL](https://github.com/adamosoftware/Postulate.Lite/wiki/MySQL-CRUD-Methods). This gives me a way to document public methods with links to source code and types that is very easy to keep updated as the source evolves.
 
+## WinForms app
+
+![img](https://adamosoftware.blob.core.windows.net/images/markdowner-winform.png)
+
 ## Background
 
 I like to build class libraries (i.e. [Postulate.Lite](https://github.com/adamosoftware/Postulate.Lite) and [TestDataGen](https://github.com/adamosoftware/TestDataGen)), and I like to document them with links to source code line numbers and relevant top-level method info so that people have at least a chance of finding them useful for something. The problem is documentation is pretty hard to build manually much less keep updated -- especially as line numbers shift as a project evolves. There are lots of .NET documentation generators out there, but they don't do quite what I want. I've found that they build content that's hard to reuse elsewhere as well as being too voluminous, not lending itself to quick scanning -- something that would fit on a single page readme.
