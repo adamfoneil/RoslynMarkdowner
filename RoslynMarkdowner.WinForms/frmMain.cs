@@ -275,20 +275,9 @@ namespace RoslynMarkdowner.WinForms
                     sb.AppendLine();
                     sb.Append($"# {classNode.ClassInfo.Namespace}.{classNode.ClassInfo.Name}");
                     sb.Append($" [{classNode.GetLinkText()}]({classNode.GetLinkHref(md)})\r\n");
-
-                    var propertyNodes = classNode.Nodes.OfType<MemberNode>().Where(nd => nd.Checked && nd.Type == MemberType.Property);
-                    if (propertyNodes.Any())
-                    {
-                        sb.AppendLine("## Properties");
-                        foreach (var memberNode in propertyNodes) sb.AppendLine(memberNode.MemberInfo.GetMarkdown(md));
-                    }
-
-                    var methodNodes = classNode.Nodes.OfType<MemberNode>().Where(nd => nd.Checked && nd.Type == MemberType.Method);
-                    if (methodNodes.Any())
-                    {
-                        sb.AppendLine("## Methods");
-                        foreach (var memberNode in methodNodes) sb.AppendLine(memberNode.MemberInfo.GetMarkdown(md));
-                    }
+                    
+                    WriteMembers(sb, md, classNode, MemberType.Property, "## Properties");
+                    WriteMembers(sb, md, classNode, MemberType.Method, "## Methods");
                 }
 
                 foreach (TreeNode child in node.Nodes) writeMarkdown(child);
@@ -299,6 +288,16 @@ namespace RoslynMarkdowner.WinForms
             tbMarkdown.Text = sb.ToString();
             var html = Markdown.ToHtml(tbMarkdown.Text);
             webBrowser1.DocumentText = html;
+        }
+
+        private static void WriteMembers(StringBuilder sb, CSharpMarkdownHelper md, ClassNode classNode, MemberType type, string heading)
+        {
+            var propertyNodes = classNode.Nodes.OfType<MemberNode>().Where(nd => nd.Checked && nd.Type == type);
+            if (propertyNodes.Any())
+            {
+                sb.AppendLine(heading);
+                foreach (var memberNode in propertyNodes) sb.AppendLine(memberNode.MemberInfo.GetMarkdown(md));
+            }
         }
     }
 }
