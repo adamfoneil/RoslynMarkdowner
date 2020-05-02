@@ -14,6 +14,8 @@ namespace RoslynMarkdowner.WinForms.Models
 
         public List<RepoInfo> Repositories { get; set; }
 
+        public string VSExePath { get; set; }
+
         public class RepoInfo
         {
             public string PublicUrl { get; set; }

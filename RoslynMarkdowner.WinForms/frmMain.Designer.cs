@@ -32,6 +32,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tvObjects = new System.Windows.Forms.TreeView();
+            this.cmSource = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.openSolutionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.cbAssembly = new System.Windows.Forms.ToolStripComboBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -41,6 +43,7 @@
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.btnCopy = new System.Windows.Forms.ToolStripButton();
+            this.btnViewOnline = new System.Windows.Forms.ToolStripButton();
             this.btnAnalyzeSolution = new System.Windows.Forms.Button();
             this.cbMSBuildInstance = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -56,13 +59,12 @@
             this.lblCachedInfo = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.pbMain = new System.Windows.Forms.ProgressBar();
-            this.btnViewOnline = new System.Windows.Forms.ToolStripButton();
-            this.cmSource = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.openSolutionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.cmSource.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -74,7 +76,6 @@
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.cmSource.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -93,7 +94,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
             this.splitContainer1.Panel2.Controls.Add(this.toolStrip2);
             this.splitContainer1.Size = new System.Drawing.Size(612, 169);
-            this.splitContainer1.SplitterDistance = 204;
+            this.splitContainer1.SplitterDistance = 244;
             this.splitContainer1.TabIndex = 5;
             // 
             // tvObjects
@@ -104,19 +105,34 @@
             this.tvObjects.HideSelection = false;
             this.tvObjects.Location = new System.Drawing.Point(0, 25);
             this.tvObjects.Name = "tvObjects";
-            this.tvObjects.Size = new System.Drawing.Size(204, 144);
+            this.tvObjects.Size = new System.Drawing.Size(244, 144);
             this.tvObjects.TabIndex = 0;
             this.tvObjects.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tvObjects_AfterCheck);
             this.tvObjects.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvObjects_NodeMouseClick);
+            // 
+            // cmSource
+            // 
+            this.cmSource.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openSolutionToolStripMenuItem});
+            this.cmSource.Name = "cmSource";
+            this.cmSource.Size = new System.Drawing.Size(155, 26);
+            // 
+            // openSolutionToolStripMenuItem
+            // 
+            this.openSolutionToolStripMenuItem.Name = "openSolutionToolStripMenuItem";
+            this.openSolutionToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.openSolutionToolStripMenuItem.Text = "Edit Source File";
+            this.openSolutionToolStripMenuItem.Click += new System.EventHandler(this.openSolutionToolStripMenuItem_Click);
             // 
             // toolStrip1
             // 
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel1,
             this.cbAssembly});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(204, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(244, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -134,7 +150,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 25);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(404, 144);
+            this.tabControl1.Size = new System.Drawing.Size(364, 144);
             this.tabControl1.TabIndex = 2;
             // 
             // tabPage1
@@ -143,7 +159,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(396, 118);
+            this.tabPage1.Size = new System.Drawing.Size(356, 118);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Markdown";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -156,7 +172,7 @@
             this.tbMarkdown.Multiline = true;
             this.tbMarkdown.Name = "tbMarkdown";
             this.tbMarkdown.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbMarkdown.Size = new System.Drawing.Size(390, 112);
+            this.tbMarkdown.Size = new System.Drawing.Size(350, 112);
             this.tbMarkdown.TabIndex = 1;
             // 
             // tabPage2
@@ -187,7 +203,7 @@
             this.btnViewOnline});
             this.toolStrip2.Location = new System.Drawing.Point(0, 0);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(404, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(364, 25);
             this.toolStrip2.TabIndex = 0;
             this.toolStrip2.Text = "toolStrip2";
             // 
@@ -200,6 +216,15 @@
             this.btnCopy.Size = new System.Drawing.Size(55, 22);
             this.btnCopy.Text = "Copy";
             this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
+            // 
+            // btnViewOnline
+            // 
+            this.btnViewOnline.Image = ((System.Drawing.Image)(resources.GetObject("btnViewOnline.Image")));
+            this.btnViewOnline.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnViewOnline.Name = "btnViewOnline";
+            this.btnViewOnline.Size = new System.Drawing.Size(90, 22);
+            this.btnViewOnline.Text = "View Online";
+            this.btnViewOnline.Click += new System.EventHandler(this.btnViewOnline_Click);
             // 
             // btnAnalyzeSolution
             // 
@@ -363,28 +388,11 @@
             this.pbMain.TabIndex = 12;
             this.pbMain.Visible = false;
             // 
-            // btnViewOnline
+            // toolStripLabel1
             // 
-            this.btnViewOnline.Image = ((System.Drawing.Image)(resources.GetObject("btnViewOnline.Image")));
-            this.btnViewOnline.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnViewOnline.Name = "btnViewOnline";
-            this.btnViewOnline.Size = new System.Drawing.Size(90, 22);
-            this.btnViewOnline.Text = "View Online";
-            this.btnViewOnline.Click += new System.EventHandler(this.btnViewOnline_Click);
-            // 
-            // cmSource
-            // 
-            this.cmSource.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openSolutionToolStripMenuItem});
-            this.cmSource.Name = "cmSource";
-            this.cmSource.Size = new System.Drawing.Size(181, 48);
-            // 
-            // openSolutionToolStripMenuItem
-            // 
-            this.openSolutionToolStripMenuItem.Name = "openSolutionToolStripMenuItem";
-            this.openSolutionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.openSolutionToolStripMenuItem.Text = "Open Solution";
-            this.openSolutionToolStripMenuItem.Click += new System.EventHandler(this.openSolutionToolStripMenuItem_Click);
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(61, 22);
+            this.toolStripLabel1.Text = "Assembly:";
             // 
             // frmMain
             // 
@@ -405,6 +413,7 @@
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.cmSource.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
@@ -420,7 +429,6 @@
             this.splitContainer3.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.cmSource.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -455,6 +463,7 @@
         private System.Windows.Forms.ToolStripButton btnViewOnline;
         private System.Windows.Forms.ContextMenuStrip cmSource;
         private System.Windows.Forms.ToolStripMenuItem openSolutionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
     }
 }
 

@@ -13,6 +13,7 @@ using RoslynMarkdowner.WinForms.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -29,6 +30,7 @@ namespace RoslynMarkdowner.WinForms
     {
         private Settings _settings;
         private SolutionInfo _currentSolution;
+        private Settings.RepoInfo _currentRepo;
         private TreeNode _currentNode;
 
         public frmMain()
@@ -71,7 +73,7 @@ namespace RoslynMarkdowner.WinForms
             };
 
             bs.CurrentItemChanged += delegate (object sender, EventArgs e)
-            {
+            {                
                 cbRepo.SelectedItem = (dgvRepos.DataSource as BindingSource).Current as Settings.RepoInfo;
             };
 
@@ -146,6 +148,8 @@ namespace RoslynMarkdowner.WinForms
             try
             {
                 var repo = cbRepo.GetItem<Settings.RepoInfo>();
+                _currentRepo = repo;
+
                 lblCachedInfo.Visible = repo != null;
 
                 if (repo != null)
@@ -328,12 +332,58 @@ namespace RoslynMarkdowner.WinForms
         {
             try
             {
+                ClassNode findClass(TreeNode node)
+                {
+                    if (node == null) return null;
+                    ClassNode result = node as ClassNode;
+                    if (result != null) return result;
+                    return findClass(node.Parent);
+                };
 
+                if (GetVisualStudioExe(out string exePath))
+                {                    
+                    var classNode = findClass(_currentNode);
+
+                    string args = " /edit ";
+                    if (classNode != null)
+                    {
+                        string sourceFile = Path.Combine(Path.GetDirectoryName(_currentRepo.LocalSolution), classNode.ClassInfo.Location.Filename);
+                        args += sourceFile;
+                    }
+
+                    Process.Start(exePath, args);
+                }
+                else
+                {
+                    MessageBox.Show("Visual Studio path not set.");
+                }
             }
             catch (Exception exc)
             {
                 MessageBox.Show(exc.Message);
             }
+        }
+
+        private bool GetVisualStudioExe(out string exePath)
+        {
+            if (string.IsNullOrEmpty(_settings.VSExePath))
+            {
+                OpenFileDialog dlg = new OpenFileDialog();
+                dlg.FileName = "devenv.exe";
+                dlg.Filter = "Executable files|*.exe|All Files|*.*";
+                if (dlg.ShowDialog() == DialogResult.OK && Path.GetFileName(dlg.FileName).ToLower().Equals("devenv.exe"))
+                {
+                    _settings.VSExePath = dlg.FileName;
+                }
+                else
+                {
+                    exePath = null;
+                    return false;
+                }
+            }
+
+            exePath = _settings.VSExePath;
+            return true;
         }
     }
 }
