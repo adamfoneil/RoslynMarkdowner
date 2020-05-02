@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tvObjects = new System.Windows.Forms.TreeView();
@@ -56,6 +57,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.pbMain = new System.Windows.Forms.ProgressBar();
             this.btnViewOnline = new System.Windows.Forms.ToolStripButton();
+            this.cmSource = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.openSolutionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -71,6 +74,7 @@
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.cmSource.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -95,6 +99,7 @@
             // tvObjects
             // 
             this.tvObjects.CheckBoxes = true;
+            this.tvObjects.ContextMenuStrip = this.cmSource;
             this.tvObjects.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvObjects.HideSelection = false;
             this.tvObjects.Location = new System.Drawing.Point(0, 25);
@@ -102,6 +107,7 @@
             this.tvObjects.Size = new System.Drawing.Size(204, 144);
             this.tvObjects.TabIndex = 0;
             this.tvObjects.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tvObjects_AfterCheck);
+            this.tvObjects.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvObjects_NodeMouseClick);
             // 
             // toolStrip1
             // 
@@ -366,6 +372,20 @@
             this.btnViewOnline.Text = "View Online";
             this.btnViewOnline.Click += new System.EventHandler(this.btnViewOnline_Click);
             // 
+            // cmSource
+            // 
+            this.cmSource.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openSolutionToolStripMenuItem});
+            this.cmSource.Name = "cmSource";
+            this.cmSource.Size = new System.Drawing.Size(181, 48);
+            // 
+            // openSolutionToolStripMenuItem
+            // 
+            this.openSolutionToolStripMenuItem.Name = "openSolutionToolStripMenuItem";
+            this.openSolutionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openSolutionToolStripMenuItem.Text = "Open Solution";
+            this.openSolutionToolStripMenuItem.Click += new System.EventHandler(this.openSolutionToolStripMenuItem_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
@@ -400,6 +420,7 @@
             this.splitContainer3.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.cmSource.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -432,6 +453,8 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.WebBrowser webBrowser1;
         private System.Windows.Forms.ToolStripButton btnViewOnline;
+        private System.Windows.Forms.ContextMenuStrip cmSource;
+        private System.Windows.Forms.ToolStripMenuItem openSolutionToolStripMenuItem;
     }
 }
 

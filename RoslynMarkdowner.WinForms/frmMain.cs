@@ -29,6 +29,7 @@ namespace RoslynMarkdowner.WinForms
     {
         private Settings _settings;
         private SolutionInfo _currentSolution;
+        private TreeNode _currentNode;
 
         public frmMain()
         {
@@ -311,6 +312,23 @@ namespace RoslynMarkdowner.WinForms
             try
             {
                 FileSystem.OpenDocument(_currentSolution.RepoUrl);
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
+        }
+
+        private void tvObjects_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right) _currentNode = e.Node;
+        }
+
+        private void openSolutionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
             }
             catch (Exception exc)
             {
