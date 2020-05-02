@@ -223,41 +223,6 @@ namespace RoslynMarkdowner.WinForms
             LoadNamespaces(classes);
         }
 
-        private void tvObjects_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            try
-            {
-                var node = e.Node as ClassNode ?? e.Node.Parent as ClassNode;
-                if (node != null)
-                {
-                    var md = new CSharpMarkdownHelper();
-                    md.OnlinePath = _currentSolution.SourceFileBase();
-
-                    StringBuilder sb = new StringBuilder();
-
-                    if (node.ClassInfo.Properties.Any())
-                    {
-                        sb.AppendLine("# Properties");
-                        foreach (var p in node.ClassInfo.Properties) sb.AppendLine(p.GetMarkdown(md));
-                    }
-                    
-                    if (node.ClassInfo.Methods.Any())
-                    {
-                        sb.AppendLine("# Methods");
-                        foreach (var m in node.ClassInfo.Methods) sb.AppendLine(m.GetMarkdown(md));
-                    }
-
-                    tbMarkdown.Text = sb.ToString();
-                    var html = Markdown.ToHtml(tbMarkdown.Text);
-                    webBrowser1.DocumentText = html;
-                }
-            }
-            catch (Exception exc)
-            {
-                MessageBox.Show(exc.Message);
-            }
-        }
-
         private void btnCopy_Click(object sender, EventArgs e)
         {
             try
@@ -274,6 +239,68 @@ namespace RoslynMarkdowner.WinForms
         private void cbMSBuildInstance_SelectedIndexChanged(object sender, EventArgs e)
         {
             _settings.VSInstance = cbMSBuildInstance.SelectedIndex;
+        }
+
+        private void tvObjects_AfterCheck(object sender, TreeViewEventArgs e)
+        {
+            try
+            {
+                void checkChildren(TreeNode node)
+                {
+                    foreach (TreeNode child in node.Nodes)
+                    {
+                        child.Checked = node.Checked;
+                        checkChildren(child);
+                    }                    
+                }
+
+                checkChildren(e.Node);
+
+                UpdateMarkdown();
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
+        }
+
+        private void UpdateMarkdown()
+        {
+            StringBuilder sb = new StringBuilder();
+            var md = new CSharpMarkdownHelper();
+            md.OnlinePath = _currentSolution.SourceFileBase();
+
+            void writeMarkdown(TreeNode node)
+            {
+                var classNode = node as ClassNode;
+                if (classNode != null && classNode.Nodes.OfType<MemberNode>().Any(nd => nd.Checked))
+                {
+                    sb.AppendLine();
+                    sb.AppendLine($"# {classNode.ClassInfo.Namespace}.{classNode.ClassInfo.Name}");
+
+                    var propertyNodes = classNode.Nodes.OfType<MemberNode>().Where(nd => nd.Checked && nd.Type == MemberType.Property);
+                    if (propertyNodes.Any())
+                    {
+                        sb.AppendLine("## Properties");
+                        foreach (var memberNode in propertyNodes) sb.AppendLine(memberNode.MemberInfo.GetMarkdown(md));
+                    }
+
+                    var methodNodes = classNode.Nodes.OfType<MemberNode>().Where(nd => nd.Checked && nd.Type == MemberType.Method);
+                    if (methodNodes.Any())
+                    {
+                        sb.AppendLine("## Methods");
+                        foreach (var memberNode in methodNodes) sb.AppendLine(memberNode.MemberInfo.GetMarkdown(md));
+                    }
+                }
+
+                foreach (TreeNode child in node.Nodes) writeMarkdown(child);
+            }
+
+            foreach (TreeNode node in tvObjects.Nodes) writeMarkdown(node);
+
+            tbMarkdown.Text = sb.ToString();
+            var html = Markdown.ToHtml(tbMarkdown.Text);
+            webBrowser1.DocumentText = html;
         }
     }
 }

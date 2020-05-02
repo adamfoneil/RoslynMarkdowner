@@ -93,13 +93,14 @@
             // 
             // tvObjects
             // 
+            this.tvObjects.CheckBoxes = true;
             this.tvObjects.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvObjects.HideSelection = false;
             this.tvObjects.Location = new System.Drawing.Point(0, 25);
             this.tvObjects.Name = "tvObjects";
             this.tvObjects.Size = new System.Drawing.Size(204, 144);
             this.tvObjects.TabIndex = 0;
-            this.tvObjects.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvObjects_AfterSelect);
+            this.tvObjects.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tvObjects_AfterCheck);            
             // 
             // toolStrip1
             // 
