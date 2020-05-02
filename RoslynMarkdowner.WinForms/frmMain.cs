@@ -43,7 +43,7 @@ namespace RoslynMarkdowner.WinForms
             _settings.Position?.Apply(this);
 
             FillRepoList(_settings.Repositories);
-         
+
             cbMSBuildInstance.Fill(GetMSBuildInstances());
             cbMSBuildInstance.SelectedIndex = _settings.VSInstance;
 
@@ -56,7 +56,7 @@ namespace RoslynMarkdowner.WinForms
         {
             var list = new BindingList<Settings.RepoInfo>();
             foreach (var item in repositories) list.Add(item);
-            
+
             var bs = new BindingSource();
             bs.ListChanged += delegate (object sender, ListChangedEventArgs e)
             {
@@ -167,7 +167,7 @@ namespace RoslynMarkdowner.WinForms
         }
 
         private async Task LoadSolutionInfo(string fileName)
-        {            
+        {
             _currentSolution = await JsonFile.LoadAsync<SolutionInfo>(fileName);
             var assemblies = _currentSolution.Classes.Select(c => c.AssemblyName).GroupBy(s => s).Select(grp => grp.Key).ToList();
             assemblies.Insert(0, "All Assemblies");
@@ -231,7 +231,6 @@ namespace RoslynMarkdowner.WinForms
             {
                 MessageBox.Show(exc.Message);
             }
-            
         }
 
         private void cbMSBuildInstance_SelectedIndexChanged(object sender, EventArgs e)
@@ -249,7 +248,7 @@ namespace RoslynMarkdowner.WinForms
                     {
                         child.Checked = node.Checked;
                         checkChildren(child);
-                    }                    
+                    }
                 }
 
                 checkChildren(e.Node);

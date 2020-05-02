@@ -29,7 +29,7 @@ namespace RoslynMarkdowner.WinForms.Controls
         public string GetLinkText() => (PartialLocation == null) ?
             Path.GetFileName(ClassInfo.Location.Filename) :
             Path.GetFileName(PartialLocation.Filename);
-        
+
         public static string NodeText(ClassInfo classInfo, SourceLocation partialLocation)
         {
             string result = classInfo.Name;
