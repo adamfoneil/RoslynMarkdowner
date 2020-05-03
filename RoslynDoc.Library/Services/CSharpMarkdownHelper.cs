@@ -1,4 +1,5 @@
 ﻿using RoslynDoc.Library.Models;
+using System;
 using System.Linq;
 
 namespace RoslynDoc.Library.Services
@@ -21,14 +22,26 @@ namespace RoslynDoc.Library.Services
 
         public string TypeUrlOrName(IMemberInfo member)
         {
-            return (member.TypeLocation != null) ?
+            string result = (member.TypeLocation != null) ?
                 $"[{member.TypeName}]({GetOnlineUrl(member.TypeLocation)})" :
                 member.OriginalTypeName;
+
+            return EscapeBrackets(result);
         }
 
         public string GetMethodSignature(MethodInfo method)
         {
             return "(" + string.Join(", ", method.Parameters.Select(p => ArgText(p))) + ")";
+        }
+
+        internal string EscapeBrackets(string identifier)
+        {
+            string result = identifier;
+
+            result = result.Replace("<", @"\<");
+            result = result.Replace(">", @"\>");
+
+            return result;
         }
 
         public string GetGenericArguments(MethodInfo method)

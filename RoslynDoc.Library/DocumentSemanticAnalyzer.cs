@@ -42,6 +42,13 @@ namespace RoslynDoc.Library
 			info.CanWrite = symbol.IsReadOnly;
 			info.TypeName = symbol.Type.Name;
 			info.TypeLocation = ToModelLocation(symbol.Type.Locations);
+
+			if (info.TypeLocation == null)
+			{
+				var elementType = (symbol.Type as IArrayTypeSymbol)?.ElementType;
+				if (elementType != null) info.TypeLocation = ToModelLocation(elementType.Locations);
+				if (string.IsNullOrEmpty(info.TypeName) && info.TypeLocation != null) info.TypeName = elementType.Name + "[]";
+			}
 		}
 
 		private static void AnalyzeMethod(SemanticModel model, MethodInfo info)
