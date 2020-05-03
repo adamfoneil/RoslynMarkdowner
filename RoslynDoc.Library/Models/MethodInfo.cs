@@ -34,7 +34,7 @@ namespace RoslynDoc.Library.Models
 
 		public string GetMarkdown(CSharpMarkdownHelper helper)
 		{
-			return $"- {helper.EscapeBrackets(OriginalTypeName)} [{Name}]({helper.GetOnlineUrl(Location)}){helper.GetGenericArguments(this)}\r\n {helper.GetMethodSignature(this)}";
+			return $"- {helper.TypeUrlOrName(this)} [{Name}]({helper.GetOnlineUrl(Location)}){helper.GetGenericArguments(this)}\r\n {helper.GetMethodSignature(this)}";
 		}
 
 		public class Parameter
