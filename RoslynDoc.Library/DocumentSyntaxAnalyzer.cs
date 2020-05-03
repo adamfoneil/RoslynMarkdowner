@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using RoslynDoc.Library.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -28,7 +29,7 @@ namespace RoslynDoc.Library
 		{
 			var result = new ClassInfo();
 
-			result.Name = GetName(node.Identifier);
+			result.Name = GetFullName(node);
 			result.Namespace = GetNamespace(node);
 			result.Description = GetSummary(node);
 
@@ -43,6 +44,24 @@ namespace RoslynDoc.Library
 				.ToList();
 
 			result.Node = node;
+
+			return result;
+		}
+
+		private static string GetFullName(ClassDeclarationSyntax node)
+		{
+			string result = node.Identifier.Text;
+
+			SyntaxNode parent = node.Parent;
+			while (true)
+			{
+				if (parent == null) break;
+				var parentClass = parent as ClassDeclarationSyntax;
+				if (parentClass == null) break;
+
+				result = parentClass.Identifier.Text + "." + result;
+				parent = parentClass.Parent;
+			}
 
 			return result;
 		}
