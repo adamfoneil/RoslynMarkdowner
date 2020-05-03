@@ -311,18 +311,6 @@ namespace RoslynMarkdowner.WinForms
             }
         }
 
-        private void btnViewOnline_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                FileSystem.OpenDocument(_currentSolution.RepoUrl);
-            }
-            catch (Exception exc)
-            {
-                MessageBox.Show(exc.Message);
-            }
-        }
-
         private void tvObjects_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Button == MouseButtons.Right) _currentNode = e.Node;
@@ -384,6 +372,18 @@ namespace RoslynMarkdowner.WinForms
 
             exePath = _settings.VSExePath;
             return true;
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try
+            {
+                FileSystem.OpenDocument(_currentSolution.RepoUrl);
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
         }
     }
 }

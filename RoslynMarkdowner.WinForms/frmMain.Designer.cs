@@ -35,6 +35,7 @@
             this.cmSource = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openSolutionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.cbAssembly = new System.Windows.Forms.ToolStripComboBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -43,7 +44,6 @@
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.btnCopy = new System.Windows.Forms.ToolStripButton();
-            this.btnViewOnline = new System.Windows.Forms.ToolStripButton();
             this.btnAnalyzeSolution = new System.Windows.Forms.Button();
             this.cbMSBuildInstance = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -56,10 +56,10 @@
             this.llManageRepos = new System.Windows.Forms.LinkLabel();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.lblCachedInfo = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.pbMain = new System.Windows.Forms.ProgressBar();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -136,6 +136,12 @@
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(61, 22);
+            this.toolStripLabel1.Text = "Assembly:";
+            // 
             // cbAssembly
             // 
             this.cbAssembly.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -181,7 +187,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(396, 118);
+            this.tabPage2.Size = new System.Drawing.Size(356, 118);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Html";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -192,15 +198,14 @@
             this.webBrowser1.Location = new System.Drawing.Point(3, 3);
             this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(390, 112);
+            this.webBrowser1.Size = new System.Drawing.Size(350, 112);
             this.webBrowser1.TabIndex = 0;
             // 
             // toolStrip2
             // 
             this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnCopy,
-            this.btnViewOnline});
+            this.btnCopy});
             this.toolStrip2.Location = new System.Drawing.Point(0, 0);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Size = new System.Drawing.Size(364, 25);
@@ -216,15 +221,6 @@
             this.btnCopy.Size = new System.Drawing.Size(55, 22);
             this.btnCopy.Text = "Copy";
             this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
-            // 
-            // btnViewOnline
-            // 
-            this.btnViewOnline.Image = ((System.Drawing.Image)(resources.GetObject("btnViewOnline.Image")));
-            this.btnViewOnline.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnViewOnline.Name = "btnViewOnline";
-            this.btnViewOnline.Size = new System.Drawing.Size(90, 22);
-            this.btnViewOnline.Text = "View Online";
-            this.btnViewOnline.Click += new System.EventHandler(this.btnViewOnline_Click);
             // 
             // btnAnalyzeSolution
             // 
@@ -301,7 +297,7 @@
             this.cbRepo.FormattingEnabled = true;
             this.cbRepo.Location = new System.Drawing.Point(132, 39);
             this.cbRepo.Name = "cbRepo";
-            this.cbRepo.Size = new System.Drawing.Size(411, 21);
+            this.cbRepo.Size = new System.Drawing.Size(331, 21);
             this.cbRepo.TabIndex = 9;
             this.cbRepo.SelectedIndexChanged += new System.EventHandler(this.cbRepo_SelectedIndexChanged);
             // 
@@ -318,7 +314,7 @@
             // 
             this.llManageRepos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.llManageRepos.AutoSize = true;
-            this.llManageRepos.Location = new System.Drawing.Point(549, 42);
+            this.llManageRepos.Location = new System.Drawing.Point(469, 42);
             this.llManageRepos.Name = "llManageRepos";
             this.llManageRepos.Size = new System.Drawing.Size(51, 13);
             this.llManageRepos.TabIndex = 11;
@@ -346,6 +342,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.linkLabel1);
             this.panel1.Controls.Add(this.lblCachedInfo);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.pbMain);
@@ -360,6 +357,18 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(612, 125);
             this.panel1.TabIndex = 12;
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(526, 42);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(74, 13);
+            this.linkLabel1.TabIndex = 15;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "View Online";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // lblCachedInfo
             // 
@@ -387,12 +396,6 @@
             this.pbMain.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.pbMain.TabIndex = 12;
             this.pbMain.Visible = false;
-            // 
-            // toolStripLabel1
-            // 
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(61, 22);
-            this.toolStripLabel1.Text = "Assembly:";
             // 
             // frmMain
             // 
@@ -460,10 +463,10 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.WebBrowser webBrowser1;
-        private System.Windows.Forms.ToolStripButton btnViewOnline;
         private System.Windows.Forms.ContextMenuStrip cmSource;
         private System.Windows.Forms.ToolStripMenuItem openSolutionToolStripMenuItem;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.LinkLabel linkLabel1;
     }
 }
 
