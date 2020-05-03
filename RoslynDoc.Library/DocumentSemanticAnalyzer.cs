@@ -42,10 +42,14 @@ namespace RoslynDoc.Library
 			info.CanWrite = symbol.IsReadOnly;
 			info.TypeName = symbol.Type.Name;
 			info.TypeLocation = ToModelLocation(symbol.Type.Locations);
+			SetArrayTypeLocation(info, symbol.Type);
+		}
 
+		private static void SetArrayTypeLocation(IMemberInfo info, ITypeSymbol typeSymbol)
+		{
 			if (info.TypeLocation == null)
 			{
-				var elementType = (symbol.Type as IArrayTypeSymbol)?.ElementType;
+				var elementType = (typeSymbol as IArrayTypeSymbol)?.ElementType;
 				if (elementType != null) info.TypeLocation = ToModelLocation(elementType.Locations);
 				if (string.IsNullOrEmpty(info.TypeName) && info.TypeLocation != null) info.TypeName = elementType.Name + "[]";
 			}
@@ -60,6 +64,8 @@ namespace RoslynDoc.Library
 			info.IsStatic = symbol.IsStatic;
 			info.TypeName = symbol.ReturnType.Name;
 			info.TypeLocation = ToModelLocation(symbol.ReturnType.Locations);
+
+			SetArrayTypeLocation(info, symbol.ReturnType);
 
 			foreach (var parameterInfo in info.Parameters)
 				AnalyzeParameter(model, parameterInfo);
