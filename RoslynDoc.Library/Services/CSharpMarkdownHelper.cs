@@ -23,7 +23,7 @@ namespace RoslynDoc.Library.Services
         {
             return (member.TypeLocation != null) ?
                 $"[{member.TypeName}]({GetOnlineUrl(member.TypeLocation)})" :
-                member.TypeName;
+                member.OriginalTypeName;
         }
 
         public string GetMethodSignature(MethodInfo method)
