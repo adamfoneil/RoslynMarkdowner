@@ -280,3 +280,4 @@ __pycache__/
 /MarkdownViewer.App/wwwroot/data/SolutionMetadata.json
 /MarkdownViewer.App/Config/okta.json
 /MarkdownViewer.App/Config/storage.json
+/RoslynMarkdowner.WinForms/AzDeploy.json
