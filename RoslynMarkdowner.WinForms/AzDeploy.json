@@ -1,0 +1,13 @@
+{
+  "versionSourceFile": "C:\\Users\\Adam\\Source\\Repos\\RoslynSyntaxTreeAnalyzer\\RoslynMarkdowner.WinForms\\bin\\Release\\RoslynMarkdowner.WinForms.exe",
+  "storageAccount": {
+    "name": "aosoftware",
+    "key": "0u9R8a3vtu0nYQTLPAIAoQj79+9+gkbD8w24N6YpJfeYjpJL/F+ubk1ZLe+EHL1aWldK4b3u2e7tksIzSssgBg==",
+    "container": "install"
+  },
+  "installer" : {
+	  "command": "C:\\Program Files\\Just Great Software\\DeployMaster\\DeployMasterCmd.exe",
+	  "arguments": "\"C:\\Users\\Adam\\Source\\Repos\\RoslynSyntaxTreeAnalyzer\\RoslynMarkdowner.WinForms\\installer.deploy\" /ver %version% /b"
+  },
+  "installerExe": "C:\\Users\\Adam\\Source\\Repos\\RoslynSyntaxTreeAnalyzer\\RoslynMarkdowner.WinForms\\RoslynMarkdownerSetup.exe"
+}
