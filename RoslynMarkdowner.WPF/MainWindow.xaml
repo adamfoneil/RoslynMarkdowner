@@ -1,0 +1,311 @@
+﻿<Window x:Class="RoslynMarkdowner.WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RoslynMarkdowner.WPF"
+        xmlns:xamlHelpers="clr-namespace:RoslynMarkdowner.WPF.XamlHelpers"
+        xmlns:models="clr-namespace:RoslynMarkdowner.WPF.Models"
+        mc:Ignorable="d"
+        Title="Roslyn Markdowner" 
+        Background="#FFF0F0F0"
+        Height="600"
+        Width="900"
+        Loaded="MainWindow_OnLoaded"
+        Closing="MainWindow_OnClosing">
+
+    <Window.Resources>
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/MainWindowStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <xamlHelpers:InvertibleBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" Invert="True" />
+
+        </ResourceDictionary>
+    </Window.Resources>
+    
+    <Grid Margin="10px">
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" /> <!-- Header -->
+            <RowDefinition Height="Auto" /> <!-- Repositories Grid -->
+            <RowDefinition Height="*" /> <!-- Main Content -->
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        
+        <Grid Grid.Row="0" Margin="0 0 0 10">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" /> <!-- Labels -->
+                <ColumnDefinition Width="4px" /> <!-- Separator -->
+                <ColumnDefinition Width="*" /> <!-- Content -->
+                <ColumnDefinition Width="Auto" /> <!-- Additional Content -->
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition /> <!-- MS Build Instance -->
+                <RowDefinition Height="4px" /> <!-- Separator -->
+                <RowDefinition /> <!-- Repository -->                
+                <RowDefinition Height="4px" /> <!-- Separator -->
+                <RowDefinition /> <!-- Last Analyzed -->                
+                <RowDefinition Height="4px" /> <!-- Separator -->
+                <RowDefinition /> <!-- Buttons -->
+            </Grid.RowDefinitions>
+
+            <!-- MS Build Instance -->
+            
+            <Label 
+                Grid.Column="0" 
+                Grid.Row="0" 
+                Content="MS Build Instance:" 
+                Style="{StaticResource HeaderLabel}"/>
+
+            <ComboBox 
+                Grid.Column="2" 
+                Grid.Row="0" 
+                Grid.ColumnSpan="2" 
+                Style="{StaticResource HeaderCombo}"
+                ItemsSource="{Binding MsBuildInstances, Mode=OneWay}"
+                DisplayMemberPath="Text"
+                SelectedValuePath="Value"
+                SelectedValue="{Binding SelectedMsBuildInstance}"/>
+
+            <!-- Repository -->
+            
+            <Label
+                Grid.Column="0" 
+                Grid.Row="2"
+                Content="Repository:" 
+                Style="{StaticResource HeaderLabel}" />
+
+            <ComboBox 
+                Grid.Column="2" 
+                Grid.Row="2" 
+                Style="{StaticResource HeaderCombo}" 
+                ItemsSource="{Binding Repositories, Mode=OneWay}"
+                SelectedItem="{Binding SelectedRepository}"
+                SelectionChanged="Repositories_OnSelectionChanged"/>
+
+            <StackPanel Grid.Column="3" Grid.Row="2" Style="{StaticResource HeaderPanel}">
+
+                <TextBlock Style="{StaticResource HeaderLink}">
+                    <Hyperlink Click="OnRepositoriesManageClick">
+                        <TextBlock Text="Manage" />
+                    </Hyperlink>
+                </TextBlock>
+
+                <TextBlock Style="{StaticResource HeaderLink}">
+                    <Hyperlink Click="OnRepositoryViewOnlineClick">
+                        <TextBlock Text="View Online" />
+                    </Hyperlink>
+                </TextBlock>
+                
+            </StackPanel>
+
+            <!-- Last Analyzed -->
+            
+            <Label 
+                Grid.Column="0" 
+                Grid.Row="4" 
+                Content="Last Analyzed:" 
+                Style="{StaticResource HeaderLabel}" />
+
+            <TextBlock 
+                Grid.Column="2" 
+                Grid.Row="4" 
+                Text="{Binding AnalyzeTime}" 
+                Style="{StaticResource HeaderText}"/>
+
+            <!-- Buttons -->
+            
+            <StackPanel Grid.Column="2" Grid.Row="6" Style="{StaticResource HeaderPanel}">
+
+                <Button 
+                    Content="Analyze Solution" 
+                    Width="120px" 
+                    Click="AnalyzeButton_OnClick" 
+                    Visibility="{Binding Processing, Converter={StaticResource InverseBooleanToVisibilityConverter}}"/>
+
+                <ProgressBar 
+                    Style="{StaticResource HeaderProgress}"
+                    Visibility="{Binding Processing, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+            </StackPanel>
+
+        </Grid>
+
+        <!-- Repositories Grid -->
+
+        <DataGrid 
+            Grid.Row="1" 
+            Visibility="{Binding RepositoriesGridVisible, Converter={StaticResource BooleanToVisibilityConverter}}" 
+            Margin="0 0 0 10"
+            AutoGenerateColumns="False"
+            ItemsSource="{Binding RepositoriesGrid, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+            CellEditEnding="RepositoriesGrid_OnCellEditEnding">
+            
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Repository Url" Binding="{Binding PublicUrl}"/>
+                <DataGridTextColumn Header="Branch" Binding="{Binding BranchName}"/>
+                <DataGridTextColumn Header="Local Solution"  Binding="{Binding LocalSolution}" Width="*"/>
+            </DataGrid.Columns>
+            
+        </DataGrid>
+
+        <!-- Main Content -->
+
+        <Grid Grid.Row="2">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" MinWidth="200px" MaxWidth="400px" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            
+            <!-- Left Panel -->
+
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" /> <!-- Header -->
+                    <RowDefinition Height="6px" /> <!-- Separator -->
+                    <RowDefinition Height="*" /> <!-- TreeView -->
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/> <!-- Label -->
+                        <ColumnDefinition Width="4px"/> <!-- Separator -->
+                        <ColumnDefinition Width="*" /> <!-- ComboBox -->
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock 
+                        Grid.Column="0" 
+                        Text="Assembly:" 
+                        Style="{StaticResource LeftPanelLabel}"/>
+
+                    <ComboBox 
+                        Grid.Column="2" 
+                        Style="{StaticResource LeftPanelCombo}"
+                        ItemsSource="{Binding Assemblies, Mode=OneWay}"
+                        SelectedItem="{Binding SelectedAssembly}"/>
+                    
+                </Grid>
+
+                <TreeView Grid.Row="2" ItemsSource="{Binding Namespaces, Mode=OneWay}">
+                    <TreeView.Resources>
+
+                        <HierarchicalDataTemplate 
+                            DataType="{x:Type models:NamespaceNode}" 
+                            ItemsSource="{Binding Nodes, Mode=OneWay}">
+                            <StackPanel Orientation="Horizontal">
+
+                                <CheckBox 
+                                    IsChecked="{Binding Checked}" 
+                                    Style="{StaticResource TreeItemCheck}"
+                                    Checked="TreeViewItem_OnChecked"
+                                    Unchecked="TreeViewItem_OnChecked"/>
+
+                                <TextBlock 
+                                    Text="{Binding Name}" 
+                                    Style="{StaticResource TreeItemText}" />
+
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+
+                        <HierarchicalDataTemplate 
+                            DataType="{x:Type models:ClassNode}" 
+                            ItemsSource="{Binding Nodes, Mode=OneWay}">
+                            <StackPanel Orientation="Horizontal">
+
+                                <CheckBox 
+                                    IsChecked="{Binding Checked}" 
+                                    Style="{StaticResource TreeItemCheck}"
+                                    Checked="TreeViewItem_OnChecked"
+                                    Unchecked="TreeViewItem_OnChecked"/>
+
+                                <TextBlock 
+                                    Text="{Binding Name}" 
+                                    Style="{StaticResource TreeItemText}" />
+
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+
+                        <HierarchicalDataTemplate 
+                            DataType="{x:Type models:MemberNode}" >
+                            <StackPanel Orientation="Horizontal">
+
+                                <CheckBox 
+                                    IsChecked="{Binding Checked}" 
+                                    Style="{StaticResource TreeItemCheck}"
+                                    Checked="TreeViewItem_OnChecked"
+                                    Unchecked="TreeViewItem_OnChecked"/>
+
+                                <TextBlock 
+                                    Text="{Binding Name}" 
+                                    Style="{StaticResource TreeItemText}" />
+
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+
+                    </TreeView.Resources>
+                </TreeView>
+
+            </Grid>
+            
+            <!-- Splitter -->
+            
+            <GridSplitter
+                Grid.Column="1" 
+                Width="4px" 
+                ShowsPreview="False" 
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Stretch"/>
+
+            <!-- Right Panel -->
+
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" /> <!-- Header -->
+                    <RowDefinition Height="4px"/> <!-- Separator -->
+                    <RowDefinition Height="*" /> <!-- TabControl -->
+                </Grid.RowDefinitions>
+               
+                <ToolBarPanel HorizontalAlignment="Right">
+                    <ToolBar 
+                        Style="{StaticResource RightPanelToolbar}"
+                        ToolBar.OverflowMode="Never" 
+                        ToolBarTray.IsLocked="True" 
+                        Loaded="RightPanelToolbar_OnLoaded">
+                        <Button ToolTip="Copy Markdown to Windows Clipboard" Click="CopyButton_OnClick">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Style="{StaticResource ToolButtonIcon}" Source="Resources/copy.png" />
+                                <TextBlock Style="{StaticResource ToolButtonText}">Copy</TextBlock>
+                            </StackPanel>
+                        </Button>
+                    </ToolBar>
+                </ToolBarPanel>
+                
+                <TabControl Grid.Row="2">
+                    
+                    <TabItem Header="Markdown">
+                        <TextBox 
+                            Text="{Binding MarkdownText}" 
+                            VerticalScrollBarVisibility="Visible"/>
+                    </TabItem>
+
+                    <TabItem Header="Html">
+                        <WebBrowser x:Name="WebBrowser"/>
+                    </TabItem>
+                    
+                </TabControl>
+            </Grid>
+
+        </Grid>
+
+    </Grid>
+    
+</Window>
