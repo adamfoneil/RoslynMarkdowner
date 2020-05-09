@@ -1,0 +1,11 @@
+﻿<Application x:Class="RoslynMarkdowner.WPF.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:RoslynMarkdowner.WPF"
+             Startup="App_OnStartup">
+
+    <Application.Resources>
+         <ResourceDictionary Source="Styles/CommonStyles.xaml" />
+    </Application.Resources>
+
+</Application>
