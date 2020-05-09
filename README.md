@@ -9,6 +9,9 @@ Nobody likes WinForms anymore (for understandable reasons), but I'm still very p
 
 ![img](https://adamosoftware.blob.core.windows.net/images/markdowner-winform.png)
 
+## WPF app
+I have a [WPF version](https://github.com/adamosoftware/RoslynMarkdowner/tree/master/RoslynMarkdowner.WPF) of the desktop client done by [Vadim A](https://www.upwork.com/o/profiles/users/~01a778def0bc56bf99/), who is awesome. At the moment it looks very similar to the WinForm version, so I decided against showing a picture.
+
 ## Background
 
 I like to build class libraries (i.e. [Postulate.Lite](https://github.com/adamosoftware/Postulate.Lite) and [TestDataGen](https://github.com/adamosoftware/TestDataGen)), and I like to document them with links to source code line numbers and relevant top-level method info so that people have at least a chance of finding them useful for something. The problem is documentation is pretty hard to build manually much less keep updated -- especially as line numbers shift as a project evolves. There are lots of .NET documentation generators out there, but they don't do quite what I want. I've found that they build content that's hard to reuse elsewhere as well as being too voluminous, not lending itself to quick scanning -- something that would fit on a single page readme.
