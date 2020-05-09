@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Microsoft.Build.Locator;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Microsoft.Build.Locator;
 
 namespace RoslynMarkdowner.WPF.Services
 {

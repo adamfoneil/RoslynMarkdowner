@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace RoslynMarkdowner.WPF.Models
+﻿namespace RoslynMarkdowner.WPF.Models
 {
     public class ComboBoxItem<T>
     {

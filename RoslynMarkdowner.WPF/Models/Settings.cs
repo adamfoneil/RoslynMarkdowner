@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using JsonSettings.Library;
+﻿using JsonSettings.Library;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 
 namespace RoslynMarkdowner.WPF.Models
 {

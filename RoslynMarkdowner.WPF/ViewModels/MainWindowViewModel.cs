@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Windows;
-using Humanizer;
+﻿using Humanizer;
 using Microsoft.Build.Locator;
 using RoslynDoc.Library.Extensions;
 using RoslynDoc.Library.Models;
 using RoslynMarkdowner.WPF.Annotations;
 using RoslynMarkdowner.WPF.Models;
 using RoslynMarkdowner.WPF.Services;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace RoslynMarkdowner.WPF.ViewModels
 {
@@ -36,8 +34,8 @@ namespace RoslynMarkdowner.WPF.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ObservableCollection<string> Assemblies { get; } 
-        public ObservableCollection<RepositoryInfo> Repositories { get; } 
+        public ObservableCollection<string> Assemblies { get; }
+        public ObservableCollection<RepositoryInfo> Repositories { get; }
         public ObservableCollection<RepositoryInfo> RepositoriesGrid { get; }
         public ObservableCollection<NamespaceNode> Namespaces { get; }
         public ObservableCollection<ComboBoxItem<VisualStudioInstance>> MsBuildInstances { get; }
@@ -150,7 +148,7 @@ namespace RoslynMarkdowner.WPF.ViewModels
                 _currentSolution = value;
                 OnPropertyChanged();
 
-                Assemblies.Clear(); 
+                Assemblies.Clear();
                 Assemblies.Add(AllAssembliesText);
 
                 _currentSolution.Classes
@@ -188,7 +186,7 @@ namespace RoslynMarkdowner.WPF.ViewModels
         private void LoadRepositories()
         {
             Repositories.Clear();
-            RepositoriesGrid.Clear(); 
+            RepositoriesGrid.Clear();
 
             _settingsService.Settings.Repositories.ForEach(e =>
             {
@@ -220,8 +218,8 @@ namespace RoslynMarkdowner.WPF.ViewModels
 
         public void UpdateCacheAge(string solutionCache)
         {
-            AnalyzeTime = File.Exists(solutionCache) 
-                ? GetFileAgeText(solutionCache) 
+            AnalyzeTime = File.Exists(solutionCache)
+                ? GetFileAgeText(solutionCache)
                 : NotAnalyzedText;
         }
 
@@ -257,8 +255,8 @@ namespace RoslynMarkdowner.WPF.ViewModels
             var methods = classInfo.Methods.OfType<IMemberInfo>();
             var allMembers = properties.Concat(methods).ToList();
 
-            return !allMembers.Any() 
-                ? default 
+            return !allMembers.Any()
+                ? default
                 : allMembers.First().Location;
         }
     }

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using JsonSettings.Library;
+﻿using JsonSettings.Library;
 using RoslynMarkdowner.WPF.Models;
+using System.IO;
 
 namespace RoslynMarkdowner.WPF.Services
 {

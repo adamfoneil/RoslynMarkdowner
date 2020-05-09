@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using RoslynMarkdowner.WPF.Annotations;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using RoslynMarkdowner.WPF.Annotations;
 
 namespace RoslynMarkdowner.WPF.Models
 {

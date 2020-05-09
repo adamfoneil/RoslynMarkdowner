@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using RoslynDoc.Library.Models;
+﻿using RoslynDoc.Library.Models;
 
 namespace RoslynMarkdowner.WPF.Models
 {

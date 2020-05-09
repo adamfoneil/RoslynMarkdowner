@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using RoslynMarkdowner.WPF.Services;
 using RoslynMarkdowner.WPF.ViewModels;
+using System;
+using System.Windows;
 
 namespace RoslynMarkdowner.WPF
 {

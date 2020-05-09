@@ -1,32 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using HeyRed.MarkdownSharp;
+using JsonSettings;
+using Microsoft.Build.Locator;
+using Microsoft.CodeAnalysis.MSBuild;
+using RoslynDoc.Library;
+using RoslynDoc.Library.Models;
+using RoslynDoc.Library.Services;
+using RoslynMarkdowner.WPF.Models;
+using RoslynMarkdowner.WPF.Services;
+using RoslynMarkdowner.WPF.ViewModels;
+using System;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using HeyRed.MarkdownSharp;
-using JsonSettings;
-using Microsoft.Build.Locator;
-using Microsoft.CodeAnalysis.MSBuild;
-using RoslynDoc.Library;
-using RoslynDoc.Library.Extensions;
-using RoslynDoc.Library.Models;
-using RoslynDoc.Library.Services;
-using RoslynMarkdowner.WPF.Models;
-using RoslynMarkdowner.WPF.Services;
-using RoslynMarkdowner.WPF.ViewModels;
 
 namespace RoslynMarkdowner.WPF
 {
@@ -147,7 +137,7 @@ namespace RoslynMarkdowner.WPF
             finally
             {
                 _viewModel.Processing = false;
-            }            
+            }
         }
 
         private async void Repositories_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -209,34 +199,34 @@ namespace RoslynMarkdowner.WPF
                 switch (node)
                 {
                     case ClassNode classNode:
-                    {
-                        if (classNode.Nodes.Any(nd => nd.Checked))
                         {
-                            sb.AppendLine();
-                            sb.Append($"# {classNode.ClassInfo.Namespace}.{classNode.ClassInfo.Name}");
-                            sb.Append($" [{classNode.GetLinkText()}]({classNode.GetLinkHref(md)})\r\n");
+                            if (classNode.Nodes.Any(nd => nd.Checked))
+                            {
+                                sb.AppendLine();
+                                sb.Append($"# {classNode.ClassInfo.Namespace}.{classNode.ClassInfo.Name}");
+                                sb.Append($" [{classNode.GetLinkText()}]({classNode.GetLinkHref(md)})\r\n");
 
-                            WriteMembers(sb, md, classNode, MemberType.Property, "## Properties");
-                            WriteMembers(sb, md, classNode, MemberType.Method, "## Methods");
+                                WriteMembers(sb, md, classNode, MemberType.Property, "## Properties");
+                                WriteMembers(sb, md, classNode, MemberType.Method, "## Methods");
+                            }
+
+                            foreach (var child in classNode.Nodes)
+                            {
+                                WriteMarkdown(child);
+                            }
+
+                            break;
                         }
-
-                        foreach (var child in classNode.Nodes)
-                        {
-                            WriteMarkdown(child);
-                        }
-
-                        break;
-                    }
 
                     case NamespaceNode namespaceNode:
-                    {
-                        foreach (var child in namespaceNode.Nodes)
                         {
-                            WriteMarkdown(child);
-                        }
+                            foreach (var child in namespaceNode.Nodes)
+                            {
+                                WriteMarkdown(child);
+                            }
 
-                        break;
-                    }
+                            break;
+                        }
                 }
             }
 
