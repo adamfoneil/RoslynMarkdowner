@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
 using RoslynDoc.Library.Services;
+using System.Collections.Generic;
 
 namespace RoslynDoc.Library.Models
 {
@@ -16,8 +17,9 @@ namespace RoslynDoc.Library.Models
 		public string OriginalTypeName { get; set; }
 		public string TypeName { get; set; }
 		public SourceLocation TypeLocation { get; set; }
+		public ICollection<SourceLocation> References { get; set; }
 
-		public PropertyDeclarationSyntax Node { get; set; }
+		public PropertyDeclarationSyntax Node { get; set; }		
 
 		public string GetMarkdown(CSharpMarkdownHelper helper)
 		{

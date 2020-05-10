@@ -1,4 +1,5 @@
 ﻿using RoslynDoc.Library.Services;
+using System.Collections.Generic;
 
 namespace RoslynDoc.Library.Models
 {
@@ -21,6 +22,8 @@ namespace RoslynDoc.Library.Models
 		string Description { get; set; }
 		string Category { get; set; }
 		SourceLocation Location { get; set; }
+
+		ICollection<SourceLocation> References { get; set; }
 
 		string GetMarkdown(CSharpMarkdownHelper helper);
 	}

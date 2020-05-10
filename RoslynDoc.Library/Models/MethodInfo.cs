@@ -16,6 +16,7 @@ namespace RoslynDoc.Library.Models
 		public string OriginalTypeName { get; set; }
 		public string TypeName { get; set; }
 		public SourceLocation TypeLocation { get; set; }
+		public ICollection<SourceLocation> References { get; set; }
 
 		public ICollection<Parameter> Parameters { get; set; }
 
@@ -62,6 +63,6 @@ namespace RoslynDoc.Library.Models
 			public ParameterSyntax Node { get; set; }
 		}
 
-		public MethodDeclarationSyntax Node { get; set; }
+		public MethodDeclarationSyntax Node { get; set; }		
 	}
 }
