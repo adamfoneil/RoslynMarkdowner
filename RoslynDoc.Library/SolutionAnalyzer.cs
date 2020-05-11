@@ -1,6 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
 using RoslynDoc.Library.Models;
-using RoslynDoc.Library.Utils;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,7 +24,7 @@ namespace RoslynDoc.Library
 
 				// Semantic Info
 				SemanticModel model = await doc.GetSemanticModelAsync();
-				_semanticAnalyzer.Analyze(model, classInfos);
+				await _semanticAnalyzer.Analyze(solution, model, classInfos);
 
 				result.AddRange(classInfos);
 			}

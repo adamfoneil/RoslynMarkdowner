@@ -1,7 +1,5 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace RoslynDoc.Library.Models

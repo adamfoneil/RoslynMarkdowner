@@ -15,9 +15,4 @@
   <ItemGroup>
     <ProjectReference Include="..\RoslynDoc.Library\RoslynDoc.Library.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Microsoft.CodeAnalysis.CSharp">
-      <HintPath>C:\Users\drone\.nuget\packages\microsoft.codeanalysis.csharp\2.9.0\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
-    </Reference>
-  </ItemGroup>
 </Project>

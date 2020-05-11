@@ -4,9 +4,14 @@ using System.Collections.Generic;
 
 namespace RoslynDoc.Library.Models
 {
-	public class PropertyInfo : IMemberInfo
+	public sealed class PropertyInfo : IMemberInfo
 	{
-		public string Name { get; set; }
+        public PropertyInfo()
+        {
+			References = new List<SourceLocation>();
+        }
+
+        public string Name { get; set; }
 		public string Description { get; set; }
 		public string Category { get; set; }
 		public SourceLocation Location { get; set; }
