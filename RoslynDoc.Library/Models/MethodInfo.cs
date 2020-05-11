@@ -5,9 +5,14 @@ using System.Linq;
 
 namespace RoslynDoc.Library.Models
 {
-	public class MethodInfo : IMemberInfo
+	public sealed class MethodInfo : IMemberInfo
 	{
-		public string Name { get; set; }
+        public MethodInfo()
+        {
+			References = new List<SourceLocation>();
+        }
+
+        public string Name { get; set; }
 		public string Description { get; set; }
 		public string Category { get; set; }
 		public SourceLocation Location { get; set; }
@@ -16,6 +21,7 @@ namespace RoslynDoc.Library.Models
 		public string OriginalTypeName { get; set; }
 		public string TypeName { get; set; }
 		public SourceLocation TypeLocation { get; set; }
+		public ICollection<SourceLocation> References { get; set; }
 
 		public ICollection<Parameter> Parameters { get; set; }
 
@@ -62,6 +68,6 @@ namespace RoslynDoc.Library.Models
 			public ParameterSyntax Node { get; set; }
 		}
 
-		public MethodDeclarationSyntax Node { get; set; }
+		public MethodDeclarationSyntax Node { get; set; }		
 	}
 }
