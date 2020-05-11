@@ -49,6 +49,7 @@ namespace RoslynDoc.Library
 				{
 					SetRelativePath(methodInfo.Location);
 					SetRelativePath(methodInfo.TypeLocation);
+					SetReferenceRelativePaths(methodInfo);
 
 					foreach (var p in methodInfo.Parameters.Where(p => p.TypeLocation != null))
 					{
@@ -60,7 +61,8 @@ namespace RoslynDoc.Library
 				{
 					SetRelativePath(propertyInfo.Location);
 					SetRelativePath(propertyInfo.TypeLocation);
-				}
+					SetReferenceRelativePaths(propertyInfo);
+				}				
 			}
 
 			void SetRelativePath(SourceLocation location)
@@ -69,6 +71,11 @@ namespace RoslynDoc.Library
 					return;
 				
 				location.Filename = location.Filename.Substring(basePath.Length + 1);
+			}
+
+			void SetReferenceRelativePaths(IMemberInfo member)
+			{
+				foreach (var reference in member.References) SetRelativePath(reference);
 			}
 		}
 	}
