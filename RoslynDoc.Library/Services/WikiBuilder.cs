@@ -1,4 +1,5 @@
 ﻿using RoslynDoc.Library.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -29,13 +30,13 @@ namespace RoslynDoc.Library.Services
             return Directory.Exists(wikiRepo);
         }
 
-        public async Task BuildAsync(SolutionInfo solutionInfo, bool push = true)
+        public async Task BuildAsync(SolutionInfo solutionInfo, CSharpMarkdownHelper markdownHelper, bool push = true)
         {
-            if (BuildInner(solutionInfo, RepositoryPath) && push) await PushInnerAsync(RepositoryPath);
+            if (BuildInner(solutionInfo, markdownHelper, RepositoryPath) && push) await PushInnerAsync(RepositoryPath);
 
             if (HasWikiRepository(RepositoryPath, out string wikiRepo))
             {
-                if (BuildInner(solutionInfo, wikiRepo) && push) await PushInnerAsync(wikiRepo);
+                if (BuildInner(solutionInfo, markdownHelper, wikiRepo) && push) await PushInnerAsync(wikiRepo);
             }
         }
 
@@ -43,7 +44,7 @@ namespace RoslynDoc.Library.Services
         /// compiles .md from .rzm source files. If any changes, they are committed, and returns true.        
         /// returns false if any errors (unrecognized identifiers) or no changes
         /// </summary>        
-        private bool BuildInner(SolutionInfo solutionInfo, string path)
+        private bool BuildInner(SolutionInfo solutionInfo, CSharpMarkdownHelper markdownHelper, string path)
         {
             var rzmFiles = Directory.GetFiles(path, "*.rzm", SearchOption.AllDirectories);
             foreach (var file in rzmFiles)
@@ -54,8 +55,14 @@ namespace RoslynDoc.Library.Services
                 var sb = new StringBuilder(content);
                 foreach (var id in identifiers)
                 {
-                    
-                    //sb.Replace(id.Match.Value, )
+                    if (findMember(id.Token, out IMemberInfo member) && member.Location != null)
+                    {                        
+                        sb.Replace(id.Token, $"({markdownHelper.GetOnlineUrl(member.Location)})");
+                    }
+                    else
+                    {
+                        // id not found
+                    }
                 }
             }
 
@@ -68,14 +75,13 @@ namespace RoslynDoc.Library.Services
                 return links.Select(m => new Identifier()
                 {
                     Match = m,
-                    Name = parseName(m.Value)
+                    Token = Regex.Match(m.Value, @"\(#.+\)").Value
                 });
             }
 
-            string parseName(string input)
+            bool findMember(string name, out IMemberInfo member)
             {
-                var match = Regex.Match(input, @"\(#.+\)");
-                return match.Value.Substring(2, match.Value.Length - 3);
+                throw new NotImplementedException();
             }
         }
 
@@ -95,7 +101,7 @@ namespace RoslynDoc.Library.Services
         private class Identifier
         { 
             public Match Match { get; set; }
-            public string Name { get; set; }
+            public string Token { get; set; }
         }
 
     }
