@@ -1,5 +1,9 @@
 ﻿using RoslynDoc.Library.Models;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace RoslynDoc.Library.Services
@@ -44,10 +48,35 @@ namespace RoslynDoc.Library.Services
             var rzmFiles = Directory.GetFiles(path, "*.rzm", SearchOption.AllDirectories);
             foreach (var file in rzmFiles)
             {
+                string content = File.ReadAllText(file);
+                var identifiers = readIdentifiers(content, file);
 
+                var sb = new StringBuilder(content);
+                foreach (var id in identifiers)
+                {
+                    
+                    //sb.Replace(id.Match.Value, )
+                }
             }
 
             return false;
+
+            // tested via https://regexr.com/557un
+            IEnumerable<Identifier> readIdentifiers(string content, string fileName)
+            {                
+                var links = Regex.Matches(content, @"\[([^\]]+)\]\(#([^\)]+)\)").OfType<Match>();
+                return links.Select(m => new Identifier()
+                {
+                    Match = m,
+                    Name = parseName(m.Value)
+                });
+            }
+
+            string parseName(string input)
+            {
+                var match = Regex.Match(input, @"\(#.+\)");
+                return match.Value.Substring(2, match.Value.Length - 3);
+            }
         }
 
         /// <summary>
@@ -62,5 +91,12 @@ namespace RoslynDoc.Library.Services
         {
 
         }
+
+        private class Identifier
+        { 
+            public Match Match { get; set; }
+            public string Name { get; set; }
+        }
+
     }
 }
