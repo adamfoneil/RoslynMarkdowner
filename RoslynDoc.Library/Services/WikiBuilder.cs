@@ -1,7 +1,10 @@
-﻿using RoslynDoc.Library.Models;
+﻿using LibGit2Sharp;
+using RoslynDoc.Library.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -19,9 +22,11 @@ namespace RoslynDoc.Library.Services
         public WikiBuilder()
         {            
             Errors = new List<string>();
+            ModifiedFiles = new HashSet<string>();
         }
         
-        public List<string> Errors { get; }
+        public List<string> Errors { get; }        
+        private HashSet<string> ModifiedFiles { get; }
 
         public static bool HasWikiRepository(string repoPath, out string wikiRepo)
         {
@@ -29,13 +34,16 @@ namespace RoslynDoc.Library.Services
             return Directory.Exists(wikiRepo);
         }
 
-        public async Task BuildAsync(string repoPath, SolutionInfo solutionInfo, CSharpMarkdownHelper markdownHelper, bool push = true)
+        public async Task BuildAsync(string repoPath, SolutionInfo solutionInfo, CSharpMarkdownHelper markdownHelper, Identity identity)
         {
-            if (BuildInner(repoPath, solutionInfo, markdownHelper) && push) await PushAsync(repoPath);
+            Errors.Clear();
+            ModifiedFiles.Clear();
+
+            if (BuildInner(repoPath, solutionInfo, markdownHelper)) await CommitAndPushAsync(repoPath, identity);
 
             if (HasWikiRepository(repoPath, out string wikiRepo))
             {
-                if (BuildInner(wikiRepo, solutionInfo, markdownHelper) && push) await PushAsync(wikiRepo);
+                if (BuildInner(wikiRepo, solutionInfo, markdownHelper)) await CommitAndPushAsync(wikiRepo, identity);
             }
         }
 
@@ -44,22 +52,20 @@ namespace RoslynDoc.Library.Services
         /// returns false if any errors (unrecognized identifiers) or no changes
         /// </summary>        
         private bool BuildInner(string repoPath, SolutionInfo solutionInfo, CSharpMarkdownHelper markdownHelper)
-        {
-            Errors.Clear();
-
+        {            
             var rzmFiles = GetRzmFiles(repoPath);
 
             foreach (var file in rzmFiles)
             {
-                string content = File.ReadAllText(file.Key);
-                var identifiers = readIdentifiers(content, file.Key);
+                string content = File.ReadAllText(file.Source);
+                var identifiers = readIdentifiers(content, file.Source);
 
                 var sb = new StringBuilder(content);
                 foreach (var id in identifiers)
                 {
                     if (findMember(id.Name, out SourceLocation location))
                     {                        
-                        sb.Replace(id.Token, $"({markdownHelper.GetOnlineUrl(location)})");
+                        sb.Replace(id.Token, $"({markdownHelper.GetOnlineUrl(location)})");                        
                     }
                     else
                     {
@@ -67,7 +73,13 @@ namespace RoslynDoc.Library.Services
                     }
                 }
 
-                File.WriteAllText(file.Value, sb.ToString());
+                File.WriteAllText(file.Target, sb.ToString());
+                
+                if (file.IsModified())
+                {
+                    ModifiedFiles.Add(file.Source);
+                    ModifiedFiles.Add(file.Target);
+                }                
             }
 
             return !Errors.Any();
@@ -116,24 +128,43 @@ namespace RoslynDoc.Library.Services
         }        
 
         /// <summary>
-        /// pushes .md changes to its remote
+        /// pushes modified files to remote repo
         /// </summary>        
-        private static async Task PushAsync(string repoPath)
+        private async Task CommitAndPushAsync(string repoPath, Identity identity)
         {
+            if (!ModifiedFiles.Any()) return;
 
+            using (var repo = new Repository(repoPath))
+            {
+                foreach (var file in ModifiedFiles) repo.Index.Add(file);
+                repo.Index.Write();
+
+                var sig = new Signature(identity, DateTimeOffset.Now);
+                repo.Commit("WikiBuilder", sig, sig);
+
+                var remote = repo.Network.Remotes["origin"];                
+                repo.Network.Push(remote, @"refs/heads/master", new PushOptions()
+                {
+                    CredentialsProvider = (url, user, cred) => new DefaultCredentials()
+                });
+            }
         }
 
-        private static Dictionary<string, string> GetRzmFiles(string path)
+        private static IEnumerable<BuildFile> GetRzmFiles(string path)
         {
             var rzmFiles = Directory.GetFiles(path, "*.rzm", SearchOption.AllDirectories);
             var filePairs = rzmFiles.Select(fileName =>
-            new
             {
-                Source = fileName,
-                Target = Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + ".md")
+                string targetFile = Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + ".md");
+                return new BuildFile()
+                {
+                    Source = fileName,
+                    Target = targetFile,
+                    TargetHash = (File.Exists(targetFile)) ? GetMD5(targetFile) : null
+                };
             });
 
-            return filePairs.ToDictionary(item => item.Source, item => item.Target);
+            return filePairs;
         }
 
         /// <summary>
@@ -153,6 +184,33 @@ namespace RoslynDoc.Library.Services
             /// part of the link after the # sign within parentheses
             /// </summary>
             public string Name { get; set; }
+        }
+
+        private class BuildFile
+        {
+            public string Source { get; set; }
+            public string Target { get; set; }
+            public byte[] TargetHash { get; set; }
+
+            internal bool IsModified()
+            {
+                // if there's no target hash, it means the target file didn't exist at build time
+                if (TargetHash == null) return true;
+
+                var modifiedHash = GetMD5(Target);
+                return (!TargetHash.SequenceEqual(modifiedHash));
+            }
+        }
+
+        private static byte[] GetMD5(string path)
+        {
+            using (var md5 = MD5.Create())
+            {
+                using (var stream = File.OpenRead(path))
+                {
+                    return md5.ComputeHash(stream);
+                }
+            }
         }
     }
 }
