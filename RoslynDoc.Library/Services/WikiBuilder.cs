@@ -34,16 +34,16 @@ namespace RoslynDoc.Library.Services
             return Directory.Exists(wikiRepo);
         }
 
-        public void Build(string repoPath, SolutionInfo solutionInfo, CSharpMarkdownHelper markdownHelper, Identity identity)
+        public void Build(string repoPath, SolutionInfo solutionInfo, CSharpMarkdownHelper markdownHelper, Credentials credentials, Identity identity)
         {
             Errors.Clear();
             ModifiedFiles.Clear();
 
-            if (BuildInner(repoPath, solutionInfo, markdownHelper)) CommitAndPush(repoPath, identity);
+            if (BuildInner(repoPath, solutionInfo, markdownHelper)) CommitAndPush(repoPath, credentials, identity);
 
             if (HasWikiRepository(repoPath, out string wikiRepo))
             {
-                if (BuildInner(wikiRepo, solutionInfo, markdownHelper)) CommitAndPush(wikiRepo, identity);
+                if (BuildInner(wikiRepo, solutionInfo, markdownHelper)) CommitAndPush(wikiRepo, credentials, identity);
             }
         }
 
@@ -130,7 +130,7 @@ namespace RoslynDoc.Library.Services
         /// <summary>
         /// pushes modified files to remote repo
         /// </summary>        
-        private void CommitAndPush(string repoPath, Identity identity)
+        private void CommitAndPush(string repoPath, Credentials credentials, Identity identity)
         {
             if (!ModifiedFiles.Any()) return;
 
@@ -145,7 +145,7 @@ namespace RoslynDoc.Library.Services
                 var remote = repo.Network.Remotes["origin"];                
                 repo.Network.Push(remote, @"refs/heads/master", new PushOptions()
                 {
-                    CredentialsProvider = (url, user, cred) => new DefaultCredentials()
+                    CredentialsProvider = (url, user, cred) => credentials
                 });
             }
         }
