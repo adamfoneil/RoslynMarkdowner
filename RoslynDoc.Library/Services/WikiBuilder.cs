@@ -34,16 +34,16 @@ namespace RoslynDoc.Library.Services
             return Directory.Exists(wikiRepo);
         }
 
-        public async Task BuildAsync(string repoPath, SolutionInfo solutionInfo, CSharpMarkdownHelper markdownHelper, Identity identity)
+        public void Build(string repoPath, SolutionInfo solutionInfo, CSharpMarkdownHelper markdownHelper, Identity identity)
         {
             Errors.Clear();
             ModifiedFiles.Clear();
 
-            if (BuildInner(repoPath, solutionInfo, markdownHelper)) await CommitAndPushAsync(repoPath, identity);
+            if (BuildInner(repoPath, solutionInfo, markdownHelper)) CommitAndPush(repoPath, identity);
 
             if (HasWikiRepository(repoPath, out string wikiRepo))
             {
-                if (BuildInner(wikiRepo, solutionInfo, markdownHelper)) await CommitAndPushAsync(wikiRepo, identity);
+                if (BuildInner(wikiRepo, solutionInfo, markdownHelper)) CommitAndPush(wikiRepo, identity);
             }
         }
 
@@ -105,7 +105,7 @@ namespace RoslynDoc.Library.Services
                 var locations = new Dictionary<string, SourceLocation>();
 
                 addFirst(locations, solutionInfo.Classes.ToLookup(ci => ci.Name, ci => ci.Location));
-                addFirst(locations, solutionInfo.Classes.ToLookup(ci => $"{ci.Namespace}.{ci.Name}", ci => ci.Location));
+                addFirst(locations, solutionInfo.Classes.ToLookup(ci => $"{ci.Namespace}.{ci.Name}", ci => ci.Location));                
                 addFirst(locations, solutionInfo.Classes.SelectMany(ci => ci.Properties, (ci, p) => new { Class = ci.Name, Member = p }).ToLookup(p => $"{p.Class}.{p.Member.Name}", p => p.Member.Location));
                 addFirst(locations, solutionInfo.Classes.SelectMany(ci => ci.Methods, (ci, m) => new { Class = ci.Name, Member = m }).ToLookup(m => $"{m.Class}.{m.Member.Name}", m => m.Member.Location));
 
@@ -130,17 +130,17 @@ namespace RoslynDoc.Library.Services
         /// <summary>
         /// pushes modified files to remote repo
         /// </summary>        
-        private async Task CommitAndPushAsync(string repoPath, Identity identity)
+        private void CommitAndPush(string repoPath, Identity identity)
         {
             if (!ModifiedFiles.Any()) return;
 
             using (var repo = new Repository(repoPath))
             {
-                foreach (var file in ModifiedFiles) repo.Index.Add(file);
+                foreach (var file in ModifiedFiles) repo.Index.Add(file.Substring(repo.Info.WorkingDirectory.Length));
                 repo.Index.Write();
 
                 var sig = new Signature(identity, DateTimeOffset.Now);
-                repo.Commit("WikiBuilder", sig, sig);
+                repo.Commit("RoslynMarkdowner update", sig, sig);
 
                 var remote = repo.Network.Remotes["origin"];                
                 repo.Network.Push(remote, @"refs/heads/master", new PushOptions()
