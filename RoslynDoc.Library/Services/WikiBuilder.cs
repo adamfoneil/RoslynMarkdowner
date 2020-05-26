@@ -57,7 +57,7 @@ namespace RoslynDoc.Library.Services
             foreach (var file in rzmFiles)
             {
                 string content = File.ReadAllText(file.Source);
-                var identifiers = readIdentifiers(content, file.Source);
+                var identifiers = readIdentifiers(content);
 
                 var sb = new StringBuilder(content);
                 foreach (var id in identifiers)
@@ -84,7 +84,7 @@ namespace RoslynDoc.Library.Services
             return !Errors.Any();
 
             // tested via https://regexr.com/557un
-            IEnumerable<IdentifierLink> readIdentifiers(string content, string fileName)
+            IEnumerable<IdentifierLink> readIdentifiers(string content)
             {                
                 var links = Regex.Matches(content, @"\[([^\]]+)\]\(#([^\)]+)\)").OfType<Match>();
                 return links.Select(m =>
