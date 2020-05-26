@@ -20,44 +20,58 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/MainWindowStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            
+
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
             <xamlHelpers:InvertibleBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" Invert="True" />
 
         </ResourceDictionary>
     </Window.Resources>
-    
+
     <Grid Margin="10px">
-        
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" /> <!-- Header -->
-            <RowDefinition Height="Auto" /> <!-- Repositories Grid -->
-            <RowDefinition Height="*" /> <!-- Main Content -->
+            <RowDefinition Height="Auto" />
+            <!-- Header -->
+            <RowDefinition Height="Auto" />
+            <!-- Repositories Grid -->
+            <RowDefinition Height="*" />
+            <!-- Main Content -->
         </Grid.RowDefinitions>
 
         <!-- Header -->
-        
+
         <Grid Grid.Row="0" Margin="0 0 0 10">
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" /> <!-- Labels -->
-                <ColumnDefinition Width="4px" /> <!-- Separator -->
-                <ColumnDefinition Width="*" /> <!-- Content -->
-                <ColumnDefinition Width="Auto" /> <!-- Additional Content -->
+                <ColumnDefinition Width="Auto" />
+                <!-- Labels -->
+                <ColumnDefinition Width="4px" />
+                <!-- Separator -->
+                <ColumnDefinition Width="*" />
+                <!-- Content -->
+                <ColumnDefinition Width="Auto" />
+                <!-- Additional Content -->
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
-                <RowDefinition /> <!-- MS Build Instance -->
-                <RowDefinition Height="4px" /> <!-- Separator -->
-                <RowDefinition /> <!-- Repository -->                
-                <RowDefinition Height="4px" /> <!-- Separator -->
-                <RowDefinition /> <!-- Last Analyzed -->                
-                <RowDefinition Height="4px" /> <!-- Separator -->
-                <RowDefinition /> <!-- Buttons -->
+                <RowDefinition />
+                <!-- MS Build Instance -->
+                <RowDefinition Height="4px" />
+                <!-- Separator -->
+                <RowDefinition />
+                <!-- Repository -->
+                <RowDefinition Height="4px" />
+                <!-- Separator -->
+                <RowDefinition />
+                <!-- Last Analyzed -->
+                <RowDefinition Height="4px" />
+                <!-- Separator -->
+                <RowDefinition />
+                <!-- Buttons -->
             </Grid.RowDefinitions>
 
             <!-- MS Build Instance -->
-            
+
             <Label 
                 Grid.Column="0" 
                 Grid.Row="0" 
@@ -75,7 +89,7 @@
                 SelectedValue="{Binding SelectedMsBuildInstance}"/>
 
             <!-- Repository -->
-            
+
             <Label
                 Grid.Column="0" 
                 Grid.Row="2"
@@ -103,11 +117,11 @@
                         <TextBlock Text="View Online" />
                     </Hyperlink>
                 </TextBlock>
-                
+
             </StackPanel>
 
             <!-- Last Analyzed -->
-            
+
             <Label 
                 Grid.Column="0" 
                 Grid.Row="4" 
@@ -121,7 +135,7 @@
                 Style="{StaticResource HeaderText}"/>
 
             <!-- Buttons -->
-            
+
             <StackPanel Grid.Column="2" Grid.Row="6" Style="{StaticResource HeaderPanel}">
 
                 <Button 
@@ -134,8 +148,8 @@
                     Style="{StaticResource HeaderProgress}"
                     Visibility="{Binding Processing, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
+                <Button Content="Publish Readme and Wiki" Width="155px" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="2,2,2,2" Margin="20,0,0,0"/>
             </StackPanel>
-
         </Grid>
 
         <!-- Repositories Grid -->
@@ -147,13 +161,13 @@
             AutoGenerateColumns="False"
             ItemsSource="{Binding RepositoriesGrid, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
             CellEditEnding="RepositoriesGrid_OnCellEditEnding">
-            
+
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Repository Url" Binding="{Binding PublicUrl}"/>
                 <DataGridTextColumn Header="Branch" Binding="{Binding BranchName}"/>
                 <DataGridTextColumn Header="Local Solution"  Binding="{Binding LocalSolution}" Width="*"/>
             </DataGrid.Columns>
-            
+
         </DataGrid>
 
         <!-- Main Content -->
@@ -165,21 +179,27 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            
+
             <!-- Left Panel -->
 
             <Grid Grid.Column="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" /> <!-- Header -->
-                    <RowDefinition Height="6px" /> <!-- Separator -->
-                    <RowDefinition Height="*" /> <!-- TreeView -->
+                    <RowDefinition Height="Auto" />
+                    <!-- Header -->
+                    <RowDefinition Height="6px" />
+                    <!-- Separator -->
+                    <RowDefinition Height="*" />
+                    <!-- TreeView -->
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/> <!-- Label -->
-                        <ColumnDefinition Width="4px"/> <!-- Separator -->
-                        <ColumnDefinition Width="*" /> <!-- ComboBox -->
+                        <ColumnDefinition Width="Auto"/>
+                        <!-- Label -->
+                        <ColumnDefinition Width="4px"/>
+                        <!-- Separator -->
+                        <ColumnDefinition Width="*" />
+                        <!-- ComboBox -->
                     </Grid.ColumnDefinitions>
 
                     <TextBlock 
@@ -192,7 +212,7 @@
                         Style="{StaticResource LeftPanelCombo}"
                         ItemsSource="{Binding Assemblies, Mode=OneWay}"
                         SelectedItem="{Binding SelectedAssembly}"/>
-                    
+
                 </Grid>
 
                 <TreeView Grid.Row="2" ItemsSource="{Binding Namespaces, Mode=OneWay}">
@@ -255,9 +275,9 @@
                 </TreeView>
 
             </Grid>
-            
+
             <!-- Splitter -->
-            
+
             <GridSplitter
                 Grid.Column="1" 
                 Width="4px" 
@@ -269,11 +289,14 @@
 
             <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" /> <!-- Header -->
-                    <RowDefinition Height="4px"/> <!-- Separator -->
-                    <RowDefinition Height="*" /> <!-- TabControl -->
+                    <RowDefinition Height="Auto" />
+                    <!-- Header -->
+                    <RowDefinition Height="4px"/>
+                    <!-- Separator -->
+                    <RowDefinition Height="*" />
+                    <!-- TabControl -->
                 </Grid.RowDefinitions>
-               
+
                 <ToolBarPanel HorizontalAlignment="Right">
                     <ToolBar 
                         Style="{StaticResource RightPanelToolbar}"
@@ -288,9 +311,9 @@
                         </Button>
                     </ToolBar>
                 </ToolBarPanel>
-                
+
                 <TabControl Grid.Row="2">
-                    
+
                     <TabItem Header="Markdown">
                         <TextBox 
                             Text="{Binding MarkdownText}" 
@@ -300,12 +323,12 @@
                     <TabItem Header="Html">
                         <WebBrowser x:Name="WebBrowser"/>
                     </TabItem>
-                    
+
                 </TabControl>
             </Grid>
 
         </Grid>
 
     </Grid>
-    
+
 </Window>

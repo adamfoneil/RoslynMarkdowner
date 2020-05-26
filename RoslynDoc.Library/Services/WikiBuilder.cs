@@ -7,7 +7,6 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using SolutionInfo = RoslynDoc.Library.Models.SolutionInfo;
 
 namespace RoslynDoc.Library.Services
@@ -49,7 +48,7 @@ namespace RoslynDoc.Library.Services
 
         /// <summary>
         /// compiles .md from .rzm source files. If any changes, they are committed, and returns true.        
-        /// returns false if any errors (unrecognized identifiers) or no changes
+        /// returns false if any errors (unrecognized identifiers)
         /// </summary>        
         private bool BuildInner(string repoPath, SolutionInfo solutionInfo, CSharpMarkdownHelper markdownHelper)
         {            

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using RoslynDoc.Library.Services;
 using RoslynMarkdowner.WPF.Services;
 using RoslynMarkdowner.WPF.ViewModels;
 using System;
@@ -26,6 +27,7 @@ namespace RoslynMarkdowner.WPF
             services
                 .AddSingleton<MsBuildService>()
                 .AddSingleton<SettingsService>()
+                .AddSingleton<WikiBuilder>()
                 .AddSingleton<MainWindowViewModel>()
                 .AddSingleton<MainWindow>();
 
