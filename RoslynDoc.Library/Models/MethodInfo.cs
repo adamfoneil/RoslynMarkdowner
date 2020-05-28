@@ -17,6 +17,7 @@ namespace RoslynDoc.Library.Models
 		public string Category { get; set; }
 		public SourceLocation Location { get; set; }
 		public bool IsStatic { get; set; }
+		public bool IsPublic { get; set; }
 
 		public string OriginalTypeName { get; set; }
 		public string TypeName { get; set; }
@@ -68,6 +69,6 @@ namespace RoslynDoc.Library.Models
 			public ParameterSyntax Node { get; set; }
 		}
 
-		public MethodDeclarationSyntax Node { get; set; }		
-	}
+		public MethodDeclarationSyntax Node { get; set; }        
+    }
 }

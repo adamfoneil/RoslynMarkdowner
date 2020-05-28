@@ -17,10 +17,12 @@ namespace RoslynMarkdowner.WPF.Models
             PartialLocation = partialLocation;
 
             classInfo.Properties
-                .ToList()
+                .Where(p => p.IsPublic)
+                .ToList()                
                 .ForEach(p => Nodes.Add(new MemberNode(p, MemberType.Property)));
 
             classInfo.Methods
+                .Where(m => m.IsPublic)
                 .ToList()
                 .ForEach(m => Nodes.Add(new MemberNode(m, MemberType.Method)));
         }

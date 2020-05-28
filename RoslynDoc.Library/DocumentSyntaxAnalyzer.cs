@@ -33,13 +33,11 @@ namespace RoslynDoc.Library
 			result.Namespace = GetNamespace(node);
 			result.Description = GetSummary(node);
 
-			result.Methods = node.DescendantNodes().OfType<MethodDeclarationSyntax>()
-				.Where(m => IsPublic(m.Modifiers))
+			result.Methods = node.DescendantNodes().OfType<MethodDeclarationSyntax>()				
 				.Select(AnalyzeMethod)
 				.ToList();
 
-			result.Properties = node.DescendantNodes().OfType<PropertyDeclarationSyntax>()
-				.Where(m => IsPublic(m.Modifiers))
+			result.Properties = node.DescendantNodes().OfType<PropertyDeclarationSyntax>()				
 				.Select(AnalyzeProperty)
 				.ToList();
 
@@ -97,6 +95,7 @@ namespace RoslynDoc.Library
 			result.Category = GetCategory(node);
 			result.OriginalTypeName = node.Type.ToString();
 			result.Node = node;
+			result.IsPublic = IsPublic(node.Modifiers);
 
 			return result;
 		}
@@ -111,6 +110,7 @@ namespace RoslynDoc.Library
 			result.OriginalTypeName = node.ReturnType.ToString();
 			result.Parameters = node.ParameterList.Parameters.Select(AnalyzeParameter).ToList();
 			result.Node = node;
+			result.IsPublic = IsPublic(node.Modifiers);
 
 			return result;
 		}
