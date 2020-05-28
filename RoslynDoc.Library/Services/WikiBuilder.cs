@@ -118,8 +118,8 @@ namespace RoslynDoc.Library.Services
                 return false;
             }
 
-            // because of partial classes, class names aren't necessarily unique, 
-            // so I simply take the first source location associated with an identifier            
+            // because of partial classes and overloads, class and method names aren't necessarily unique, 
+            // so I simply take the first source location associated with an identifier          
             void addFirst(Dictionary<string, SourceLocation> locations, ILookup<string, SourceLocation> lookups)
             {
                 foreach (var grp in lookups) locations.Add(grp.Key, grp.First());
