@@ -19,10 +19,11 @@ namespace RoslynDoc.Library.Models
 		SourceLocation TypeLocation { get; set; }
 
 		bool IsStatic { get; set; }
+		bool IsPublic { get; set; }
 		string Description { get; set; }
 		string Category { get; set; }
 		SourceLocation Location { get; set; }
-
+		
 		ICollection<SourceLocation> References { get; set; }
 
 		string GetMarkdown(CSharpMarkdownHelper helper);

@@ -15,6 +15,7 @@ namespace RoslynDoc.Library.Models
 		public string Description { get; set; }
 		public string Category { get; set; }
 		public SourceLocation Location { get; set; }
+		public bool IsPublic { get; set; }
 
 		public bool IsStatic { get; set; }
 		public bool CanWrite { get; set; }
