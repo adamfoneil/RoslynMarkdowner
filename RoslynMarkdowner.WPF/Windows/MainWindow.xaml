@@ -18,7 +18,7 @@
         <ResourceDictionary>
 
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles/MainWindowStyle.xaml" />
+                <ResourceDictionary Source="../Styles/MainWindowStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -148,7 +148,15 @@
                     Style="{StaticResource HeaderProgress}"
                     Visibility="{Binding Processing, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
-                <Button Content="Publish Readme and Wiki" Width="155px" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="2,2,2,2" Margin="20,0,0,0"/>
+                <Button 
+                    Content="Publish Readme and Wiki" 
+                    Width="155px" 
+                    HorizontalAlignment="Left" 
+                    VerticalAlignment="Top" 
+                    Padding="2,2,2,2" 
+                    Margin="20,0,0,0"
+                    Click="PublishButton_OnClick"/>
+
             </StackPanel>
         </Grid>
 
@@ -305,7 +313,7 @@
                         Loaded="RightPanelToolbar_OnLoaded">
                         <Button ToolTip="Copy Markdown to Windows Clipboard" Click="CopyButton_OnClick">
                             <StackPanel Orientation="Horizontal">
-                                <Image Style="{StaticResource ToolButtonIcon}" Source="Resources/copy.png" />
+                                <Image Style="{StaticResource ToolButtonIcon}" Source="../Resources/copy.png" />
                                 <TextBlock Style="{StaticResource ToolButtonText}">Copy</TextBlock>
                             </StackPanel>
                         </Button>

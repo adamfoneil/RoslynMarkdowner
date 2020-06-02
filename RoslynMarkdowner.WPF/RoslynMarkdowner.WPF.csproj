@@ -28,4 +28,10 @@
     <Resource Include="Resources\copy.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Page Update="Styles\RemoteInfoWindowStyle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
 </Project>

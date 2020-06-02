@@ -4,6 +4,7 @@ using RoslynMarkdowner.WPF.Services;
 using RoslynMarkdowner.WPF.ViewModels;
 using System;
 using System.Windows;
+using RoslynMarkdowner.WPF.Windows;
 
 namespace RoslynMarkdowner.WPF
 {
@@ -27,9 +28,10 @@ namespace RoslynMarkdowner.WPF
             services
                 .AddSingleton<MsBuildService>()
                 .AddSingleton<SettingsService>()
+                .AddSingleton<WindowService>()
                 .AddSingleton<WikiBuilder>()
-                .AddSingleton<MainWindowViewModel>()
-                .AddSingleton<MainWindow>();
+                .AddSingleton<MainWindow>().AddSingleton<MainWindowViewModel>()
+                .AddTransient<RemoteInfoWindow>().AddTransient<RemoteInfoWindowViewModel>();
 
             return services.BuildServiceProvider();
         }

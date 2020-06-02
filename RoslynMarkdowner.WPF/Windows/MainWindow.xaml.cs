@@ -17,6 +17,8 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using LibGit2Sharp;
+using RoslynMarkdowner.WPF.Windows;
 
 namespace RoslynMarkdowner.WPF
 {
@@ -27,13 +29,19 @@ namespace RoslynMarkdowner.WPF
     {
         private readonly MainWindowViewModel _viewModel;
         private readonly SettingsService _settingsService;
+        private readonly WindowService _windowService;
+        private readonly WikiBuilder _wikiBuilder;
 
         public MainWindow(
             MainWindowViewModel viewModel,
-            SettingsService settingsService)
+            SettingsService settingsService,
+            WindowService windowService,
+            WikiBuilder wikiBuilder)
         {
             _viewModel = viewModel;
             _settingsService = settingsService;
+            _windowService = windowService;
+            _wikiBuilder = wikiBuilder;
 
             InitializeComponent();
 
@@ -256,6 +264,49 @@ namespace RoslynMarkdowner.WPF
 
             sb.AppendLine(heading);
             propertyNodes.ForEach(m => sb.AppendLine(m.MemberInfo.GetMarkdown(md)));
+        }
+
+        private void PublishButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var repository = _viewModel.SelectedRepository?.LocalSolution;
+            var solution = _viewModel.CurrentSolution;
+
+            if (repository == null)
+            {
+                MessageBox.Show(this, "Please select a repository", "Repository is not selected", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return;
+            }
+
+            if (solution == null)
+            {
+                MessageBox.Show(this, "Please select a solution", "Solution is not selected", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return;
+            }
+
+            var result = _windowService.ShowDialog<RemoteInfoWindow>();
+            if (!result)
+            {
+                MessageBox.Show(this, "Please provide the credentials", "Credentials is not set", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return;
+            }
+
+            var displayName = _settingsService.Settings.Remote.DisplayName;
+            var username = _settingsService.Settings.Remote.UserName;
+            var password = _settingsService.Settings.Remote.Password;
+
+            _wikiBuilder.Build(
+                repository,
+                solution,
+                new CSharpMarkdownHelper() {OnlinePath = solution.SourceFileBase()},
+                new UsernamePasswordCredentials()
+                {
+                    Username = username,
+                    Password = password
+                },
+                new Identity(displayName, username));
         }
     }
 }
