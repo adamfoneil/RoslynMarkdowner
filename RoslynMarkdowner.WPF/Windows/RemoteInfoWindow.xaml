@@ -85,7 +85,8 @@
                 Content="Save"
                 IsDefault="True"
                 Style="{StaticResource Button}"
-                Click="SaveButton_OnClick"/>
+                Click="SaveButton_OnClick"
+                IsEnabled="{Binding IsValid, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
 
             <Button 
                 Content="Cancel"

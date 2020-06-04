@@ -33,6 +33,9 @@ namespace RoslynMarkdowner.WPF.ViewModels
         public bool HasErrors
             => _errors.Count > 0;
 
+        public bool IsValid
+            => !HasErrors;
+
         public IEnumerable GetErrors(string propertyName)
             => _errors.ContainsKey(propertyName) ? _errors[propertyName] : null;
 
@@ -69,10 +72,20 @@ namespace RoslynMarkdowner.WPF.ViewModels
         [NotifyPropertyChangedInvocator]
         private void OnPropertyChanged(string value, [CallerMemberName] string propertyName = null)
         {
-            _errors[propertyName] = string.IsNullOrEmpty(value) ? new List<string>() { "Field is Required" } : null;
+            if (string.IsNullOrEmpty(value))
+            {
+                _errors[propertyName] = new List<string>() {"Field is Required"};
+            }
+            else
+            {
+                _errors.Remove(propertyName);
+            }
 
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HasErrors)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsValid)));
         }
 
         public void Load()
