@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppTests", "AppTests\AppTes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarkdownViewer.RazorPages", "MarkdownViewer.RazorPages\MarkdownViewer.RazorPages.csproj", "{179E31CC-08FD-48E5-81AA-91E6B8C5F010}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoslynMarkdowner.WinForms", "RoslynMarkdowner.WinForms\RoslynMarkdowner.WinForms.csproj", "{18021F29-F5C7-4CA0-B6FE-1AAC139D3022}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoslynMarkdowner.WPF", "RoslynMarkdowner.WPF\RoslynMarkdowner.WPF.csproj", "{C06FCFF0-A639-404A-9314-D3EEEEC310CD}"
 EndProject
 Global
@@ -37,10 +35,6 @@ Global
 		{179E31CC-08FD-48E5-81AA-91E6B8C5F010}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{179E31CC-08FD-48E5-81AA-91E6B8C5F010}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{179E31CC-08FD-48E5-81AA-91E6B8C5F010}.Release|Any CPU.Build.0 = Release|Any CPU
-		{18021F29-F5C7-4CA0-B6FE-1AAC139D3022}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{18021F29-F5C7-4CA0-B6FE-1AAC139D3022}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{18021F29-F5C7-4CA0-B6FE-1AAC139D3022}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{18021F29-F5C7-4CA0-B6FE-1AAC139D3022}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C06FCFF0-A639-404A-9314-D3EEEEC310CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C06FCFF0-A639-404A-9314-D3EEEEC310CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C06FCFF0-A639-404A-9314-D3EEEEC310CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
