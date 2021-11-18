@@ -4,6 +4,10 @@ The Roslyn heavy lift was done by [Andriy Rebrin](https://www.upwork.com/o/profi
 
 You can see sample output of this in my Postulate Wiki pages for [SQL Server](https://github.com/adamosoftware/Postulate.Lite/wiki/SQL-Server-CRUD-Methods) and [MySQL](https://github.com/adamosoftware/Postulate.Lite/wiki/MySQL-CRUD-Methods). This gives me a way to document public methods with links to source code and types that is very easy to keep updated as the source evolves.
 
+## Samples in use
+- [Dapper.CX wiki](https://github.com/adamfoneil/Dapper.CX/wiki/Crud-method-reference)
+- [Dapper.QX wiki](https://github.com/adamfoneil/Dapper.QX/wiki/Reference)
+
 ## WinForms app
 Nobody likes WinForms anymore (for understandable reasons), but I'm still very productive in it. This is what I'm prototyping/experimenting with to demonstrate core functionality.
 
