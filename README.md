@@ -9,7 +9,7 @@ You can see sample output of this in my Postulate Wiki pages for [SQL Server](ht
 - [DataTables.Library](https://github.com/adamfoneil/DataTables.Library#datatableslibrarydatatableextensions-datatableextensionscs)
 - [Dapper.Repository wiki](https://github.com/adamfoneil/Dapper.Repository/wiki)
 - [Dapper.CX wiki](https://github.com/adamfoneil/Dapper.CX/wiki/Crud-method-reference)
-- [Dapper.QX wiki](https://github.com/adamfoneil/Dapper.QX/wiki/Reference)
+- [Dapper.QX wiki](https://github.com/adamfoneil/Dapper.QX/wiki/Reference#dapperqxpageablequery-pageablequerycs)
 
 ## WinForms app
 Nobody likes WinForms anymore (for understandable reasons), but I'm still very productive in it. This is what I'm prototyping/experimenting with to demonstrate core functionality.
