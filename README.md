@@ -5,7 +5,8 @@ The Roslyn heavy lift was done by [Andriy Rebrin](https://www.upwork.com/o/profi
 You can see sample output of this in my Postulate Wiki pages for [SQL Server](https://github.com/adamosoftware/Postulate.Lite/wiki/SQL-Server-CRUD-Methods) and [MySQL](https://github.com/adamosoftware/Postulate.Lite/wiki/MySQL-CRUD-Methods). This gives me a way to document public methods with links to source code and types that is very easy to keep updated as the source evolves.
 
 ## Samples in use
-- [DataTables.Library](https://github.com/adamfoneil/DataTables.Library)
+- [DbCache](https://github.com/adamfoneil/DbCache#dbcachelibrarydbcache-dbcachecs)
+- [DataTables.Library](https://github.com/adamfoneil/DataTables.Library#datatableslibrarydatatableextensions-datatableextensionscs)
 - [Dapper.Repository wiki](https://github.com/adamfoneil/Dapper.Repository/wiki)
 - [Dapper.CX wiki](https://github.com/adamfoneil/Dapper.CX/wiki/Crud-method-reference)
 - [Dapper.QX wiki](https://github.com/adamfoneil/Dapper.QX/wiki/Reference)
