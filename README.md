@@ -1,13 +1,15 @@
-This is evolving into a tool to generate markdown documentation for .NET C# code, including links to source code and types. It uses Roslyn to capture solution metadata in an abstraction layer, where it can be projected into a presentation form of choice. In my case, I'm targeting GitHub-flavored markdown as the output.
+This is evolving into a tool to generate markdown documentation for .NET C# code, including links to source code and types. It uses [Roslyn](https://docs.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/) to capture solution metadata in an abstraction layer, where it can be projected into a presentation form of choice. In my case, I'm targeting GitHub-flavored markdown as the output.
 
 The Roslyn heavy lift was done by [Andriy Rebrin](https://www.upwork.com/o/profiles/users/_~01f302b2d51f8153bd/)/[dr-o-ne](https://github.com/dr-o-ne). He is amazing. His work is mainly on the [RoslynDoc.Library project](https://github.com/adamosoftware/RoslynSyntaxTreeAnalyzer/tree/master/RoslynDoc.Library). My portion is mainly the [MarkdownViewer](https://github.com/adamosoftware/RoslynSyntaxTreeAnalyzer/tree/master/MarkdownViewer.RazorPages), which is really just a shell for executing Razor views that present the documentation I'm looking for. (For a time, I though this would be a .NET Razor Pages app, but I imagined that hosting msbuild online would be tricky, so I shifted it back to a desktop model.)
 
 You can see sample output of this in my Postulate Wiki pages for [SQL Server](https://github.com/adamosoftware/Postulate.Lite/wiki/SQL-Server-CRUD-Methods) and [MySQL](https://github.com/adamosoftware/Postulate.Lite/wiki/MySQL-CRUD-Methods). This gives me a way to document public methods with links to source code and types that is very easy to keep updated as the source evolves.
 
 ## Samples in use
+- [DbCache](https://github.com/adamfoneil/DbCache#dbcachelibrarydbcache-dbcachecs)
+- [DataTables.Library](https://github.com/adamfoneil/DataTables.Library#datatableslibrarydatatableextensions-datatableextensionscs)
 - [Dapper.Repository wiki](https://github.com/adamfoneil/Dapper.Repository/wiki)
 - [Dapper.CX wiki](https://github.com/adamfoneil/Dapper.CX/wiki/Crud-method-reference)
-- [Dapper.QX wiki](https://github.com/adamfoneil/Dapper.QX/wiki/Reference)
+- [Dapper.QX wiki](https://github.com/adamfoneil/Dapper.QX/wiki/Reference#dapperqxpageablequery-pageablequerycs)
 
 ## WinForms app
 Nobody likes WinForms anymore (for understandable reasons), but I'm still very productive in it. This is what I'm prototyping/experimenting with to demonstrate core functionality.
