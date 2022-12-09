@@ -14,7 +14,7 @@
     <PackageReference Include="Humanizer" Version="2.14.1" />
     <PackageReference Include="JsonSettings.Library" Version="1.0.20" />
     <PackageReference Include="Markdown" Version="2.2.1" />
-    <PackageReference Include="Microsoft.Build.Locator" Version="1.4.1" />
+    <PackageReference Include="Microsoft.Build.Locator" Version="1.5.5" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.1.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.1.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.3" />
